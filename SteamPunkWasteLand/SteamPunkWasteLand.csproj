@@ -34,6 +34,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Sce.PlayStation.Core" />
+    <Reference Include="Sce.PlayStation.HighLevel.UI" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppMain.cs" />
@@ -45,6 +46,8 @@
     <Compile Include="Weapon.cs" />
     <Compile Include="Bullet.cs" />
     <Compile Include="WorldCoord.cs" />
+    <Compile Include="HUD.cs" />
+    <Compile Include="Text.cs" />
   </ItemGroup>
   <ItemGroup>
     <ShaderProgram Include="shaders\Simple.fcg" />
@@ -56,4 +59,14 @@
     <PsmMetadata Include="app.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Sce\Sce.Psm.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="assets\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="assets\Backgrounds\Cloud1.png" />
+    <Content Include="assets\Backgrounds\Cloud2.png" />
+    <Content Include="assets\Backgrounds\Ground1.png" />
+    <Content Include="assets\Backgrounds\Sky1.png" />
+    <Content Include="assets\Backgrounds\Sky2.png" />
+  </ItemGroup>
 </Project>

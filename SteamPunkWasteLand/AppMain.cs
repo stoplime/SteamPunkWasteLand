@@ -27,7 +27,6 @@ namespace SteamPunkWasteLand
 {
 	public class AppMain
 	{
-		private static GraphicsContext graphics;
 		
 		public static void Main (string[] args)
 		{
@@ -35,7 +34,7 @@ namespace SteamPunkWasteLand
 			s.Start();
 			Initialize ();
 
-			while (true) {
+			while (Game.Running) {
 				SystemEvents.CheckEvents ();
 				float time = s.ElapsedMilliseconds/1000f;
 				s.Reset();
@@ -48,24 +47,51 @@ namespace SteamPunkWasteLand
 		public static void Initialize ()
 		{
 			Game.Graphics = new GraphicsContext ();
-			
+			Game.Running = true;
 			Game.GameState = States.MainMenu;
+			WorldCoord.Focus = Vector3.Zero;
+			Game.Textures = new List<Texture2D>();
+			InitTextures();
+			
+			Game.BgSky = new Background(Game.Textures[0]);
+			Game.BgGround = new Background(Game.Textures[1]);
+			Game.BgCloud = new Background(Game.Textures[2]);
+			
+			Game.Player1 = new Player();
+			
+		}
+
+		public static void InitTextures ()
+		{
+			Game.Textures.Add(new Texture2D("/Application/assets/Backgrounds/Sky1.png",false));
+			Game.Textures.Add(new Texture2D("/Application/assets/Backgrounds/Ground1.png",false));
+			Game.Textures.Add(new Texture2D("/Application/assets/Backgrounds/Cloud1.png",false));
+			
+			Game.Textures.Add(new Texture2D("/Application/assets/Backgrounds/Sky2.png",false));
 		}
 
 		public static void Update (float time)
 		{
 			var gamePadData = GamePad.GetData (0);
+			Game.Player1.Update(gamePadData,time);
+			WorldCoord.FocusObject = Game.Player1.WorldPos;
 			
+			WorldCoord.UpdateFocus(time);
+			Game.BgSky.Update();
 		}
 
 		public static void Render ()
 		{
-			graphics.SetClearColor (0.0f, 0.0f, 0.0f, 0.0f);
-			graphics.Clear ();
+			Game.Graphics.SetClearColor (0.0f, 0.0f, 0.0f, 0.0f);
+			Game.Graphics.Clear ();
 			
+			Game.BgSky.Render();
+			Game.BgGround.Render();
+			Game.BgCloud.Render();
 			
+			Game.Player1.Render();
 			
-			graphics.SwapBuffers ();
+			Game.Graphics.SwapBuffers ();
 		}
 	}
 }

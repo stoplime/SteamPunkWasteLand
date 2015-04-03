@@ -33,17 +33,20 @@ namespace SteamPunkWasteLand
 	
 	public static class Game
 	{
+		public static bool Running;
 		public static GraphicsContext Graphics;
 		public static Random Rand;
 		public static States GameState;
 		
-		public static Background Sky,Ground,Cloud;
+		public static Background BgSky,BgGround,BgCloud;
 		public static Player Player1;
 		
 		
 		
 		public static List<Enemy> Enemies;
 		public static List<Bullet> Bullets;
+		
+		public static List<Texture2D> Textures;
 		
 	}
 }

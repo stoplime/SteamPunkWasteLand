@@ -16,35 +16,13 @@
  */
 
 using System;
+using System.Collections.Generic;
 using Sce.PlayStation.Core;
-using Sce.PlayStation.Core.Environment;
-using Sce.PlayStation.Core.Graphics;
 
 namespace SteamPunkWasteLand
 {
-	public class Background
+	public static class HUD
 	{
-		private Sprite sprite;
-		private Vector3 center;
-		
-		public Background (Texture2D texture)
-		{
-			float width = Game.Graphics.Screen.Width;
-			float height = Game.Graphics.Screen.Height;
-			sprite = new Sprite(Game.Graphics,texture);
-			sprite.Scale = new Vector2(width/1280f,height/800f);
-			center = new Vector3(width/2,height/2,0);
-		}
-		
-		public void Update()
-		{
-			sprite.Position = WorldCoord.WorldToView(-center);
-			sprite.Position.Y = 0;
-		}
-		public void Render()
-		{
-			sprite.Render();
-		}
 		
 	}
 }

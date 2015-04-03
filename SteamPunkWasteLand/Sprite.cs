@@ -26,7 +26,7 @@ using Sce.PlayStation.Core.Imaging;
 using System.IO;
 using System.Reflection;
 
-namespace Project1
+namespace SteamPunkWasteLand
 {
 	public class Sprite
 	{
