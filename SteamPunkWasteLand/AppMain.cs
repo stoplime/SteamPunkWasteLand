@@ -49,7 +49,7 @@ namespace SteamPunkWasteLand
 			Game.Graphics = new GraphicsContext ();
 			Game.Running = true;
 			Game.GameState = States.MainMenu;
-			WorldCoord.Focus = Vector3.Zero;
+			WorldCoord.WorldZero = Vector3.Zero;
 			Game.Textures = new List<Texture2D>();
 			InitTextures();
 			

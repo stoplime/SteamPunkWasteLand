@@ -25,31 +25,30 @@ namespace SteamPunkWasteLand
 {
 	public static class WorldCoord
 	{
-		public static Vector3 Focus;//Center of view in World Coordinates
+		public static Vector3 WorldZero;//Center of view in Graphics coordinates
 		public static Vector3 FocusObject;//Should be the player position in World Coordinates
 		public const float WIDTH_DEVIATION = 230f;//distance from center until camera starts focusing
 		public const float HEIGHT_DEVIATION = 350f;
 		public const float VIEW_SPEED = 150f;
 		
 		public static Vector3 WorldToView (Vector3 worldPos){
-			Vector3 view = worldPos;
-			view.X -= Focus.X;
-			view.Y += Focus.Y;
-			return view;
+			return WorldZero + worldPos;
 		}
 		
 		public static void UpdateFocus (float time){
 			float Hwidth = Game.Graphics.Screen.Width/2;
 			float Hheight = Game.Graphics.Screen.Height/2;
 			
-			if (FocusObject.X > Focus.X+Hwidth+WIDTH_DEVIATION) 
-				Focus.X += VIEW_SPEED*time;
-			else if (FocusObject.X < Focus.X+Hwidth-WIDTH_DEVIATION) 
-				Focus.X -= VIEW_SPEED*time;
-			if (FocusObject.Y > Focus.Y+Hheight+HEIGHT_DEVIATION) 
-				Focus.Y += VIEW_SPEED*time;
-			else if (FocusObject.Y < Focus.Y+Hheight-HEIGHT_DEVIATION) 
-				Focus.Y -= VIEW_SPEED*time;
+//			if (FocusObject.X > Focus.X+Hwidth+WIDTH_DEVIATION) 
+//				Focus.X += VIEW_SPEED*time;
+//			else if (FocusObject.X < Focus.X+Hwidth-WIDTH_DEVIATION) 
+//				Focus.X -= VIEW_SPEED*time;
+//			if (FocusObject.Y > Focus.Y+Hheight+HEIGHT_DEVIATION) 
+//				Focus.Y += VIEW_SPEED*time;
+//			else if (FocusObject.Y < Focus.Y+Hheight-HEIGHT_DEVIATION) 
+//				Focus.Y -= VIEW_SPEED*time;
+			
+			
 			
 		}
 	}
