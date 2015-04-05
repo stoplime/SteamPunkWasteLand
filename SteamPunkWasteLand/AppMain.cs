@@ -66,7 +66,7 @@ namespace SteamPunkWasteLand
 			Game.Textures.Add(new Texture2D("/Application/assets/Backgrounds/Ground1.png",false));
 			Game.Textures.Add(new Texture2D("/Application/assets/Backgrounds/Cloud2.png",false));
 			
-			Game.Textures.Add(new Texture2D("/Application/assets/Backgrounds/Sky2.png",false));
+			Game.Textures.Add(new Texture2D("/Application/assets/Player/Tophat_Sheet.png",false));
 		}
 
 		public static void Update (float time)

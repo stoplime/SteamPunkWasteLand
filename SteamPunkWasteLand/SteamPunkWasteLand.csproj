@@ -63,6 +63,7 @@
   <Import Project="$(MSBuildExtensionsPath)\Sce\Sce.Psm.CSharp.targets" />
   <ItemGroup>
     <Folder Include="assets\" />
+    <Folder Include="assets\Player\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\Backgrounds\Cloud1.png" />
@@ -70,5 +71,6 @@
     <Content Include="assets\Backgrounds\Ground1.png" />
     <Content Include="assets\Backgrounds\Sky1.png" />
     <Content Include="assets\Backgrounds\Sky2.png" />
+    <Content Include="assets\Player\Tophat_Sheet.png" />
   </ItemGroup>
 </Project>

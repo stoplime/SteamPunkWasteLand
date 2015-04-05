@@ -24,68 +24,53 @@ namespace SteamPunkWasteLand
 {
 	public class Player
 	{
+		#region Constants
 		public const float SPEED = 435f;
 		public const float ACCEL = 10f;
+		#endregion
 		
+		#region Private Fields
 		private float Swidth = Game.Graphics.Screen.Width;
 		
+		private Vector3 vel;
+		
+		private int spriteIndex;
+		private int spriteIndexY;
+		private float timer;
+		
+		private float ScreenWidth = Game.Graphics.Screen.Width;
+		private float ScreenHeight = Game.Graphics.Screen.Height;
+		#endregion
+		
+		#region Properties
 		private Sprite sprite;
 		private Vector3 worldPos;
 		public Vector3 WorldPos {
 			get {return worldPos;}
 			set {worldPos = value;}
 		}
-		private Vector3 vel;
-		private bool inMotion;
+		#endregion
 		
-		private float ScreenWidth = Game.Graphics.Screen.Width;
-		private float ScreenHeight = Game.Graphics.Screen.Height;
-		
+		#region Constructor
 		public Player ()
 		{
-			sprite = new Sprite(Game.Graphics,Game.Textures[3],40,60);
+			sprite = new Sprite(Game.Graphics,Game.Textures[3],48,70);
 			worldPos = Vector3.Zero;
 			vel = Vector3.Zero;
 			
+			spriteIndex = 0;
+			timer = 0;
 			sprite.Position = worldToSprite();
 			sprite.Center = new Vector2(0.5f,0.5f);
+			
 		}
-
+		#endregion
+		
+		#region Methods
 		public Vector3 worldToSprite ()
 		{
 			//Vector3 spriteVector = new Vector3(worldPos.X+ScreenWidth/2,-worldPos.Y+(ScreenHeight*7/8f)-sprite.Height/2,0);
 			return WorldCoord.WorldToView(new Vector3(worldPos.X,worldPos.Y+sprite.Height/2,0));
-		}
-		
-		public void Update(GamePadData gpd, float time)
-		{
-			inMotion = false;
-			if ((gpd.Buttons & GamePadButtons.Right) != 0) {
-				inMotion = true;
-				vel.X = SPEED/1*time;
-			}
-			if ((gpd.Buttons & GamePadButtons.Left) != 0) {
-				inMotion = true;
-				vel.X = -SPEED/1*time;
-			}
-			if ((gpd.Buttons & GamePadButtons.Up) != 0) {
-				inMotion = true;
-				if (worldPos.Y < 1)
-					vel.Y = SPEED*time;
-			}
-			Physics(time);
-			
-			worldPos += vel;
-			float screenMax = Swidth*1.5f-sprite.Width/2;
-			float screenMin = -Swidth*1.5f+sprite.Width/2;
-			if (worldPos.X > screenMax) {
-				worldPos.X = screenMax;
-			}
-			if (worldPos.X < screenMin) {
-				worldPos.X = screenMin;
-			}
-			
-			sprite.Position = worldToSprite();
 		}
 		
 		public void Physics (float time)
@@ -94,13 +79,11 @@ namespace SteamPunkWasteLand
 			vel.Y -= 9.8f*time;
 			
 			//friction
-			//if (!inMotion) {
-				if (worldPos.Y > 0) {
-					vel.X *= FMath.Pow(0.2f,time);
-				}else{
-					vel.X *= FMath.Pow(0.001f,time);
-				}
-			//}
+			if (worldPos.Y > 0) {
+				vel.X *= FMath.Pow(0.2f,time);
+			}else{
+				vel.X *= FMath.Pow(0.001f,time);
+			}
 			if (FMath.Abs(vel.X) < 0.05f) {
 				vel.X = 0;
 			}
@@ -112,12 +95,64 @@ namespace SteamPunkWasteLand
 			}
 			
 		}
+		#endregion
+		
+		#region Original Methods
+		public void Update(GamePadData gpd, float time)
+		{
+			timer+= time;
+			//movements
+			if ((gpd.Buttons & GamePadButtons.Right) != 0) {
+				vel.X = SPEED/1*time;
+				spriteIndexY = 0;
+			}
+			if ((gpd.Buttons & GamePadButtons.Left) != 0) {
+				vel.X = -SPEED/1*time;
+				spriteIndexY = 1;
+			}
+			if ((gpd.Buttons & GamePadButtons.Up) != 0) {
+				if (worldPos.Y < 1)
+					vel.Y = SPEED*time;
+			}
+			
+			Physics(time);
+			
+			//update pos
+			worldPos += vel;
+			//limit game world
+			float screenMax = Swidth*1.5f-sprite.Width/2;
+			float screenMin = -Swidth*1.5f+sprite.Width/2;
+			if (worldPos.X > screenMax) {
+				worldPos.X = screenMax;
+			}
+			if (worldPos.X < screenMin) {
+				worldPos.X = screenMin;
+			}
+			//set sprite indexer
+			if (vel.X > 0.1 || vel.X < -0.1) {
+				if (timer > 0.1){
+					timer = 0;
+					if (spriteIndex < 3) {
+						spriteIndex++;
+					}else
+					spriteIndex = 0;
+				}
+			}else{
+				spriteIndex = 0;
+			}
+			if (worldPos.Y > 0.1) {
+				spriteIndex = 4;
+			}
+			
+			sprite.Position = worldToSprite();
+		}
 		
 		public void Render()
 		{
+			sprite.SetTextureCoord(sprite.Width*spriteIndex,sprite.Height*spriteIndexY,(spriteIndex+1)*sprite.Width,(spriteIndexY+1)*sprite.Height);
 			sprite.Render();
 		}
-		
+		#endregion
 	}
 }
 
