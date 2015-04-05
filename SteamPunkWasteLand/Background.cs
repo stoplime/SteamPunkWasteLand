@@ -25,23 +25,30 @@ namespace SteamPunkWasteLand
 	public class Background
 	{
 		private Sprite sprite;
-		private Vector3 center;
+		public Sprite Sprite
+		{
+			get{return sprite;}
+			set{}
+		}
+		
+		protected float width = Game.Graphics.Screen.Width;
+		protected float height = Game.Graphics.Screen.Height;
 		
 		public Background (Texture2D texture)
 		{
-			float width = Game.Graphics.Screen.Width;
-			float height = Game.Graphics.Screen.Height;
-			sprite = new Sprite(Game.Graphics,texture);
-			sprite.Scale = new Vector2(width/1280f,height/800f);
-			center = new Vector3(width/2,height/2,0);
+			init (out sprite,texture);
 		}
 		
-		public void Update()
+		protected void init (out Sprite sp, Texture2D tex)
 		{
-			sprite.Position = WorldCoord.WorldToView(-center);
-			sprite.Position.Y = 0;
+			sp = new Sprite(Game.Graphics,tex);
+			sp.Scale = new Vector2(width/1280f,height/800f);
 		}
-		public void Render()
+		
+		public virtual void Update()
+		{
+		}
+		public virtual void Render()
 		{
 			sprite.Render();
 		}

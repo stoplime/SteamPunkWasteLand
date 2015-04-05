@@ -16,30 +16,35 @@
  */
 
 using System;
-using System.Collections.Generic;
 using Sce.PlayStation.Core;
+using Sce.PlayStation.Core.Environment;
+using Sce.PlayStation.Core.Graphics;
 
 namespace SteamPunkWasteLand
 {
-	public class Enemy
+	public class BackgroundGround : Background
 	{
-		private Sprite sprite;
-		protected Sprite Sprite
+		public Sprite sprite2,sprite3;
+		
+		public BackgroundGround (Texture2D texture) : base(texture)
 		{
-			get{return sprite;}
-			set{sprite = value;}
+			init (out sprite2, texture);
+			init (out sprite3, texture);
 		}
 		
-		private Vector3 pos;
-		private Vector3 vel;
-		
-		private Weapon weapon;
-		private Vector3 target;
-		
-		public Enemy ()
+		public override void Update()
 		{
+			Sprite.Position = WorldCoord.WorldToView(new Vector3(-width/2,height*7/8f,0));
+			sprite2.Position = Sprite.Position+ new Vector3(width,0,0);
+			sprite3.Position = Sprite.Position+ new Vector3(-width,0,0);
 		}
 		
+		public override void Render ()
+		{
+			sprite2.Render();
+			sprite3.Render();
+			base.Render ();
+		}
 		
 	}
 }

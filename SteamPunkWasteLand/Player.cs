@@ -24,8 +24,10 @@ namespace SteamPunkWasteLand
 {
 	public class Player
 	{
-		public const float SPEED = 335f;
+		public const float SPEED = 435f;
 		public const float ACCEL = 10f;
+		
+		private float Swidth = Game.Graphics.Screen.Width;
 		
 		private Sprite sprite;
 		private Vector3 worldPos;
@@ -51,8 +53,8 @@ namespace SteamPunkWasteLand
 
 		public Vector3 worldToSprite ()
 		{
-			Vector3 spriteVector = new Vector3(worldPos.X+ScreenWidth/2,-worldPos.Y+(ScreenHeight*7/8f)-sprite.Height/2,0);
-			return spriteVector;
+			//Vector3 spriteVector = new Vector3(worldPos.X+ScreenWidth/2,-worldPos.Y+(ScreenHeight*7/8f)-sprite.Height/2,0);
+			return WorldCoord.WorldToView(new Vector3(worldPos.X,worldPos.Y+sprite.Height/2,0));
 		}
 		
 		public void Update(GamePadData gpd, float time)
@@ -74,6 +76,14 @@ namespace SteamPunkWasteLand
 			Physics(time);
 			
 			worldPos += vel;
+			float screenMax = Swidth*1.5f-sprite.Width/2;
+			float screenMin = -Swidth*1.5f+sprite.Width/2;
+			if (worldPos.X > screenMax) {
+				worldPos.X = screenMax;
+			}
+			if (worldPos.X < screenMin) {
+				worldPos.X = screenMin;
+			}
 			
 			sprite.Position = worldToSprite();
 		}
@@ -88,7 +98,7 @@ namespace SteamPunkWasteLand
 				if (worldPos.Y > 0) {
 					vel.X *= FMath.Pow(0.2f,time);
 				}else{
-					vel.X *= FMath.Pow(0.05f,time);
+					vel.X *= FMath.Pow(0.001f,time);
 				}
 			//}
 			if (FMath.Abs(vel.X) < 0.05f) {

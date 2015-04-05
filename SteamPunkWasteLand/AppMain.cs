@@ -49,13 +49,12 @@ namespace SteamPunkWasteLand
 			Game.Graphics = new GraphicsContext ();
 			Game.Running = true;
 			Game.GameState = States.MainMenu;
-			WorldCoord.WorldZero = Vector3.Zero;
 			Game.Textures = new List<Texture2D>();
 			InitTextures();
 			
 			Game.BgSky = new Background(Game.Textures[0]);
-			Game.BgGround = new Background(Game.Textures[1]);
-			Game.BgCloud = new Background(Game.Textures[2]);
+			Game.BgGround = new BackgroundGround(Game.Textures[1]);
+			Game.BgCloud = new BackgroundClouds(Game.Textures[2]);
 			
 			Game.Player1 = new Player();
 			
@@ -63,9 +62,9 @@ namespace SteamPunkWasteLand
 
 		public static void InitTextures ()
 		{
-			Game.Textures.Add(new Texture2D("/Application/assets/Backgrounds/Sky1.png",false));
+			Game.Textures.Add(new Texture2D("/Application/assets/Backgrounds/Sky2.png",false));
 			Game.Textures.Add(new Texture2D("/Application/assets/Backgrounds/Ground1.png",false));
-			Game.Textures.Add(new Texture2D("/Application/assets/Backgrounds/Cloud1.png",false));
+			Game.Textures.Add(new Texture2D("/Application/assets/Backgrounds/Cloud2.png",false));
 			
 			Game.Textures.Add(new Texture2D("/Application/assets/Backgrounds/Sky2.png",false));
 		}
@@ -77,7 +76,8 @@ namespace SteamPunkWasteLand
 			WorldCoord.FocusObject = Game.Player1.WorldPos;
 			
 			WorldCoord.UpdateFocus(time);
-			Game.BgSky.Update();
+			Game.BgCloud.Update();
+			Game.BgGround.Update();
 		}
 
 		public static void Render ()

@@ -25,30 +25,44 @@ namespace SteamPunkWasteLand
 {
 	public static class WorldCoord
 	{
-		public static Vector3 WorldZero;//Center of view in Graphics coordinates
+		private static Vector3 ViewZero = new Vector3(Game.Graphics.Screen.Width/2,Game.Graphics.Screen.Height*7/8f,0);
+		public static Vector3 WorldZero = ViewZero;//Center of view in Graphics coordinates
 		public static Vector3 FocusObject;//Should be the player position in World Coordinates
-		public const float WIDTH_DEVIATION = 230f;//distance from center until camera starts focusing
-		public const float HEIGHT_DEVIATION = 350f;
-		public const float VIEW_SPEED = 150f;
+		public const float WIDTH_DEVIATION = 250f;//distance from center until camera starts focusing
+		//public const float HEIGHT_DEVIATION = 350f;
+		public static float Hwidth = Game.Graphics.Screen.Width/2;
+		public static float Hheight = Game.Graphics.Screen.Height/2;
+		public static float ViewSpd;
 		
 		public static Vector3 WorldToView (Vector3 worldPos){
-			return WorldZero + worldPos;
+			return new Vector3(WorldZero.X + worldPos.X,WorldZero.Y - worldPos.Y,0);
 		}
 		
 		public static void UpdateFocus (float time){
 			float Hwidth = Game.Graphics.Screen.Width/2;
 			float Hheight = Game.Graphics.Screen.Height/2;
 			
-//			if (FocusObject.X > Focus.X+Hwidth+WIDTH_DEVIATION) 
-//				Focus.X += VIEW_SPEED*time;
-//			else if (FocusObject.X < Focus.X+Hwidth-WIDTH_DEVIATION) 
-//				Focus.X -= VIEW_SPEED*time;
-//			if (FocusObject.Y > Focus.Y+Hheight+HEIGHT_DEVIATION) 
-//				Focus.Y += VIEW_SPEED*time;
-//			else if (FocusObject.Y < Focus.Y+Hheight-HEIGHT_DEVIATION) 
-//				Focus.Y -= VIEW_SPEED*time;
+			ViewSpd = FMath.Abs(FocusObject.X+WorldZero.X-Hwidth);
 			
+			if (FocusObject.X+WorldZero.X > Hwidth+WIDTH_DEVIATION){
+				if(WorldZero.X > -Hwidth+10){
+					WorldZero.X -= ViewSpd*time;
+				}
+			}
+			else if (FocusObject.X+WorldZero.X < +Hwidth-WIDTH_DEVIATION){
+				if(WorldZero.X < Hwidth*3-10){
+					WorldZero.X += ViewSpd*time;
+				}
+			}
+//			if (FocusObject.Y > WorldZero.Y+Hheight+HEIGHT_DEVIATION) 
+//				WorldZero.Y += VIEW_SPEED*time;
+//			else if (FocusObject.Y < WorldZero.Y+Hheight-HEIGHT_DEVIATION) 
+//				WorldZero.Y -= VIEW_SPEED*time;
 			
+//			Vector3 f = ViewZero;
+//			f.X -= FocusObject.X;
+//			f.Y += FocusObject.Y;
+//			WorldZero = f;
 			
 		}
 	}

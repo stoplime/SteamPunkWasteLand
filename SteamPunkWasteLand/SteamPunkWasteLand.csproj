@@ -48,6 +48,8 @@
     <Compile Include="WorldCoord.cs" />
     <Compile Include="HUD.cs" />
     <Compile Include="Text.cs" />
+    <Compile Include="BackgroundClouds.cs" />
+    <Compile Include="BackgroundGround.cs" />
   </ItemGroup>
   <ItemGroup>
     <ShaderProgram Include="shaders\Simple.fcg" />
