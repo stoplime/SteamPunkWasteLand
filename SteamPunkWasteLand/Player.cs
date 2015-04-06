@@ -31,6 +31,7 @@ namespace SteamPunkWasteLand
 		
 		#region Private Fields
 		private float Swidth = Game.Graphics.Screen.Width;
+		private Sprite sprite;
 		private Sprite armSprite;
 		
 		private Vector3 vel;
@@ -39,16 +40,19 @@ namespace SteamPunkWasteLand
 		private int spriteIndexY;
 		private float timer;
 		
-		private float ScreenWidth = Game.Graphics.Screen.Width;
-		private float ScreenHeight = Game.Graphics.Screen.Height;
 		#endregion
 		
 		#region Properties
-		private Sprite sprite;
 		private Vector3 worldPos;
 		public Vector3 WorldPos {
 			get {return worldPos;}
 			set {worldPos = value;}
+		}
+		
+		private float aim;
+		public float Aim{
+			get{return aim;}
+			set{aim = value;}
 		}
 		#endregion
 		
@@ -73,7 +77,6 @@ namespace SteamPunkWasteLand
 		#region Methods
 		public Vector3 worldToSprite ()
 		{
-			//Vector3 spriteVector = new Vector3(worldPos.X+ScreenWidth/2,-worldPos.Y+(ScreenHeight*7/8f)-sprite.Height/2,0);
 			return WorldCoord.WorldToView(new Vector3(worldPos.X,worldPos.Y+sprite.Height/2,0));
 		}
 		
@@ -108,15 +111,27 @@ namespace SteamPunkWasteLand
 			//movements
 			if ((gpd.Buttons & GamePadButtons.Right) != 0) {
 				vel.X = SPEED/1*time;
-				spriteIndexY = 0;
+				if (spriteIndexY == 1) {
+					spriteIndexY = 0;
+					aim *= -1;
+				}
 			}
 			if ((gpd.Buttons & GamePadButtons.Left) != 0) {
 				vel.X = -SPEED/1*time;
-				spriteIndexY = 1;
+				if (spriteIndexY == 0) {
+					spriteIndexY = 1;
+					aim *= -1;
+				}
 			}
 			if ((gpd.Buttons & GamePadButtons.Up) != 0) {
 				if (worldPos.Y < 1)
 					vel.Y = SPEED*time;
+			}
+			if ((gpd.Buttons & GamePadButtons.Circle) != 0) {
+				aim += 0.1f;
+			}
+			if ((gpd.Buttons & GamePadButtons.Square) != 0) {
+				aim -= 0.1f;
 			}
 			
 			Physics(time);
@@ -151,6 +166,7 @@ namespace SteamPunkWasteLand
 			sprite.Position = worldToSprite();
 			armSprite.Position = sprite.Position;
 			armSprite.Position.X+=(spriteIndexY == 1)? 10:-10;
+			armSprite.Rotation = aim;
 		}
 		
 		public void Render()

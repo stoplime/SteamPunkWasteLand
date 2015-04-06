@@ -74,6 +74,9 @@ namespace SteamPunkWasteLand
 		public static void Update (float time)
 		{
 			var gamePadData = GamePad.GetData (0);
+			if ((gamePadData.Buttons & GamePadButtons.Select) != 0) {
+				Game.Running = false;
+			}
 			Game.Player1.Update(gamePadData,time);
 			WorldCoord.FocusObject = Game.Player1.WorldPos;
 			
