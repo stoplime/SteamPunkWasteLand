@@ -41,6 +41,7 @@ namespace SteamPunkWasteLand
 				s.Start();
 				Update (time);
 				Render ();
+				Console.WriteLine("FPS: "+(int)(1/time));
 			}
 		}
 
@@ -67,6 +68,7 @@ namespace SteamPunkWasteLand
 			Game.Textures.Add(new Texture2D("/Application/assets/Backgrounds/Cloud2.png",false));
 			
 			Game.Textures.Add(new Texture2D("/Application/assets/Player/Tophat_Sheet.png",false));
+			Game.Textures.Add(new Texture2D("/Application/assets/Player/arm.png",false));
 		}
 
 		public static void Update (float time)

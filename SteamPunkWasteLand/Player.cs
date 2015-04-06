@@ -31,6 +31,7 @@ namespace SteamPunkWasteLand
 		
 		#region Private Fields
 		private float Swidth = Game.Graphics.Screen.Width;
+		private Sprite armSprite;
 		
 		private Vector3 vel;
 		
@@ -63,6 +64,9 @@ namespace SteamPunkWasteLand
 			sprite.Position = worldToSprite();
 			sprite.Center = new Vector2(0.5f,0.5f);
 			
+			armSprite = new Sprite(Game.Graphics,Game.Textures[4],48,70);
+			armSprite.Center = sprite.Center;
+			armSprite.Position = new Vector3(sprite.Position.X-10,sprite.Position.Y,0);
 		}
 		#endregion
 		
@@ -145,12 +149,16 @@ namespace SteamPunkWasteLand
 			}
 			
 			sprite.Position = worldToSprite();
+			armSprite.Position = sprite.Position;
+			armSprite.Position.X+=(spriteIndexY == 1)? 10:-10;
 		}
 		
 		public void Render()
 		{
 			sprite.SetTextureCoord(sprite.Width*spriteIndex,sprite.Height*spriteIndexY,(spriteIndex+1)*sprite.Width,(spriteIndexY+1)*sprite.Height);
+			armSprite.SetTextureCoord(armSprite.Width*spriteIndexY,0,(spriteIndexY+1)*armSprite.Width,armSprite.Height);
 			sprite.Render();
+			armSprite.Render();
 		}
 		#endregion
 	}

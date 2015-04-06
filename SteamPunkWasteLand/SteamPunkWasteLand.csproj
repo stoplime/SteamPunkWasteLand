@@ -46,7 +46,6 @@
     <Compile Include="Weapon.cs" />
     <Compile Include="Bullet.cs" />
     <Compile Include="WorldCoord.cs" />
-    <Compile Include="HUD.cs" />
     <Compile Include="Text.cs" />
     <Compile Include="BackgroundClouds.cs" />
     <Compile Include="BackgroundGround.cs" />
@@ -72,5 +71,6 @@
     <Content Include="assets\Backgrounds\Sky1.png" />
     <Content Include="assets\Backgrounds\Sky2.png" />
     <Content Include="assets\Player\Tophat_Sheet.png" />
+    <Content Include="assets\Player\arm.png" />
   </ItemGroup>
 </Project>
