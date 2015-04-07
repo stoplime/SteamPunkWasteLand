@@ -49,7 +49,7 @@ namespace SteamPunkWasteLand
 		{
 			Game.Graphics = new GraphicsContext ();
 			Game.Running = true;
-			Game.TimeSpeed = 0.095f;
+			Game.TimeSpeed = 1f;
 			Game.GameState = States.MainMenu;
 			Game.Textures = new List<Texture2D>();
 			InitTextures();
