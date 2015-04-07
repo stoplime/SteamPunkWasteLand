@@ -26,6 +26,7 @@ namespace SteamPunkWasteLand
 	{
 		#region Constants
 		public const float SPEED = 435f;
+		public const float JUMP = 6.0f;
 		public const float ACCEL = 10f;
 		#endregion
 		
@@ -125,7 +126,8 @@ namespace SteamPunkWasteLand
 			}
 			if ((gpd.Buttons & GamePadButtons.Up) != 0) {
 				if (worldPos.Y < 1)
-					vel.Y = SPEED*time;
+					//TODO: Need to fix this Initial Jump
+					vel.Y = JUMP*JUMP/(19.6f*Game.TimeSpeed);
 			}
 			if ((gpd.Buttons & GamePadButtons.Circle) != 0) {
 				aim += 0.1f;

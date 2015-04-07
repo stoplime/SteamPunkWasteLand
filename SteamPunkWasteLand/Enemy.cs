@@ -21,7 +21,7 @@ using Sce.PlayStation.Core;
 
 namespace SteamPunkWasteLand
 {
-	public class Enemy
+	public abstract class Enemy
 	{
 		private Sprite sprite;
 		protected Sprite Sprite
@@ -40,6 +40,12 @@ namespace SteamPunkWasteLand
 		{
 		}
 		
+		public abstract void Update();
+		
+		public virtual void Render()
+		{
+			sprite.Render();
+		}
 		
 	}
 }

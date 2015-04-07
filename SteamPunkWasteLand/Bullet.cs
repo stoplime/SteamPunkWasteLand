@@ -16,13 +16,50 @@
  */
 
 using System;
+using System.Collections.Generic;
+using Sce.PlayStation.Core;
 
 namespace SteamPunkWasteLand
 {
-	public class Bullet
+	public abstract class Bullet
 	{
-		public Bullet ()
+		private float speed;
+		private float dir;
+		
+		private Sprite sprite;
+		public Sprite Sprite
 		{
+			get{return sprite;}
+			set{sprite = value;}
+		}
+		
+		private Vector3 pos;
+		public Vector3 Pos
+		{
+			get{return pos;}
+			set{pos = value;}
+		}
+		
+		
+		public Bullet (float direction, float speed)
+		{
+			this.speed = speed;
+			this.dir = direction;
+			
+			sprite.Rotation = direction;
+		}
+		
+		public virtual void Update (float time)
+		{
+			pos.X += speed*time*FMath.Cos(dir);
+			pos.Y += speed*time*FMath.Sin(dir);
+			
+			sprite.Position = pos;
+		}
+		
+		public virtual void Render ()
+		{
+			
 		}
 	}
 }

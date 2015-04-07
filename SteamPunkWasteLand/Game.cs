@@ -37,6 +37,7 @@ namespace SteamPunkWasteLand
 		public static GraphicsContext Graphics;
 		public static Random Rand;
 		public static States GameState;
+		public static float TimeSpeed;
 		
 		public static Background BgSky,BgGround,BgCloud;
 		public static Player Player1;

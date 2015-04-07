@@ -39,7 +39,7 @@ namespace SteamPunkWasteLand
 				float time = s.ElapsedMilliseconds/1000f;
 				s.Reset();
 				s.Start();
-				Update (time);
+				Update (time*Game.TimeSpeed);
 				Render ();
 				Console.WriteLine("FPS: "+(int)(1/time));
 			}
@@ -49,6 +49,7 @@ namespace SteamPunkWasteLand
 		{
 			Game.Graphics = new GraphicsContext ();
 			Game.Running = true;
+			Game.TimeSpeed = 0.095f;
 			Game.GameState = States.MainMenu;
 			Game.Textures = new List<Texture2D>();
 			InitTextures();

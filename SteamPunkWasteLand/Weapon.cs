@@ -16,10 +16,12 @@
  */
 
 using System;
+using System.Collections.Generic;
+using Sce.PlayStation.Core;
 
 namespace SteamPunkWasteLand
 {
-	public class Weapon
+	public abstract class Weapon
 	{
 		public Weapon ()
 		{
