@@ -21,50 +21,11 @@ using Sce.PlayStation.Core;
 
 namespace SteamPunkWasteLand
 {
-	public abstract class Weapon
+	public class W_Cannon : Weapon
 	{
-		#region Private Fields
-		
-		#endregion
-		
-		#region Properties
-		private Sprite sprite;
-		protected Sprite WSprite
+		public W_Cannon ()
 		{
-			get{return sprite;}
-			set{sprite = value;}
 		}
-		#endregion
-		
-		private Vector3 pos;
-		private float aim;
-		
-		#region Constructor
-		public Weapon ()
-		{
-			pos = new Vector3();
-			aim = 0;
-		}
-		#endregion
-		
-		#region Additional Methods
-		public Vector3 worldToSprite ()
-		{
-			return WorldCoord.WorldToView(new Vector3(pos.X,pos.Y+sprite.Height/2,0));
-		}
-		#endregion
-		
-		#region Original Methods
-		public virtual void Update ()
-		{
-			
-		}
-		
-		public virtual void Render ()
-		{
-			sprite.Render();
-		}
-		#endregion
 	}
 }
 

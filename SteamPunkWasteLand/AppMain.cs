@@ -49,7 +49,7 @@ namespace SteamPunkWasteLand
 		{
 			Game.Graphics = new GraphicsContext ();
 			Game.Running = true;
-			Game.TimeSpeed = 1f;
+			Game.TimeSpeed = 0.5f;
 			Game.GameState = States.MainMenu;
 			Game.Textures = new List<Texture2D>();
 			InitTextures();
@@ -64,12 +64,25 @@ namespace SteamPunkWasteLand
 
 		public static void InitTextures ()
 		{
-			Game.Textures.Add(new Texture2D("/Application/assets/Backgrounds/Sky2.png",false));
-			Game.Textures.Add(new Texture2D("/Application/assets/Backgrounds/Ground1.png",false));
-			Game.Textures.Add(new Texture2D("/Application/assets/Backgrounds/Cloud2.png",false));
+			Game.Textures.Add(new Texture2D("/Application/assets/Backgrounds/Sky2.png",false));		//0		Sky
+			Game.Textures.Add(new Texture2D("/Application/assets/Backgrounds/Ground1.png",false));	//1		Ground
+			Game.Textures.Add(new Texture2D("/Application/assets/Backgrounds/Cloud2.png",false));	//2		Clouds
 			
-			Game.Textures.Add(new Texture2D("/Application/assets/Player/Tophat_Sheet.png",false));
-			Game.Textures.Add(new Texture2D("/Application/assets/Player/arm.png",false));
+			Game.Textures.Add(new Texture2D("/Application/assets/Player/Tophat_Sheet.png",false));	//3		Player
+			Game.Textures.Add(new Texture2D("/Application/assets/Player/arm.png",false));			//4		Player arm
+			
+			Game.Textures.Add(new Texture2D("/Application/assets/Player/Tophat_Sheet.png",false));	//5		Zeppelin
+			Game.Textures.Add(new Texture2D("/Application/assets/Player/Tophat_Sheet.png",false));	//6		Dragon
+			Game.Textures.Add(new Texture2D("/Application/assets/Player/Tophat_Sheet.png",false));	//7		Imperial Guards
+			
+			Game.Textures.Add(new Texture2D("/Application/assets/Player/Tophat_Sheet.png",false));	//8		Cannon
+			Game.Textures.Add(new Texture2D("/Application/assets/Player/Tophat_Sheet.png",false));	//9		Flamethrower
+			Game.Textures.Add(new Texture2D("/Application/assets/Player/Tophat_Sheet.png",false));	//10	Crossbow
+			
+			Game.Textures.Add(new Texture2D("/Application/assets/Player/Tophat_Sheet.png",false));	//11	Cannon Ball
+			Game.Textures.Add(new Texture2D("/Application/assets/Player/Tophat_Sheet.png",false));	//12	Flame Particle
+			Game.Textures.Add(new Texture2D("/Application/assets/Player/Tophat_Sheet.png",false));	//13	Arrows
+			
 		}
 
 		public static void Update (float time)

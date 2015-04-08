@@ -28,6 +28,9 @@ namespace SteamPunkWasteLand
 		public const float SPEED = 435f;
 		public const float JUMP = 6.0f;
 		public const float ACCEL = 10f;
+		
+		public const float GRAVITY = 9.8f;
+		public const float ARM_SPD = 8f;
 		#endregion
 		
 		#region Private Fields
@@ -84,7 +87,7 @@ namespace SteamPunkWasteLand
 		public void Physics (float time)
 		{
 			//gravity
-			vel.Y -= 9.8f*time;
+			vel.Y -= GRAVITY*time;
 			
 			//friction
 			if (worldPos.Y > 0) {
@@ -101,7 +104,6 @@ namespace SteamPunkWasteLand
 				vel.Y = 0;
 				worldPos.Y = 0;
 			}
-			
 		}
 		#endregion
 		
@@ -126,14 +128,13 @@ namespace SteamPunkWasteLand
 			}
 			if ((gpd.Buttons & GamePadButtons.Up) != 0) {
 				if (worldPos.Y < 1)
-					//TODO: Need to fix this Initial Jump
-					vel.Y = JUMP;//JUMP*JUMP/(19.6f*Game.TimeSpeed);
+					vel.Y = JUMP;
 			}
 			if ((gpd.Buttons & GamePadButtons.Circle) != 0) {
-				aim += 10f*time;
+				aim += ARM_SPD*time;
 			}
 			if ((gpd.Buttons & GamePadButtons.Square) != 0) {
-				aim -= 10f*time;
+				aim -= ARM_SPD*time;
 			}
 			
 			Physics(time);

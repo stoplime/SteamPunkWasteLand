@@ -1,16 +1,18 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="SteamPunkWasteLand\AppMain.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="SteamPunkWasteLand\Player.cs">
     <Files>
-      <File FileName="SteamPunkWasteLand\AppMain.cs" Line="34" Column="14" />
+      <File FileName="SteamPunkWasteLand\AppMain.cs" Line="52" Column="24" />
       <File FileName="SteamPunkWasteLand\Game.cs" Line="40" Column="33" />
-      <File FileName="SteamPunkWasteLand\Player.cs" Line="136" Column="14" />
-      <File FileName="SteamPunkWasteLand\BackgroundGround.cs" Line="37" Column="66" />
-      <File FileName="SteamPunkWasteLand\Enemy.cs" Line="18" Column="14" />
-      <File FileName="SteamPunkWasteLand\Weapon.cs" Line="25" Column="3" />
-      <File FileName="SteamPunkWasteLand\Bullet.cs" Line="62" Column="4" />
-      <File FileName="SteamPunkWasteLand\WorldCoord.cs" Line="56" Column="5" />
-      <File FileName="SteamPunkWasteLand\Text.cs" Line="24" Column="23" />
+      <File FileName="SteamPunkWasteLand\Player.cs" Line="48" Column="3" />
+      <File FileName="SteamPunkWasteLand\Enemy.cs" Line="57" Column="4" />
+      <File FileName="SteamPunkWasteLand\E_Zeppelin.cs" Line="29" Column="29" />
+      <File FileName="SteamPunkWasteLand\E_Dragon.cs" Line="24" Column="31" />
+      <File FileName="SteamPunkWasteLand\E_Guard.cs" Line="24" Column="30" />
+      <File FileName="SteamPunkWasteLand\Weapon.cs" Line="40" Column="21" />
+      <File FileName="SteamPunkWasteLand\W_CrossBow.cs" Line="24" Column="34" />
+      <File FileName="SteamPunkWasteLand\W_Flamethrower.cs" Line="24" Column="38" />
+      <File FileName="SteamPunkWasteLand\W_Cannon.cs" Line="24" Column="32" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

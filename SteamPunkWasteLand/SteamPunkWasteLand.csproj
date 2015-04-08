@@ -49,6 +49,12 @@
     <Compile Include="Text.cs" />
     <Compile Include="BackgroundClouds.cs" />
     <Compile Include="BackgroundGround.cs" />
+    <Compile Include="E_Dragon.cs" />
+    <Compile Include="E_Guard.cs" />
+    <Compile Include="E_Zeppelin.cs" />
+    <Compile Include="W_CrossBow.cs" />
+    <Compile Include="W_Flamethrower.cs" />
+    <Compile Include="W_Cannon.cs" />
   </ItemGroup>
   <ItemGroup>
     <ShaderProgram Include="shaders\Simple.fcg" />
