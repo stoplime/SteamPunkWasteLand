@@ -44,6 +44,8 @@ namespace SteamPunkWasteLand
 		private int spriteIndexY;
 		private float timer;
 		
+		private Weapon weapon;
+		
 		#endregion
 		
 		#region Properties
@@ -72,6 +74,8 @@ namespace SteamPunkWasteLand
 			sprite.Position = worldToSprite();
 			sprite.Center = new Vector2(0.5f,0.5f);
 			
+			weapon = new W_CrossBow();
+			
 			armSprite = new Sprite(Game.Graphics,Game.Textures[4],48,70);
 			armSprite.Center = sprite.Center;
 			armSprite.Position = new Vector3(sprite.Position.X-10,sprite.Position.Y,0);
@@ -81,7 +85,7 @@ namespace SteamPunkWasteLand
 		#region Methods
 		public Vector3 worldToSprite ()
 		{
-			return WorldCoord.WorldToView(new Vector3(worldPos.X,worldPos.Y+sprite.Height/2,0));
+			return WorldCoord.WorldToView(new Vector3(worldPos.X,worldPos.Y,0));
 		}
 		
 		public void Physics (float time)
@@ -100,9 +104,9 @@ namespace SteamPunkWasteLand
 			}
 			
 			//ground level
-			if(worldPos.Y < 0){
+			if(worldPos.Y < sprite.Height/2){
 				vel.Y = 0;
-				worldPos.Y = 0;
+				worldPos.Y = sprite.Height/2;
 			}
 		}
 		#endregion
@@ -110,7 +114,7 @@ namespace SteamPunkWasteLand
 		#region Original Methods
 		public void Update(GamePadData gpd, float time)
 		{
-			timer+= time;
+			timer += time*FMath.Abs(vel.X)/3;
 			//movements
 			if ((gpd.Buttons & GamePadButtons.Right) != 0) {
 				vel.X = SPEED/1*time;
@@ -127,14 +131,14 @@ namespace SteamPunkWasteLand
 				}
 			}
 			if ((gpd.Buttons & GamePadButtons.Up) != 0) {
-				if (worldPos.Y < 1)
+				if (worldPos.Y < 1+sprite.Height/2)
 					vel.Y = JUMP;
 			}
 			if ((gpd.Buttons & GamePadButtons.Circle) != 0) {
-				aim += ARM_SPD*time;
+				aim -= ARM_SPD*time;
 			}
 			if ((gpd.Buttons & GamePadButtons.Square) != 0) {
-				aim -= ARM_SPD*time;
+				aim += ARM_SPD*time;
 			}
 			
 			Physics(time);
@@ -151,7 +155,7 @@ namespace SteamPunkWasteLand
 				worldPos.X = screenMin;
 			}
 			//set sprite indexer
-			if (vel.X > 0.1 || vel.X < -0.1) {
+			if (FMath.Abs(vel.X) > 0.15) {
 				if (timer > 0.1){
 					timer = 0;
 					if (spriteIndex < 3) {
@@ -162,14 +166,16 @@ namespace SteamPunkWasteLand
 			}else{
 				spriteIndex = 0;
 			}
-			if (worldPos.Y > 0.1) {
+			if (worldPos.Y > 0.1+sprite.Height/2) {
 				spriteIndex = 4;
 			}
 			
 			sprite.Position = worldToSprite();
 			armSprite.Position = sprite.Position;
 			armSprite.Position.X+=(spriteIndexY == 1)? 10:-10;
-			armSprite.Rotation = aim;
+			armSprite.Rotation = -aim;
+			
+			weapon.Update(time, aim, new Vector3(worldPos.X+((spriteIndexY == 1)? 10:-10),worldPos.Y-sprite.Height/2,0),spriteIndexY);
 		}
 		
 		public void Render()
@@ -178,6 +184,7 @@ namespace SteamPunkWasteLand
 			armSprite.SetTextureCoord(armSprite.Width*spriteIndexY,0,(spriteIndexY+1)*armSprite.Width,armSprite.Height);
 			sprite.Render();
 			armSprite.Render();
+			weapon.Render();
 		}
 		#endregion
 	}

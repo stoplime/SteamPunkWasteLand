@@ -23,8 +23,16 @@ namespace SteamPunkWasteLand
 {
 	public class W_CrossBow : Weapon
 	{
+		
 		public W_CrossBow ()
 		{
+			WSprite = new Sprite(Game.Graphics,Game.Textures[10],48,70);
+			WSprite.Center = new Vector2(0.5f,0.5f);
+		}
+		
+		public override void Fire ()
+		{
+			
 		}
 	}
 }

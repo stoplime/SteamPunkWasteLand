@@ -25,8 +25,8 @@ namespace SteamPunkWasteLand
 	{
 		public E_Zeppelin ()
 		{
-			ESprite = new Sprite(Game.Graphics,Game.Textures[5],48,70);
-			EWeapon = new W_Cannon();
+			//ESprite = new Sprite(Game.Graphics,Game.Textures[5],48,70);
+			//EWeapon = new W_Cannon();
 		}
 	}
 }

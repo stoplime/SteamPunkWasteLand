@@ -26,6 +26,11 @@ namespace SteamPunkWasteLand
 		public W_Flamethrower ()
 		{
 		}
+		
+		public override void Fire ()
+		{
+			
+		}
 	}
 }
 

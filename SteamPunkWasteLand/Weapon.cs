@@ -24,7 +24,10 @@ namespace SteamPunkWasteLand
 	public abstract class Weapon
 	{
 		#region Private Fields
+		private const float phi = 0.588f;
+		private const float ArmLenght = 15f;
 		
+		private int spriteIndex;
 		#endregion
 		
 		#region Properties
@@ -34,34 +37,57 @@ namespace SteamPunkWasteLand
 			get{return sprite;}
 			set{sprite = value;}
 		}
-		#endregion
-		
 		private Vector3 pos;
+		protected Vector3 Pos
+		{
+			get{return pos;}
+			set{pos = value;}
+		}
 		private float aim;
+		protected float Aim
+		{
+			get{return aim;}
+			set{aim = value;}
+		}
+		#endregion
 		
 		#region Constructor
 		public Weapon ()
 		{
 			pos = new Vector3();
 			aim = 0;
+			spriteIndex = 0;
 		}
 		#endregion
 		
 		#region Additional Methods
-		public Vector3 worldToSprite ()
+		protected Vector3 worldToSprite ()
 		{
 			return WorldCoord.WorldToView(new Vector3(pos.X,pos.Y+sprite.Height/2,0));
 		}
+		
+		public abstract void Fire ();
+		
 		#endregion
 		
 		#region Original Methods
-		public virtual void Update ()
+		//for the player
+		public virtual void Update (float time, float aim, Vector3 sholderPos, int index)
 		{
+			this.aim = aim;
+			spriteIndex = index;
 			
+			float angle = aim+(spriteIndex==0?-phi:phi);
+			pos.X = sholderPos.X+FMath.Cos(angle)*ArmLenght*(spriteIndex==0?1:-1);
+			pos.Y = sholderPos.Y+FMath.Sin(angle)*ArmLenght*(spriteIndex==0?1:-1);
+			
+			sprite.Position = worldToSprite();
+			sprite.Rotation = -aim;
 		}
 		
 		public virtual void Render ()
 		{
+			sprite.SetTextureCoord(sprite.Width*spriteIndex,0,(spriteIndex+1)*sprite.Width,sprite.Height);
 			sprite.Render();
 		}
 		#endregion

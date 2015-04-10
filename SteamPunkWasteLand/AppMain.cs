@@ -49,7 +49,7 @@ namespace SteamPunkWasteLand
 		{
 			Game.Graphics = new GraphicsContext ();
 			Game.Running = true;
-			Game.TimeSpeed = 0.5f;
+			Game.TimeSpeed = 1f;
 			Game.GameState = States.MainMenu;
 			Game.Textures = new List<Texture2D>();
 			InitTextures();
@@ -77,7 +77,7 @@ namespace SteamPunkWasteLand
 			
 			Game.Textures.Add(new Texture2D("/Application/assets/Player/Tophat_Sheet.png",false));	//8		Cannon
 			Game.Textures.Add(new Texture2D("/Application/assets/Player/Tophat_Sheet.png",false));	//9		Flamethrower
-			Game.Textures.Add(new Texture2D("/Application/assets/Player/Tophat_Sheet.png",false));	//10	Crossbow
+			Game.Textures.Add(new Texture2D("/Application/assets/Player/arm.png",false));	//10	Crossbow
 			
 			Game.Textures.Add(new Texture2D("/Application/assets/Player/Tophat_Sheet.png",false));	//11	Cannon Ball
 			Game.Textures.Add(new Texture2D("/Application/assets/Player/Tophat_Sheet.png",false));	//12	Flame Particle

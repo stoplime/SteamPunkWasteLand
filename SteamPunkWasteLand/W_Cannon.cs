@@ -26,6 +26,10 @@ namespace SteamPunkWasteLand
 		public W_Cannon ()
 		{
 		}
+		public override void Fire ()
+		{
+			
+		}
 	}
 }
 
