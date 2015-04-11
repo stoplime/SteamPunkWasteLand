@@ -140,11 +140,14 @@ namespace SteamPunkWasteLand
 			if ((gpd.Buttons & GamePadButtons.Square) != 0) {
 				aim += ARM_SPD*time;
 			}
+			if ((gpd.Buttons & GamePadButtons.Cross) != 0) {
+				weapon.Fire();
+			}
 			
 			Physics(time);
 			
 			//update pos
-			worldPos += vel * Game.TimeSpeed;
+			worldPos += vel */* time*65;//*/Game.TimeSpeed;
 			//limit game world
 			float screenMax = Swidth*1.5f-sprite.Width/2;
 			float screenMin = -Swidth*1.5f+sprite.Width/2;

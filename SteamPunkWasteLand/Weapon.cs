@@ -27,7 +27,6 @@ namespace SteamPunkWasteLand
 		private const float phi = 0.588f;
 		private const float ArmLenght = 15f;
 		
-		private int spriteIndex;
 		#endregion
 		
 		#region Properties
@@ -49,6 +48,12 @@ namespace SteamPunkWasteLand
 			get{return aim;}
 			set{aim = value;}
 		}
+		private int spriteIndex;
+		protected int SpriteIndex
+		{
+			get{return spriteIndex;}
+			set{spriteIndex = value;}
+		}
 		#endregion
 		
 		#region Constructor
@@ -66,6 +71,17 @@ namespace SteamPunkWasteLand
 			return WorldCoord.WorldToView(new Vector3(pos.X,pos.Y+sprite.Height/2,0));
 		}
 		
+		public float ExtendArc (float initPos, float extention, float angle, float phi, int mirror, bool cos)
+		{
+			float a = angle+(mirror==0?-phi:phi);
+			float s;
+			if (cos) 
+				s = initPos+FMath.Cos(a)*extention*(mirror==0?1:-1);
+			else
+				s = initPos+FMath.Sin(a)*extention*(mirror==0?1:-1);
+			return s;
+		}
+		
 		public abstract void Fire ();
 		
 		#endregion
@@ -77,9 +93,11 @@ namespace SteamPunkWasteLand
 			this.aim = aim;
 			spriteIndex = index;
 			
-			float angle = aim+(spriteIndex==0?-phi:phi);
-			pos.X = sholderPos.X+FMath.Cos(angle)*ArmLenght*(spriteIndex==0?1:-1);
-			pos.Y = sholderPos.Y+FMath.Sin(angle)*ArmLenght*(spriteIndex==0?1:-1);
+//			float angle = aim+(spriteIndex==0?-phi:phi);
+//			pos.X = sholderPos.X+FMath.Cos(angle)*ArmLenght*(spriteIndex==0?1:-1);
+//			pos.Y = sholderPos.Y+FMath.Sin(angle)*ArmLenght*(spriteIndex==0?1:-1);
+			pos.X = ExtendArc(sholderPos.X,ArmLenght,aim,phi,spriteIndex,true);
+			pos.Y = ExtendArc(sholderPos.Y,ArmLenght,aim,phi,spriteIndex,false);
 			
 			sprite.Position = worldToSprite();
 			sprite.Rotation = -aim;

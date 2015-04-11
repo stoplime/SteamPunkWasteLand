@@ -18,36 +18,32 @@
 using System;
 using System.Collections.Generic;
 using Sce.PlayStation.Core;
-using Sce.PlayStation.Core.Environment;
-using Sce.PlayStation.Core.Graphics;
-using Sce.PlayStation.Core.Input;
 
 namespace SteamPunkWasteLand
 {
-	public enum States {
-		MainMenu,
-		Play,
-		HighScore,
-		Name
-	}
-	
-	public static class Game
+	public class B_Arrow : Bullet
 	{
-		public static bool Running;
-		public static GraphicsContext Graphics;
-		public static Random Rand;
-		public static States GameState;
-		public static float TimeSpeed;
+		public B_Arrow (float direction, float speed, Vector3 initPos)
+			:this(direction,speed,initPos,0)
+		{}
+		public B_Arrow (float direction, float speed, Vector3 initPos, int spriteIndex)
+			:base(direction,speed,initPos,spriteIndex)
+		{
+			Sprite = new Sprite(Game.Graphics,Game.Textures[13],48f,70f);
+			Sprite.Position = worldToSprite();
+			Sprite.Rotation = direction;
+			Sprite.Center = new Vector2(0.5f,0.5f);
+		}
 		
-		public static Background BgSky,BgGround,BgCloud;
-		public static Player Player1;
-		
-		
-		
-		public static List<Enemy> Enemies;
-		public static List<Bullet> PBullets;
-		
-		public static List<Texture2D> Textures;
+		public override void Update (float time)
+		{
+			//float Vy = V*sin(a)-G*time;
+			//float Vx = V*cos(a);
+			//V = sqrt(Vy^2+Vx^2);
+			//a = Atan2(Vy,Vx);
+			base.Update (time);
+			//Sprite.Rotation = dir;
+		}
 		
 	}
 }

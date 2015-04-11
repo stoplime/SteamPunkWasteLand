@@ -55,6 +55,9 @@
     <Compile Include="W_CrossBow.cs" />
     <Compile Include="W_Flamethrower.cs" />
     <Compile Include="W_Cannon.cs" />
+    <Compile Include="B_Arrow.cs" />
+    <Compile Include="B_CannonBall.cs" />
+    <Compile Include="B_Flame.cs" />
   </ItemGroup>
   <ItemGroup>
     <ShaderProgram Include="shaders\Simple.fcg" />

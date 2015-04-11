@@ -59,7 +59,7 @@ namespace SteamPunkWasteLand
 			Game.BgCloud = new BackgroundClouds(Game.Textures[2]);
 			
 			Game.Player1 = new Player();
-			
+			Game.PBullets = new List<Bullet>();
 		}
 
 		public static void InitTextures ()
@@ -81,7 +81,7 @@ namespace SteamPunkWasteLand
 			
 			Game.Textures.Add(new Texture2D("/Application/assets/Player/Tophat_Sheet.png",false));	//11	Cannon Ball
 			Game.Textures.Add(new Texture2D("/Application/assets/Player/Tophat_Sheet.png",false));	//12	Flame Particle
-			Game.Textures.Add(new Texture2D("/Application/assets/Player/Tophat_Sheet.png",false));	//13	Arrows
+			Game.Textures.Add(new Texture2D("/Application/assets/Player/arm.png",false));	//13	Arrows
 			
 		}
 
@@ -93,6 +93,13 @@ namespace SteamPunkWasteLand
 			}
 			Game.Player1.Update(gamePadData,time);
 			WorldCoord.FocusObject = Game.Player1.WorldPos;
+			
+			for (int i = 0; i < Game.PBullets.Count; i++) {
+				Game.PBullets[i].Update(time);
+				if (Game.PBullets[i].DeltaTime > 10) {
+					Game.PBullets.RemoveAt(i);
+				}
+			}
 			
 			WorldCoord.UpdateFocus(time);
 			Game.BgCloud.Update();
@@ -109,6 +116,10 @@ namespace SteamPunkWasteLand
 			Game.BgCloud.Render();
 			
 			Game.Player1.Render();
+			
+			foreach(Bullet b in Game.PBullets){
+				b.Render();
+			}
 			
 			Game.Graphics.SwapBuffers ();
 		}

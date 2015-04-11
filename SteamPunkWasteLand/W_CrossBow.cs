@@ -32,7 +32,11 @@ namespace SteamPunkWasteLand
 		
 		public override void Fire ()
 		{
-			
+			Vector3 firePos = new Vector3(
+				ExtendArc(Pos.X,15f,Aim,0.588f,SpriteIndex,true),
+				ExtendArc(Pos.Y,15f,Aim,0.588f,SpriteIndex,false),0);
+			B_Arrow b = new B_Arrow(-Aim, 500f, firePos,SpriteIndex);
+			Game.PBullets.Add(b);
 		}
 	}
 }

@@ -23,8 +23,27 @@ namespace SteamPunkWasteLand
 {
 	public abstract class Bullet
 	{
+		private int spriteIndex;
 		private float speed;
+		protected float Speed
+		{
+			get{return speed;}
+			set{speed = value;}
+		}
+		
 		private float dir;
+		protected float Dir
+		{
+			get{return dir;}
+			set{dir = value;}
+		}
+		
+		private float deltaTime;
+		public float DeltaTime
+		{
+			get{return deltaTime;}
+			set{deltaTime = value;}
+		}
 		
 		private Sprite sprite;
 		public Sprite Sprite
@@ -40,26 +59,36 @@ namespace SteamPunkWasteLand
 			set{pos = value;}
 		}
 		
-		
-		public Bullet (float direction, float speed)
+		public Bullet (float direction, float speed, Vector3 initPos)
+			:this(direction,speed,initPos,0)
+		{}
+		public Bullet (float direction, float speed, Vector3 initPos, int spriteIndex)
 		{
+			this.spriteIndex = spriteIndex;
+			this.pos = initPos;
 			this.speed = speed;
 			this.dir = direction;
-			
-			sprite.Rotation = direction;
+			deltaTime = 0;
+		}
+		
+		protected Vector3 worldToSprite ()
+		{
+			return WorldCoord.WorldToView(new Vector3(pos.X,pos.Y+sprite.Height/2,0));
 		}
 		
 		public virtual void Update (float time)
 		{
-			pos.X += speed*time*FMath.Cos(dir);
-			pos.Y += speed*time*FMath.Sin(dir);
+			deltaTime += time;
+			pos.X += speed*time*FMath.Cos(-dir)*(spriteIndex==0?1:-1);
+			pos.Y += speed*time*FMath.Sin(-dir)*(spriteIndex==0?1:-1);
 			
-			sprite.Position = pos;
+			sprite.Position = worldToSprite();
 		}
 		
 		public virtual void Render ()
 		{
-			
+			sprite.SetTextureCoord(sprite.Width*spriteIndex,0,(spriteIndex+1)*sprite.Width,sprite.Height);
+			sprite.Render();
 		}
 	}
 }
