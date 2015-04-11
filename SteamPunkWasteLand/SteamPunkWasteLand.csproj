@@ -72,6 +72,7 @@
   <ItemGroup>
     <Folder Include="assets\" />
     <Folder Include="assets\Player\" />
+    <Folder Include="assets\Weapons\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\Backgrounds\Cloud1.png" />

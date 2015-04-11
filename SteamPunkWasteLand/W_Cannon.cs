@@ -29,6 +29,7 @@ namespace SteamPunkWasteLand
 			WSprite.Center = new Vector2(0.5f,0.5f);
 			FireSpd = 1f;
 		}
+		
 		public override void Fire ()
 		{
 			if (DeltaTime > FireSpd) {
@@ -36,7 +37,7 @@ namespace SteamPunkWasteLand
 				Vector3 firePos = new Vector3(
 					ExtendArc(Pos.X,15f,Aim,0.588f,SpriteIndex,true),
 					ExtendArc(Pos.Y,15f,Aim,0.588f,SpriteIndex,false),0);
-				B_CannonBall b = new B_CannonBall(-Aim, 500f, firePos);
+				B_CannonBall b = new B_CannonBall(-Aim, 500f, firePos, SpriteIndex);
 				Game.PBullets.Add(b);
 			}
 		}

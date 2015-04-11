@@ -37,7 +37,7 @@ namespace SteamPunkWasteLand
 				Vector3 firePos = new Vector3(
 					ExtendArc(Pos.X,15f,Aim,0.588f,SpriteIndex,true),
 					ExtendArc(Pos.Y,15f,Aim,0.588f,SpriteIndex,false),0);
-				B_Flame b = new B_Flame(-Aim, 200f, firePos, 0.3f);
+				B_Flame b = new B_Flame(-Aim, 200f, firePos, SpriteIndex, 0.3f);
 				Game.PBullets.Add(b);
 			}
 		}

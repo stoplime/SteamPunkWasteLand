@@ -76,12 +76,12 @@ namespace SteamPunkWasteLand
 			Game.Textures.Add(new Texture2D("/Application/assets/Player/Tophat_Sheet.png",false));	//6		Dragon
 			Game.Textures.Add(new Texture2D("/Application/assets/Player/Tophat_Sheet.png",false));	//7		Imperial Guards
 			
-			Game.Textures.Add(new Texture2D("/Application/assets/Player/Tophat_Sheet.png",false));	//8		Cannon
-			Game.Textures.Add(new Texture2D("/Application/assets/Player/Tophat_Sheet.png",false));	//9		Flamethrower
+			Game.Textures.Add(new Texture2D("/Application/assets/Player/arm.png",false));			//8		Cannon
+			Game.Textures.Add(new Texture2D("/Application/assets/Player/arm.png",false));			//9		Flamethrower
 			Game.Textures.Add(new Texture2D("/Application/assets/Player/arm.png",false));			//10	Crossbow
 			
-			Game.Textures.Add(new Texture2D("/Application/assets/Player/Tophat_Sheet.png",false));	//11	Cannon Ball
-			Game.Textures.Add(new Texture2D("/Application/assets/Player/Tophat_Sheet.png",false));	//12	Flame Particle
+			Game.Textures.Add(new Texture2D("/Application/assets/Player/arm.png",false));			//11	Cannon Ball
+			Game.Textures.Add(new Texture2D("/Application/assets/Player/arm.png",false));			//12	Flame Particle
 			Game.Textures.Add(new Texture2D("/Application/assets/Player/arm.png",false));			//13	Arrows
 			
 		}
