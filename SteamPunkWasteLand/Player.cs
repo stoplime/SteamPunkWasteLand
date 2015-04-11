@@ -74,7 +74,7 @@ namespace SteamPunkWasteLand
 			sprite.Position = worldToSprite();
 			sprite.Center = new Vector2(0.5f,0.5f);
 			
-			weapon = new W_Flamethrower();
+			weapon = new W_Cannon();
 			
 			armSprite = new Sprite(Game.Graphics,Game.Textures[4],48,70);
 			armSprite.Center = sprite.Center;

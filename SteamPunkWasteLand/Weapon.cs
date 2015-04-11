@@ -74,7 +74,7 @@ namespace SteamPunkWasteLand
 			pos = new Vector3();
 			aim = 0;
 			spriteIndex = 0;
-			deltaTime = 0;
+			deltaTime = 10;
 			fireSpd = 1f;// 1sec
 		}
 		#endregion
