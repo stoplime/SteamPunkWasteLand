@@ -24,6 +24,11 @@ namespace SteamPunkWasteLand
 	public abstract class Bullet
 	{
 		private int spriteIndex;
+		protected int SpriteIndex
+		{
+			get{return spriteIndex;}
+			set{spriteIndex = value;}
+		}
 		private float speed;
 		protected float Speed
 		{
@@ -57,6 +62,12 @@ namespace SteamPunkWasteLand
 		{
 			get{return pos;}
 			set{pos = value;}
+		}
+		private bool die;
+		public bool Die
+		{
+			get{return die;}
+			set{die = value;}
 		}
 		
 		public Bullet (float direction, float speed, Vector3 initPos)

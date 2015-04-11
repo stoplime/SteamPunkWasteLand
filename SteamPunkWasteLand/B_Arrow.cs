@@ -37,12 +37,20 @@ namespace SteamPunkWasteLand
 		
 		public override void Update (float time)
 		{
-			//float Vy = V*sin(a)-G*time;
-			//float Vx = V*cos(a);
-			//V = sqrt(Vy^2+Vx^2);
-			//a = Atan2(Vy,Vx);
+			//gravity
+			float Vy = Speed*FMath.Sin(Dir)+500f*time*(SpriteIndex==0?1:-1);
+			float Vx = Speed*FMath.Cos(Dir);
+			Speed = FMath.Sqrt(Vy*Vy+Vx*Vx);
+			Dir = FMath.Atan2(Vy,Vx);
+			
+			//ground
+			if (Pos.Y < -Sprite.Width/2f) {
+				Speed = 0;
+			}else{
+				Sprite.Rotation = Dir;
+			}
+			
 			base.Update (time);
-			//Sprite.Rotation = dir;
 		}
 		
 	}

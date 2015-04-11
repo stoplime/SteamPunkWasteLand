@@ -117,14 +117,14 @@ namespace SteamPunkWasteLand
 			timer += time*FMath.Abs(vel.X)/3;
 			//movements
 			if ((gpd.Buttons & GamePadButtons.Right) != 0) {
-				vel.X = SPEED/1*time;
+				vel.X = SPEED*time/Game.TimeSpeed;
 				if (spriteIndexY == 1) {
 					spriteIndexY = 0;
 					aim *= -1;
 				}
 			}
 			if ((gpd.Buttons & GamePadButtons.Left) != 0) {
-				vel.X = -SPEED/1*time;
+				vel.X = -SPEED*time/Game.TimeSpeed;
 				if (spriteIndexY == 0) {
 					spriteIndexY = 1;
 					aim *= -1;
@@ -140,14 +140,14 @@ namespace SteamPunkWasteLand
 			if ((gpd.Buttons & GamePadButtons.Square) != 0) {
 				aim += ARM_SPD*time;
 			}
-			if ((gpd.Buttons & GamePadButtons.Cross) != 0) {
+			if ((gpd.Buttons & GamePadButtons.Cross) != 0 && (gpd.ButtonsPrev & GamePadButtons.Cross) == 0) {
 				weapon.Fire();
 			}
 			
 			Physics(time);
 			
 			//update pos
-			worldPos += vel */* time*65;//*/Game.TimeSpeed;
+			worldPos += vel * /*time*65;//*/Game.TimeSpeed;
 			//limit game world
 			float screenMax = Swidth*1.5f-sprite.Width/2;
 			float screenMin = -Swidth*1.5f+sprite.Width/2;

@@ -46,12 +46,12 @@ namespace SteamPunkWasteLand
 			
 			if (FocusObject.X+WorldZero.X > Hwidth+WIDTH_DEVIATION){
 				if(WorldZero.X > -Hwidth+10){
-					WorldZero.X -= ViewSpd*time*Game.TimeSpeed;
+					WorldZero.X -= ViewSpd*time;//Game.TimeSpeed;
 				}
 			}
 			else if (FocusObject.X+WorldZero.X < +Hwidth-WIDTH_DEVIATION){
 				if(WorldZero.X < Hwidth*3-10){
-					WorldZero.X += ViewSpd*time*Game.TimeSpeed;
+					WorldZero.X += ViewSpd*time;//Game.TimeSpeed;
 				}
 			}
 //			if (FocusObject.Y > WorldZero.Y+Hheight+HEIGHT_DEVIATION) 
