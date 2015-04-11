@@ -30,6 +30,9 @@ namespace SteamPunkWasteLand
 			:base(direction,speed,initPos,spriteIndex)
 		{
 			Sprite = new Sprite(Game.Graphics,Game.Textures[11]);
+			Sprite.Position = worldToSprite();
+			Sprite.Rotation = direction;
+			Sprite.Center = new Vector2(0.5f,0.5f);
 		}
 	}
 }

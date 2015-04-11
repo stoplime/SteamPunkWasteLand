@@ -44,7 +44,7 @@ namespace SteamPunkWasteLand
 		}
 		
 		private float deltaTime;
-		public float DeltaTime
+		protected float DeltaTime
 		{
 			get{return deltaTime;}
 			set{deltaTime = value;}
@@ -63,11 +63,17 @@ namespace SteamPunkWasteLand
 			get{return pos;}
 			set{pos = value;}
 		}
-		private bool die;
-		public bool Die
+		private bool despawn;
+		public bool Despawn
 		{
-			get{return die;}
-			set{die = value;}
+			get{return despawn;}
+			set{despawn = value;}
+		}
+		private bool hit;
+		public bool Hit
+		{
+			get{return hit;}
+			set{hit = value;}
 		}
 		
 		public Bullet (float direction, float speed, Vector3 initPos)
@@ -80,6 +86,8 @@ namespace SteamPunkWasteLand
 			this.speed = speed;
 			this.dir = direction;
 			deltaTime = 0;
+			despawn = false;
+			hit = false;
 		}
 		
 		protected Vector3 worldToSprite ()
@@ -90,9 +98,12 @@ namespace SteamPunkWasteLand
 		public virtual void Update (float time)
 		{
 			deltaTime += time;
-			pos.X += speed*time*FMath.Cos(-dir)*(spriteIndex==0?1:-1);
-			pos.Y += speed*time*FMath.Sin(-dir)*(spriteIndex==0?1:-1);
 			
+			if(hit == false){
+				pos.X += speed*time*FMath.Cos(-dir)*(spriteIndex==0?1:-1);
+				pos.Y += speed*time*FMath.Sin(-dir)*(spriteIndex==0?1:-1);
+				sprite.Rotation = dir;
+			}
 			sprite.Position = worldToSprite();
 		}
 		

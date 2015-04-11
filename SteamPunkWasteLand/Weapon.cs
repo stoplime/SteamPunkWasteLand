@@ -54,6 +54,18 @@ namespace SteamPunkWasteLand
 			get{return spriteIndex;}
 			set{spriteIndex = value;}
 		}
+		private float fireSpd;
+		protected float FireSpd
+		{
+			get{return fireSpd;}
+			set{fireSpd = value;}
+		}
+		private float deltaTime;
+		protected float DeltaTime
+		{
+			get{return deltaTime;}
+			set{deltaTime = value;}
+		}
 		#endregion
 		
 		#region Constructor
@@ -62,6 +74,8 @@ namespace SteamPunkWasteLand
 			pos = new Vector3();
 			aim = 0;
 			spriteIndex = 0;
+			deltaTime = 0;
+			fireSpd = 1f;// 1sec
 		}
 		#endregion
 		
@@ -90,6 +104,7 @@ namespace SteamPunkWasteLand
 		//for the player
 		public virtual void Update (float time, float aim, Vector3 sholderPos, int index)
 		{
+			deltaTime += time;
 			this.aim = aim;
 			spriteIndex = index;
 			

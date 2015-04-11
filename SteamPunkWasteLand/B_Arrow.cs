@@ -45,12 +45,15 @@ namespace SteamPunkWasteLand
 			
 			//ground
 			if (Pos.Y < -Sprite.Width/2f) {
-				Speed = 0;
-			}else{
-				Sprite.Rotation = Dir;
+				Hit = true;
 			}
 			
 			base.Update (time);
+			
+			//checks if it despawns
+			if(DeltaTime > 10){
+				Despawn = true;
+			}
 		}
 		
 	}

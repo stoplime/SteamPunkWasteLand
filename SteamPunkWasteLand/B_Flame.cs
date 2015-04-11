@@ -23,13 +23,40 @@ namespace SteamPunkWasteLand
 {
 	public class B_Flame : Bullet
 	{
-		public B_Flame (float direction, float speed, Vector3 initPos)
-			:this(direction,speed,initPos,0)
+		public B_Flame (float direction, float speed, Vector3 initPos, float deviation)
+			:this(direction,speed,initPos,0,deviation)
 		{}
-		public B_Flame (float direction, float speed, Vector3 initPos, int spriteIndex)
+		public B_Flame (float direction, float speed, Vector3 initPos, int spriteIndex, float deviation)
 			:base(direction,speed,initPos,spriteIndex)
 		{
-			Sprite = new Sprite(Game.Graphics,Game.Textures[12]);
+			Sprite = new Sprite(Game.Graphics,Game.Textures[12],48,70);
+			
+			//spread deviation
+			Dir += (float)(deviation*Game.Rand.NextDouble()*(Game.Rand.Next(2)==1?1:-1));
+			
+			Sprite.Position = worldToSprite();
+			Sprite.Rotation = Dir;
+			Sprite.Center = new Vector2(0.5f,0.5f);
+		}
+		
+		public override void Update (float time)
+		{
+			//ground
+			if (Pos.Y < -Sprite.Width/2f) {
+				Hit = true;
+			}
+			
+			base.Update (time);
+			
+			//checks despawn
+			if (DeltaTime > 1) {
+				Despawn = true;
+			}
+		}
+		public override void Render ()
+		{
+			Sprite.SetColor(1f,1f,1f,1-DeltaTime);
+			base.Render ();
 		}
 	}
 }

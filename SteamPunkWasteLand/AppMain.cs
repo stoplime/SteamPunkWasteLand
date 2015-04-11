@@ -50,6 +50,7 @@ namespace SteamPunkWasteLand
 			Game.Graphics = new GraphicsContext ();
 			Game.Running = true;
 			Game.TimeSpeed = 1f;
+			Game.Rand = new Random();
 			Game.GameState = States.MainMenu;
 			Game.Textures = new List<Texture2D>();
 			InitTextures();
@@ -77,11 +78,11 @@ namespace SteamPunkWasteLand
 			
 			Game.Textures.Add(new Texture2D("/Application/assets/Player/Tophat_Sheet.png",false));	//8		Cannon
 			Game.Textures.Add(new Texture2D("/Application/assets/Player/Tophat_Sheet.png",false));	//9		Flamethrower
-			Game.Textures.Add(new Texture2D("/Application/assets/Player/arm.png",false));	//10	Crossbow
+			Game.Textures.Add(new Texture2D("/Application/assets/Player/arm.png",false));			//10	Crossbow
 			
 			Game.Textures.Add(new Texture2D("/Application/assets/Player/Tophat_Sheet.png",false));	//11	Cannon Ball
 			Game.Textures.Add(new Texture2D("/Application/assets/Player/Tophat_Sheet.png",false));	//12	Flame Particle
-			Game.Textures.Add(new Texture2D("/Application/assets/Player/arm.png",false));	//13	Arrows
+			Game.Textures.Add(new Texture2D("/Application/assets/Player/arm.png",false));			//13	Arrows
 			
 		}
 
@@ -96,7 +97,7 @@ namespace SteamPunkWasteLand
 			
 			for (int i = 0; i < Game.PBullets.Count; i++) {
 				Game.PBullets[i].Update(time);
-				if (Game.PBullets[i].DeltaTime > 10) {
+				if (Game.PBullets[i].Despawn) {
 					Game.PBullets.RemoveAt(i);
 				}
 			}
