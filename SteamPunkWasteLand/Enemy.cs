@@ -24,37 +24,78 @@ namespace SteamPunkWasteLand
 	public abstract class Enemy
 	{
 		#region Private Fields
-		private Vector3 pos;
-		private Vector3 vel;
 		
-		private Vector3 target;
+		
+		private float deltaTime;
+		
+		private float deviation;
 		#endregion
 		
 		#region Properties
 		private Sprite sprite;
-		protected Sprite ESprite
+		protected Sprite Sprite
 		{
 			get{return sprite;}
 			set{sprite = value;}
 		}
-		
+		private int spriteIndex;
+		protected int SpriteIndex
+		{
+			get{return spriteIndex;}
+			set{spriteIndex = value;}
+		}
 		private Weapon weapon;
-		protected Weapon EWeapon
+		protected Weapon Weapon
 		{
 			get{return weapon;}
 			set{weapon = value;}
 		}
+		private Vector3 pos;
+		protected Vector3 Pos
+		{
+			get{return pos;}
+			set{pos = value;}
+		}
+		private Vector3 vel;
+		protected Vector3 Vel
+		{
+			get{return vel;}
+			set{vel = value;}
+		}
+		private Vector3 target;
+		protected Vector3 Target
+		{
+			get{return target;}
+			set{target = value;}
+		}
+		private float fireSpeed;
+		protected float FireSpeed
+		{
+			get{return fireSpeed;}
+			set{fireSpeed = value;}
+		}
+		private float aim;
+		protected float Aim
+		{
+			get{return aim;}
+			set{aim = value;}
+		}
+		private float speed;
+		protected float Speed
+		{
+			get{return speed;}
+			set{speed = value;}
+		}
 		#endregion
 		
 		#region Constructor and Init
-		public Enemy ()
+		public Enemy (Vector3 initPos)
 		{
-		}
-		
-		public virtual void Init ()
-		{
-			sprite.Center = new Vector2(0.5f,0.5f);
-			
+			pos = initPos;
+			vel = Vector3.Zero;
+			deltaTime = 0;
+			spriteIndex = 0;
+			deviation = 0.2f;
 		}
 		#endregion
 		
@@ -64,8 +105,10 @@ namespace SteamPunkWasteLand
 			return WorldCoord.WorldToView(new Vector3(pos.X,pos.Y+sprite.Height/2,0));
 		}
 		
-		public virtual void Physics (float time)
+		protected virtual void Physics (float time)
 		{
+			vel -= 9.8f*time;
+			
 			//friction
 			if (pos.Y > 0) {
 				vel.X *= FMath.Pow(0.2f,time);
@@ -87,7 +130,14 @@ namespace SteamPunkWasteLand
 		#region Original Methods
 		public virtual void Update(float time)
 		{
+			deltaTime += time;
 			target = Game.Player1.WorldPos;
+			aim = FMath.Atan2(target.Y-pos.Y,target.X-pos.X)+(float)(deviation*Game.Rand.NextDouble()*(Game.Rand.Next(2)==0?1:-1));
+			
+			if (deltaTime > fireSpeed) {
+				deltaTime = 0;
+				weapon.Fire();
+			}
 			
 			pos += vel * Game.TimeSpeed;
 			

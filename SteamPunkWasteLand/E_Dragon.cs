@@ -23,7 +23,8 @@ namespace SteamPunkWasteLand
 {
 	public class E_Dragon : Enemy
 	{
-		public E_Dragon ()
+		public E_Dragon (Vector3 initPos)
+			:base(initPos)
 		{
 		}
 	}

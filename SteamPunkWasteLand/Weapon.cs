@@ -31,7 +31,7 @@ namespace SteamPunkWasteLand
 		
 		#region Properties
 		private Sprite sprite;
-		protected Sprite WSprite
+		protected Sprite Sprite
 		{
 			get{return sprite;}
 			set{sprite = value;}
@@ -81,7 +81,7 @@ namespace SteamPunkWasteLand
 			aim = 0;
 			spriteIndex = 0;
 			deltaTime = 10;
-			fireSpd = 1f;// 1sec
+			
 		}
 		#endregion
 		

@@ -27,9 +27,9 @@ namespace SteamPunkWasteLand
 		{
 			Type = WeaponType.CrossBow;
 			
-			WSprite = new Sprite(Game.Graphics,Game.Textures[10],76,24);
-			WSprite.Center = new Vector2(0.5f,0.5f);
-			
+			Sprite = new Sprite(Game.Graphics,Game.Textures[10],76,24);
+			Sprite.Center = new Vector2(0.5f,0.5f);
+			FireSpd = 0.5f;
 		}
 		
 		public override void Fire ()

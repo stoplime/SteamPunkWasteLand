@@ -37,6 +37,13 @@ namespace SteamPunkWasteLand
 		
 		public override void Update (float time)
 		{
+			//flip arrow head
+			if (SpriteIndex == 0) {
+				Sprite.Center = new Vector2(0.9f,0.5f);
+			}else{
+				Sprite.Center = new Vector2(0.1f,0.5f);
+			}
+			
 			//gravity
 			float Vy = Speed*FMath.Sin(Dir)+500f*time*(SpriteIndex==0?1:-1);
 			float Vx = Speed*FMath.Cos(Dir);
@@ -44,7 +51,7 @@ namespace SteamPunkWasteLand
 			Dir = FMath.Atan2(Vy,Vx);
 			
 			//ground
-			if (Pos.Y < -Sprite.Width/2f) {
+			if (Pos.Y < 0) {
 				Hit = true;
 			}
 			

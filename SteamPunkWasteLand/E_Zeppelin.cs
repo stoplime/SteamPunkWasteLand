@@ -23,10 +23,11 @@ namespace SteamPunkWasteLand
 {
 	public class E_Zeppelin : Enemy
 	{
-		public E_Zeppelin ()
+		public E_Zeppelin (Vector3 initPos)
+			:base(initPos)
 		{
-			//ESprite = new Sprite(Game.Graphics,Game.Textures[5],48,70);
-			//EWeapon = new W_Cannon();
+			//Sprite = new Sprite(Game.Graphics,Game.Textures[5],48,70);
+			//Weapon = new W_Cannon();
 		}
 	}
 }

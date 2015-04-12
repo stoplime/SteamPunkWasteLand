@@ -23,8 +23,28 @@ namespace SteamPunkWasteLand
 {
 	public class E_Guard : Enemy
 	{
-		public E_Guard ()
+		public E_Guard (Vector3 initPos)
+			:base(initPos)
 		{
+			Weapon = new W_CrossBow();
+			
+			Sprite = new Sprite(Game.Graphics,Game.Textures[5],48,70);
+			Sprite.Center = new Vector2(0.5f,0.5f);
+			Sprite.Position = worldToSprite();
+			
+			FireSpeed = 1f;
+		}
+		
+		public override void Update (float time)
+		{
+			Weapon.Update(time,Aim,new Vector3(Pos.X+((SpriteIndex == 1)? 10:-10),Pos.Y,0),SpriteIndex);
+			
+			float Vx = ((Target.X-Pos.X >= 0)?1:-1)*Speed;
+			
+			Vel = new Vector3(Vx,Vel.Y-9.8f*time,0);
+			Physics(time);
+			
+			base.Update (time);
 		}
 	}
 }

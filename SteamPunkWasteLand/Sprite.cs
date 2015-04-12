@@ -67,13 +67,13 @@ namespace SteamPunkWasteLand
 		public float Width 
 		{
 			get { return width * Scale.X;}
-			set { width = value;}
+			set { width = value/Scale.X;}
 		}
 
 		public float Height 
 		{
 			get { return height * Scale.Y;}
-			set { height = value;}
+			set { height = value/Scale.Y;}
 		}
 
 		public Sprite(GraphicsContext graphics, Texture2D texture, float width, float height)

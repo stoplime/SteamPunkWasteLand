@@ -27,8 +27,8 @@ namespace SteamPunkWasteLand
 		{
 			Type = WeaponType.Flamethrower;
 			
-			WSprite = new Sprite(Game.Graphics,Game.Textures[9],48,70);
-			WSprite.Center = new Vector2(0.5f,0.5f);
+			Sprite = new Sprite(Game.Graphics,Game.Textures[9],48,70);
+			Sprite.Center = new Vector2(0.5f,0.5f);
 			FireSpd = 0.05f;
 		}
 		
