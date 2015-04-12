@@ -38,7 +38,7 @@ namespace SteamPunkWasteLand
 				DeltaTime = 0;
 				Vector3 firePos = new Vector3(
 					ExtendArc(Pos.X,32f,Aim,0f,SpriteIndex,true),
-					ExtendArc(Pos.Y,32f,Aim,0f,SpriteIndex,false),0);
+					ExtendArc(Pos.Y-3,32f,Aim,0f,SpriteIndex,false),0);
 				B_Arrow b = new B_Arrow(-Aim, 500f, firePos,SpriteIndex);
 				Game.PBullets.Add(b);
 			}

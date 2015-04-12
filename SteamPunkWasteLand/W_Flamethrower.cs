@@ -27,9 +27,9 @@ namespace SteamPunkWasteLand
 		{
 			Type = WeaponType.Flamethrower;
 			
-			Sprite = new Sprite(Game.Graphics,Game.Textures[9],48,70);
+			Sprite = new Sprite(Game.Graphics,Game.Textures[9],52,14);
 			Sprite.Center = new Vector2(0.5f,0.5f);
-			FireSpd = 0.05f;
+			FireSpd = 0.02f;
 		}
 		
 		public override void Fire ()
@@ -37,10 +37,12 @@ namespace SteamPunkWasteLand
 			if (DeltaTime > FireSpd) {
 				DeltaTime = 0;
 				Vector3 firePos = new Vector3(
-					ExtendArc(Pos.X,15f,Aim,0.588f,SpriteIndex,true),
-					ExtendArc(Pos.Y,15f,Aim,0.588f,SpriteIndex,false),0);
+					ExtendArc(Pos.X,25.3f,Aim,-0.161f,SpriteIndex,true),
+					ExtendArc(Pos.Y-8,25.3f,Aim,-0.161f,SpriteIndex,false),0);
 				B_Flame b = new B_Flame(-Aim, 200f, firePos, SpriteIndex, 0.3f);
+				B_Flame b2= new B_Flame(-Aim, 200f, firePos, SpriteIndex, 0.3f);
 				Game.PBullets.Add(b);
+				Game.PBullets.Add(b2);
 			}
 		}
 	}

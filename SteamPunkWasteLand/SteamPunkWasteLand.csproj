@@ -88,5 +88,7 @@
     <Content Include="assets\Player\arm.png" />
     <Content Include="assets\Weapons\Crossbow.png" />
     <Content Include="assets\Weapons\Arrow.png" />
+    <Content Include="assets\Weapons\Flamethrower.png" />
+    <Content Include="assets\Weapons\Flame.png" />
   </ItemGroup>
 </Project>

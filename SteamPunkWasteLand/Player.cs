@@ -95,9 +95,9 @@ namespace SteamPunkWasteLand
 			
 			//friction
 			if (worldPos.Y > 0) {
-				vel.X *= FMath.Pow(0.2f,time);
+				vel.X *= FMath.Pow(0.02f,time);
 			}else{
-				vel.X *= FMath.Pow(0.001f,time);
+				vel.X *= FMath.Pow(0.00001f,time);
 			}
 			if (FMath.Abs(vel.X) < 0.05f) {
 				vel.X = 0;

@@ -29,7 +29,7 @@ namespace SteamPunkWasteLand
 		public B_Flame (float direction, float speed, Vector3 initPos, int spriteIndex, float deviation)
 			:base(direction,speed,initPos,spriteIndex)
 		{
-			Sprite = new Sprite(Game.Graphics,Game.Textures[12],48,70);
+			Sprite = new Sprite(Game.Graphics,Game.Textures[12],16,16);
 			
 			//spread deviation
 			Dir += (float)(deviation*Game.Rand.NextDouble()*(Game.Rand.Next(2)==1?1:-1));
