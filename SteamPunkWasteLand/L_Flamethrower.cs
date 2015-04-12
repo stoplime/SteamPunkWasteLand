@@ -21,28 +21,18 @@ using Sce.PlayStation.Core;
 
 namespace SteamPunkWasteLand
 {
-	public class W_Flamethrower : Weapon
+	public class L_Flamethrower : Loot
 	{
-		public W_Flamethrower ()
+		public L_Flamethrower (Vector3 initPos)
+			:base(initPos)
 		{
 			Type = WeaponType.Flamethrower;
 			
-			WSprite = new Sprite(Game.Graphics,Game.Textures[9],48,70);
-			WSprite.Center = new Vector2(0.5f,0.5f);
-			FireSpd = 0.05f;
+			Sprite = new Sprite(Game.Graphics,Game.Textures[6],48,70);
+			Sprite.Center = new Vector2(0.5f,0.5f);
+			Sprite.Position = worldToSprite();
 		}
 		
-		public override void Fire ()
-		{
-			if (DeltaTime > FireSpd) {
-				DeltaTime = 0;
-				Vector3 firePos = new Vector3(
-					ExtendArc(Pos.X,15f,Aim,0.588f,SpriteIndex,true),
-					ExtendArc(Pos.Y,15f,Aim,0.588f,SpriteIndex,false),0);
-				B_Flame b = new B_Flame(-Aim, 200f, firePos, SpriteIndex, 0.3f);
-				Game.PBullets.Add(b);
-			}
-		}
+		
 	}
 }
-

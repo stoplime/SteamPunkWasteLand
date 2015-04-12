@@ -66,6 +66,12 @@ namespace SteamPunkWasteLand
 			get{return deltaTime;}
 			set{deltaTime = value;}
 		}
+		private WeaponType type;
+		public WeaponType Type
+		{
+			get{return type;}
+			set{type = value;}
+		}
 		#endregion
 		
 		#region Constructor
