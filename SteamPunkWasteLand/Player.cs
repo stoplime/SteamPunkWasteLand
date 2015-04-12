@@ -45,6 +45,7 @@ namespace SteamPunkWasteLand
 		private float timer;
 		
 		private Weapon weapon;
+		private int weaponIndex;
 		
 		#endregion
 		
@@ -74,7 +75,6 @@ namespace SteamPunkWasteLand
 			sprite.Position = worldToSprite();
 			sprite.Center = new Vector2(0.5f,0.5f);
 			
-			weapon = new W_Cannon();
 			
 			armSprite = new Sprite(Game.Graphics,Game.Textures[4],48,70);
 			armSprite.Center = sprite.Center;
@@ -115,6 +115,11 @@ namespace SteamPunkWasteLand
 		public void Update(GamePadData gpd, float time)
 		{
 			timer += time*FMath.Abs(vel.X)/3;
+			
+			if (weapon == null && Game.ObtainedWeapons.Count > 0) {
+				weapon = Game.ObtainedWeapons[0];
+			}
+			
 			//movements
 			if ((gpd.Buttons & GamePadButtons.Right) != 0) {
 				vel.X = SPEED*time/Game.TimeSpeed;
@@ -134,17 +139,41 @@ namespace SteamPunkWasteLand
 				if (worldPos.Y < 1+sprite.Height/2)
 					vel.Y = JUMP;
 			}
+			//rotate arm
 			if ((gpd.Buttons & GamePadButtons.Circle) != 0) {
 				aim -= ARM_SPD*time;
 			}
 			if ((gpd.Buttons & GamePadButtons.Square) != 0) {
 				aim += ARM_SPD*time;
 			}
+			//switch weapons
+			if ((gpd.Buttons & GamePadButtons.L) != 0 && (gpd.ButtonsPrev & GamePadButtons.L) == 0) {
+				if (weaponIndex > 0) {
+					weaponIndex--;
+				}else{
+					weaponIndex = Game.ObtainedWeapons.Count-1;
+				}
+			}
+			if ((gpd.Buttons & GamePadButtons.R) != 0 && (gpd.ButtonsPrev & GamePadButtons.R) == 0) {
+				if (weaponIndex < Game.ObtainedWeapons.Count-1) {
+					weaponIndex++;
+				}else{
+					weaponIndex = 0;
+				}
+			}
+			//fire
 			if ((gpd.Buttons & GamePadButtons.Cross) != 0) {
-				weapon.Fire();
+				if (Game.ObtainedWeapons.Count > 0) {
+					weapon.Fire();
+				}
 			}
 			
 			Physics(time);
+			
+			//switch weapons
+			if (weaponIndex >= 0 && Game.ObtainedWeapons.Count > 0) {
+				weapon = Game.ObtainedWeapons[weaponIndex];
+			}
 			
 			//update pos
 			worldPos += vel * /*time*65;//*/Game.TimeSpeed;
@@ -178,7 +207,9 @@ namespace SteamPunkWasteLand
 			armSprite.Position.X+=(spriteIndexY == 1)? 10:-10;
 			armSprite.Rotation = -aim;
 			
-			weapon.Update(time, aim, new Vector3(worldPos.X+((spriteIndexY == 1)? 10:-10),worldPos.Y-sprite.Height/2,0),spriteIndexY);
+			if (weapon != null){
+				weapon.Update(time, aim, new Vector3(worldPos.X+((spriteIndexY == 1)? 10:-10),worldPos.Y-sprite.Height/2,0),spriteIndexY);
+			}
 		}
 		
 		public void Render()
@@ -187,7 +218,9 @@ namespace SteamPunkWasteLand
 			armSprite.SetTextureCoord(armSprite.Width*spriteIndexY,0,(spriteIndexY+1)*armSprite.Width,armSprite.Height);
 			sprite.Render();
 			armSprite.Render();
-			weapon.Render();
+			if (weapon != null){
+				weapon.Render();
+			}
 		}
 		#endregion
 	}

@@ -61,6 +61,13 @@ namespace SteamPunkWasteLand
 			
 			Game.Player1 = new Player();
 			Game.PBullets = new List<Bullet>();
+			Game.ObtainedWeapons = new List<Weapon>();
+			
+			Game.Loots = new List<Loot>();
+			L_CrossBow l = new L_CrossBow(new Vector3(-200, 300,0));
+			L_Flamethrower ll = new L_Flamethrower(new Vector3(200, 300,0));
+			Game.Loots.Add(l);
+			Game.Loots.Add(ll);
 		}
 
 		public static void InitTextures ()
@@ -102,6 +109,35 @@ namespace SteamPunkWasteLand
 				}
 			}
 			
+			for (int i = 0; i < Game.Loots.Count; i++) {
+				Game.Loots[i].Update(time);
+				if (Game.Loots[i].CheckPlayer()) {
+					bool has = false;
+					foreach(Weapon w in Game.ObtainedWeapons){
+						if (w.Type == Game.Loots[i].Type) {
+							has = true;
+							//resupply ammo
+						}
+					}
+					if (!has) {
+						switch (Game.Loots[i].Type) {
+						case WeaponType.CrossBow:
+							Game.ObtainedWeapons.Add(new W_CrossBow());
+							break;
+						case WeaponType.Flamethrower:
+							Game.ObtainedWeapons.Add(new W_Flamethrower());
+							break;
+						case WeaponType.Cannon:
+							Game.ObtainedWeapons.Add(new W_Cannon());
+							break;
+						}
+					}
+				}
+				if (Game.Loots[i].Despawn) {
+					Game.Loots.RemoveAt(i);
+				}
+			}
+			
 			WorldCoord.UpdateFocus(time);
 			Game.BgCloud.Update();
 			Game.BgGround.Update();
@@ -120,6 +156,10 @@ namespace SteamPunkWasteLand
 			
 			foreach(Bullet b in Game.PBullets){
 				b.Render();
+			}
+			
+			foreach(Loot l in Game.Loots){
+				l.Render();
 			}
 			
 			Game.Graphics.SwapBuffers ();

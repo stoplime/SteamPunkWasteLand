@@ -18,37 +18,22 @@
 using System;
 using System.Collections.Generic;
 using Sce.PlayStation.Core;
-using Sce.PlayStation.Core.Environment;
-using Sce.PlayStation.Core.Graphics;
-using Sce.PlayStation.Core.Input;
 
 namespace SteamPunkWasteLand
 {
-	public enum States {
-		MainMenu,
-		Play,
-		HighScore,
-		Name
-	}
-	
-	public static class Game
+	public class L_CrossBow : Loot
 	{
-		public static bool Running;
-		public static GraphicsContext Graphics;
-		public static Random Rand;
-		public static States GameState;
-		public static float TimeSpeed;
+		public L_CrossBow (Vector3 initPos)
+			:base(initPos)
+		{
+			Type = WeaponType.CrossBow;
+			
+			Sprite = new Sprite(Game.Graphics,Game.Textures[5],48,70);
+			Sprite.Center = new Vector2(0.5f,0.5f);
+			Sprite.Position = worldToSprite();
+		}
 		
-		public static Background BgSky,BgGround,BgCloud;
-		public static Player Player1;
 		
-		
-		public static List<Loot> Loots;
-		public static List<Enemy> Enemies;
-		public static List<Bullet> PBullets;
-		
-		public static List<Texture2D> Textures;
-		public static List<Weapon> ObtainedWeapons;
 	}
 }
 

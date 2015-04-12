@@ -58,6 +58,10 @@
     <Compile Include="B_Arrow.cs" />
     <Compile Include="B_CannonBall.cs" />
     <Compile Include="B_Flame.cs" />
+    <Compile Include="Loot.cs" />
+    <Compile Include="L_CrossBow.cs" />
+    <Compile Include="L_Flamethrower.cs" />
+    <Compile Include="L_Cannon.cs" />
   </ItemGroup>
   <ItemGroup>
     <ShaderProgram Include="shaders\Simple.fcg" />
