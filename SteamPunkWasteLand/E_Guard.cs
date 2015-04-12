@@ -26,25 +26,54 @@ namespace SteamPunkWasteLand
 		public E_Guard (Vector3 initPos)
 			:base(initPos)
 		{
+			Hp = 100;
 			Weapon = new W_CrossBow();
 			
-			Sprite = new Sprite(Game.Graphics,Game.Textures[5],48,70);
+			Sprite = new Sprite(Game.Graphics,Game.Textures[7],48,70);
 			Sprite.Center = new Vector2(0.5f,0.5f);
 			Sprite.Position = worldToSprite();
 			
 			FireSpeed = 1f;
+			Speed = 0.50f;
 		}
 		
 		public override void Update (float time)
 		{
-			Weapon.Update(time,Aim,new Vector3(Pos.X+((SpriteIndex == 1)? 10:-10),Pos.Y,0),SpriteIndex);
 			
-			float Vx = ((Target.X-Pos.X >= 0)?1:-1)*Speed;
+			bool right = false;
+			if (Target.X-Pos.X >= 0) {
+				SpriteIndex = 0;
+				right = true;
+			}else{
+				SpriteIndex = 1;
+			}
 			
+			float distSq = Target.DistanceSquared(Pos);
+			if(distSq > 900 && distSq < 250000){
+				Firing = true;
+				if (SpriteIndex == 1) {
+					Aim -= 0.004f*distSq/2500f;
+				}else{
+					Aim += 0.004f*distSq/2500f;
+				}
+			}else{
+				Firing = false;
+			}
+			Weapon.Update(time,((SpriteIndex == 1)? Aim+FMath.PI:Aim),new Vector3(Pos.X+((SpriteIndex == 1)? 10:-10),Pos.Y+Sprite.Height/2,0),SpriteIndex);
+			float Vx = 0;
+			if(distSq > 25000){
+				Vx = ((right)?1:-1)*Speed;
+			}
 			Vel = new Vector3(Vx,Vel.Y-9.8f*time,0);
 			Physics(time);
 			
 			base.Update (time);
+		}
+		
+		public override void Render ()
+		{
+			Sprite.SetTextureCoord(0,SpriteIndex*Sprite.Height,Sprite.Width,(SpriteIndex+1)*Sprite.Height);
+			base.Render ();
 		}
 	}
 }

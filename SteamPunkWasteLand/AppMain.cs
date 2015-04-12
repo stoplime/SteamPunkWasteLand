@@ -68,6 +68,11 @@ namespace SteamPunkWasteLand
 			L_Flamethrower ll = new L_Flamethrower(new Vector3(200, 300,0));
 			Game.Loots.Add(l);
 			Game.Loots.Add(ll);
+			
+			Game.EBullets = new List<Bullet>();
+			Game.Enemies = new List<Enemy>();
+			E_Guard g = new E_Guard(new Vector3(200,50,0));
+			Game.Enemies.Add(g);
 		}
 
 		public static void InitTextures ()
@@ -93,22 +98,8 @@ namespace SteamPunkWasteLand
 			
 		}
 
-		public static void Update (float time)
+		public static void LootUpdate (float time)
 		{
-			var gamePadData = GamePad.GetData (0);
-			if ((gamePadData.Buttons & GamePadButtons.Select) != 0) {
-				Game.Running = false;
-			}
-			Game.Player1.Update(gamePadData,time);
-			WorldCoord.FocusObject = Game.Player1.WorldPos;
-			
-			for (int i = 0; i < Game.PBullets.Count; i++) {
-				Game.PBullets[i].Update(time);
-				if (Game.PBullets[i].Despawn) {
-					Game.PBullets.RemoveAt(i);
-				}
-			}
-			
 			for (int i = 0; i < Game.Loots.Count; i++) {
 				Game.Loots[i].Update(time);
 				if (Game.Loots[i].CheckPlayer()) {
@@ -137,6 +128,64 @@ namespace SteamPunkWasteLand
 					Game.Loots.RemoveAt(i);
 				}
 			}
+		}
+
+		public static void Update (float time)
+		{
+			var gamePadData = GamePad.GetData (0);
+			if ((gamePadData.Buttons & GamePadButtons.Select) != 0) {
+				Game.Running = false;
+			}
+			Game.Player1.Update(gamePadData,time);
+			WorldCoord.FocusObject = Game.Player1.WorldPos;
+			
+			float pDist = (Game.Player1.Sprite.Width+Game.Player1.Sprite.Height)/4f;
+			float pDistSq = pDist*pDist;
+			for (int i = 0; i < Game.EBullets.Count; i++) {
+				if (!Game.EBullets[i].Hit) {
+					if ((Game.Player1.WorldPos).DistanceSquared(Game.EBullets[i].Pos) < pDistSq) 
+					{
+						Game.EBullets[i].CollideWithPlayer();
+						Game.Player1.CollideWithB(Game.EBullets[i]);
+					}
+				}
+			}
+			
+			for (int i = 0; i < Game.Enemies.Count; i++) {
+				Game.Enemies[i].Update(time);
+				//bullet collision
+				for (int j = 0; j < Game.PBullets.Count; j++) {
+					if (!Game.PBullets[j].Hit) {
+						float dist = (Game.Enemies[i].Sprite.Width+Game.Enemies[i].Sprite.Height)/4f;
+						float distSq = dist * dist;
+						if ((Game.Enemies[i].Pos+
+						     new Vector3(0,Game.Enemies[i].Sprite.Height/2,0)
+						     ).DistanceSquared(Game.PBullets[j].Pos) < distSq) 
+						{
+							//hit
+							Game.Enemies[i].CollideWithB(Game.PBullets[j]);
+							Game.PBullets[j].CollideWithE(Game.Enemies[i]);
+						}
+					}
+				}
+			}
+			
+			for (int i = 0; i < Game.EBullets.Count; i++) {
+				Game.EBullets[i].Update(time);
+				if (Game.EBullets[i].Despawn) {
+					Game.EBullets.RemoveAt(i);
+				}
+			}
+			
+			for (int i = 0; i < Game.PBullets.Count; i++) {
+				Game.PBullets[i].Update(time);
+				if (Game.PBullets[i].Despawn) {
+					Game.PBullets.RemoveAt(i);
+				}
+			}
+			
+			LootUpdate(time);
+			
 			
 			WorldCoord.UpdateFocus(time);
 			Game.BgCloud.Update();
@@ -154,7 +203,15 @@ namespace SteamPunkWasteLand
 			
 			Game.Player1.Render();
 			
+			foreach(Enemy e in Game.Enemies){
+				e.Render();
+			}
+			
 			foreach(Bullet b in Game.PBullets){
+				b.Render();
+			}
+			
+			foreach(Bullet b in Game.EBullets){
 				b.Render();
 			}
 			

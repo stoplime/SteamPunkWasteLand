@@ -32,16 +32,14 @@ namespace SteamPunkWasteLand
 			FireSpd = 1f;
 		}
 		
-		public override void Fire ()
+		public override Bullet Fire ()
 		{
-			if (DeltaTime > FireSpd) {
-				DeltaTime = 0;
-				Vector3 firePos = new Vector3(
-					ExtendArc(Pos.X,15f,Aim,0.588f,SpriteIndex,true),
-					ExtendArc(Pos.Y-Sprite.Height/2,15f,Aim,0.588f,SpriteIndex,false),0);
-				B_CannonBall b = new B_CannonBall(-Aim, 500f, firePos, SpriteIndex);
-				Game.PBullets.Add(b);
-			}
+			DeltaTime = 0;
+			Vector3 firePos = new Vector3(
+				ExtendArc(Pos.X,15f,Aim,0.588f,SpriteIndex,true),
+				ExtendArc(Pos.Y-Sprite.Height/2,15f,Aim,0.588f,SpriteIndex,false),0);
+			B_CannonBall b = new B_CannonBall(-Aim, 500f, firePos, SpriteIndex);
+			return b;
 		}
 	}
 }

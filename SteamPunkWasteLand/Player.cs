@@ -28,14 +28,16 @@ namespace SteamPunkWasteLand
 		public const float SPEED = 435f;
 		public const float JUMP = 6.0f;
 		public const float ACCEL = 10f;
+		public const float MAX_HP = 500;
 		
 		public const float GRAVITY = 9.8f;
-		public const float ARM_SPD = 8f;
+		public const float ARM_SPD = 4f;
+		public const float HitDelay = 0.5f;
 		#endregion
 		
 		#region Private Fields
 		private float Swidth = Game.Graphics.Screen.Width;
-		private Sprite sprite;
+		
 		private Sprite armSprite;
 		
 		private Vector3 vel;
@@ -47,19 +49,35 @@ namespace SteamPunkWasteLand
 		private Weapon weapon;
 		private int weaponIndex;
 		
+		private float hitTime;
 		#endregion
 		
 		#region Properties
+		private Sprite sprite;
+		public Sprite Sprite
+		{
+			get{return sprite;}
+			set{sprite = value;}
+		}
 		private Vector3 worldPos;
-		public Vector3 WorldPos {
+		public Vector3 WorldPos 
+		{
 			get {return worldPos;}
 			set {worldPos = value;}
 		}
 		
 		private float aim;
-		public float Aim{
+		public float Aim
+		{
 			get{return aim;}
 			set{aim = value;}
+		}
+		
+		private float hp;
+		public float Hp
+		{
+			get{return hp;}
+			set{hp = value;}
 		}
 		#endregion
 		
@@ -69,6 +87,8 @@ namespace SteamPunkWasteLand
 			sprite = new Sprite(Game.Graphics,Game.Textures[3],48,70);
 			worldPos = Vector3.Zero;
 			vel = Vector3.Zero;
+			hp = MAX_HP;
+			hitTime = HitDelay;
 			
 			spriteIndex = 0;
 			timer = 0;
@@ -109,11 +129,19 @@ namespace SteamPunkWasteLand
 				worldPos.Y = sprite.Height/2;
 			}
 		}
+		
+		public void CollideWithB (Bullet b)
+		{
+			hp -= b.Damage;
+			hitTime = 0;
+			
+		}
 		#endregion
 		
 		#region Original Methods
 		public void Update(GamePadData gpd, float time)
 		{
+			hitTime += time;
 			timer += time*FMath.Abs(vel.X)/3;
 			
 			if (weapon == null && Game.ObtainedWeapons.Count > 0) {
@@ -141,10 +169,18 @@ namespace SteamPunkWasteLand
 			}
 			//rotate arm
 			if ((gpd.Buttons & GamePadButtons.Circle) != 0) {
-				aim -= ARM_SPD*time;
+				if (spriteIndexY == 1) {
+					aim -= ARM_SPD*time;	
+				}else{
+					aim += ARM_SPD*time;
+				}
 			}
 			if ((gpd.Buttons & GamePadButtons.Square) != 0) {
-				aim += ARM_SPD*time;
+				if (spriteIndexY == 0) {
+					aim -= ARM_SPD*time;	
+				}else{
+					aim += ARM_SPD*time;
+				}
 			}
 			//switch weapons
 			if ((gpd.Buttons & GamePadButtons.L) != 0 && (gpd.ButtonsPrev & GamePadButtons.L) == 0) {
@@ -164,7 +200,9 @@ namespace SteamPunkWasteLand
 			//fire
 			if ((gpd.Buttons & GamePadButtons.Cross) != 0) {
 				if (Game.ObtainedWeapons.Count > 0) {
-					weapon.Fire();
+					if (weapon.Delay()) {
+						Game.PBullets.Add(weapon.Fire());
+					}
 				}
 			}
 			
@@ -214,6 +252,11 @@ namespace SteamPunkWasteLand
 		
 		public void Render()
 		{
+			if (hitTime < HitDelay){
+				sprite.SetColor(1,0.5f,0.5f,1);
+			}else{
+				sprite.SetColor(1,1,1,1);
+			}
 			sprite.SetTextureCoord(sprite.Width*spriteIndex,sprite.Height*spriteIndexY,(spriteIndex+1)*sprite.Width,(spriteIndexY+1)*sprite.Height);
 			armSprite.SetTextureCoord(armSprite.Width*spriteIndexY,0,(spriteIndexY+1)*armSprite.Width,armSprite.Height);
 			sprite.Render();

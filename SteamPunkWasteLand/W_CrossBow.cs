@@ -23,6 +23,8 @@ namespace SteamPunkWasteLand
 {
 	public class W_CrossBow : Weapon
 	{
+		private const float deviation = 0.05f;
+		
 		public W_CrossBow ()
 		{
 			Type = WeaponType.CrossBow;
@@ -32,16 +34,16 @@ namespace SteamPunkWasteLand
 			FireSpd = 0.5f;
 		}
 		
-		public override void Fire ()
+		public override Bullet Fire ()
 		{
-			if (DeltaTime > FireSpd){
-				DeltaTime = 0;
-				Vector3 firePos = new Vector3(
-					ExtendArc(Pos.X,32f,Aim,0f,SpriteIndex,true),
-					ExtendArc(Pos.Y-3,32f,Aim,0f,SpriteIndex,false),0);
-				B_Arrow b = new B_Arrow(-Aim, 500f, firePos,SpriteIndex);
-				Game.PBullets.Add(b);
-			}
+			DeltaTime = 0;
+			Vector3 firePos = new Vector3(
+				ExtendArc(Pos.X,32f,Aim,0f,SpriteIndex,true),
+				ExtendArc(Pos.Y-3,32f,Aim,0f,SpriteIndex,false),0);
+			float unSteady = -Aim+deviation*(Game.Rand.Next(2)==0?1:-1)*(float)Game.Rand.NextDouble();
+			B_Arrow b = new B_Arrow(unSteady, 500f, firePos,SpriteIndex);
+			return b;
+			
 		}
 	}
 }

@@ -27,13 +27,14 @@ namespace SteamPunkWasteLand
 		
 		
 		private float deltaTime;
-		
-		private float deviation;
+		private bool hit;
+		private const float HitDelay = 0.5f;
+		private float hitTime;
 		#endregion
 		
 		#region Properties
 		private Sprite sprite;
-		protected Sprite Sprite
+		public Sprite Sprite
 		{
 			get{return sprite;}
 			set{sprite = value;}
@@ -51,7 +52,7 @@ namespace SteamPunkWasteLand
 			set{weapon = value;}
 		}
 		private Vector3 pos;
-		protected Vector3 Pos
+		public Vector3 Pos
 		{
 			get{return pos;}
 			set{pos = value;}
@@ -74,6 +75,12 @@ namespace SteamPunkWasteLand
 			get{return fireSpeed;}
 			set{fireSpeed = value;}
 		}
+		private bool firing;
+		protected bool Firing
+		{
+			get{return firing;}
+			set{firing = value;}
+		}
 		private float aim;
 		protected float Aim
 		{
@@ -86,6 +93,13 @@ namespace SteamPunkWasteLand
 			get{return speed;}
 			set{speed = value;}
 		}
+		private float hp;
+		public float Hp
+		{
+			get{return hp;}
+			set{hp = value;}
+		}
+		
 		#endregion
 		
 		#region Constructor and Init
@@ -95,7 +109,8 @@ namespace SteamPunkWasteLand
 			vel = Vector3.Zero;
 			deltaTime = 0;
 			spriteIndex = 0;
-			deviation = 0.2f;
+			firing = false;
+			hitTime = HitDelay;
 		}
 		#endregion
 		
@@ -107,22 +122,31 @@ namespace SteamPunkWasteLand
 		
 		protected virtual void Physics (float time)
 		{
-			vel -= 9.8f*time;
+			vel.Y -= 9.8f*time;
 			
 			//friction
-			if (pos.Y > 0) {
-				vel.X *= FMath.Pow(0.2f,time);
-			}else{
-				vel.X *= FMath.Pow(0.001f,time);
-			}
-			if (FMath.Abs(vel.X) < 0.05f) {
-				vel.X = 0;
-			}
+//			if (pos.Y > 0) {
+//				vel.X *= FMath.Pow(0.2f,time);
+//			}else{
+//				vel.X *= FMath.Pow(0.001f,time);
+//			}
+//			if (FMath.Abs(vel.X) < 0.05f) {
+//				vel.X = 0;
+//			}
 			
 			//ground level
 			if(pos.Y < 0){
 				vel.Y = 0;
 				pos.Y = 0;
+			}
+		}
+		
+		public void CollideWithB (Bullet b)
+		{
+			hp -= b.Damage;
+			hitTime = 0;
+			if (pos.Y < 0.5f) {
+				vel.Y = 4f;
 			}
 		}
 		#endregion
@@ -131,12 +155,16 @@ namespace SteamPunkWasteLand
 		public virtual void Update(float time)
 		{
 			deltaTime += time;
+			hitTime += time;
 			target = Game.Player1.WorldPos;
-			aim = FMath.Atan2(target.Y-pos.Y,target.X-pos.X)+(float)(deviation*Game.Rand.NextDouble()*(Game.Rand.Next(2)==0?1:-1));
+			aim = FMath.Atan2(target.Y-pos.Y,target.X-pos.X);
 			
-			if (deltaTime > fireSpeed) {
+			
+			//aim += deviation*FMath.Sin(FMath.PI*2*(float)Game.Rand.NextDouble());
+			
+			if (deltaTime > fireSpeed && firing) {
 				deltaTime = 0;
-				weapon.Fire();
+				Game.EBullets.Add(weapon.Fire());
 			}
 			
 			pos += vel * Game.TimeSpeed;
@@ -146,6 +174,11 @@ namespace SteamPunkWasteLand
 		
 		public virtual void Render()
 		{
+			if (hitTime < HitDelay) {
+				sprite.SetColor(1,0.5f,0.5f,1);
+			}else{
+				sprite.SetColor(1,1,1,1);
+			}
 			sprite.Render();
 			weapon.Render();
 		}

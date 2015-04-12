@@ -102,7 +102,14 @@ namespace SteamPunkWasteLand
 			return s;
 		}
 		
-		public abstract void Fire ();
+		public abstract Bullet Fire ();
+		
+		public bool Delay ()
+		{
+			if (deltaTime > fireSpd)
+				return true;
+			return false;
+		}
 		
 		#endregion
 		
