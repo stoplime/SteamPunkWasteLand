@@ -109,7 +109,7 @@ namespace SteamPunkWasteLand
 		
 		public virtual void Render ()
 		{
-			sprite.SetTextureCoord(sprite.Width*spriteIndex,0,(spriteIndex+1)*sprite.Width,sprite.Height);
+			sprite.SetTextureCoord(0,sprite.Height*spriteIndex,sprite.Width,(spriteIndex+1)*sprite.Height);
 			sprite.Render();
 		}
 	}

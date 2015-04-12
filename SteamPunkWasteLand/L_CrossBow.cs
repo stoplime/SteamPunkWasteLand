@@ -28,7 +28,7 @@ namespace SteamPunkWasteLand
 		{
 			Type = WeaponType.CrossBow;
 			
-			Sprite = new Sprite(Game.Graphics,Game.Textures[5],48,70);
+			Sprite = new Sprite(Game.Graphics,Game.Textures[10],76,24);
 			Sprite.Center = new Vector2(0.5f,0.5f);
 			Sprite.Position = worldToSprite();
 		}

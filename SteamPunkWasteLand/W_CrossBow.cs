@@ -27,7 +27,7 @@ namespace SteamPunkWasteLand
 		{
 			Type = WeaponType.CrossBow;
 			
-			WSprite = new Sprite(Game.Graphics,Game.Textures[10],48,70);
+			WSprite = new Sprite(Game.Graphics,Game.Textures[10],76,24);
 			WSprite.Center = new Vector2(0.5f,0.5f);
 			
 		}
@@ -37,8 +37,8 @@ namespace SteamPunkWasteLand
 			if (DeltaTime > FireSpd){
 				DeltaTime = 0;
 				Vector3 firePos = new Vector3(
-					ExtendArc(Pos.X,15f,Aim,0.588f,SpriteIndex,true),
-					ExtendArc(Pos.Y,15f,Aim,0.588f,SpriteIndex,false),0);
+					ExtendArc(Pos.X,32f,Aim,0f,SpriteIndex,true),
+					ExtendArc(Pos.Y,32f,Aim,0f,SpriteIndex,false),0);
 				B_Arrow b = new B_Arrow(-Aim, 500f, firePos,SpriteIndex);
 				Game.PBullets.Add(b);
 			}

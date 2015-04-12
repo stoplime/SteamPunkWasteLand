@@ -88,7 +88,7 @@ namespace SteamPunkWasteLand
 		#region Additional Methods
 		protected Vector3 worldToSprite ()
 		{
-			return WorldCoord.WorldToView(new Vector3(pos.X,pos.Y+sprite.Height/2,0));
+			return WorldCoord.WorldToView(new Vector3(pos.X,pos.Y,0));
 		}
 		
 		public float ExtendArc (float initPos, float extention, float angle, float phi, int mirror, bool cos)
@@ -126,7 +126,7 @@ namespace SteamPunkWasteLand
 		
 		public virtual void Render ()
 		{
-			sprite.SetTextureCoord(sprite.Width*spriteIndex,0,(spriteIndex+1)*sprite.Width,sprite.Height);
+			sprite.SetTextureCoord(0,sprite.Height*spriteIndex,sprite.Width,(spriteIndex+1)*sprite.Height);
 			sprite.Render();
 		}
 		#endregion

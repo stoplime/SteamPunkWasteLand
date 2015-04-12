@@ -29,10 +29,10 @@ namespace SteamPunkWasteLand
 		public B_Arrow (float direction, float speed, Vector3 initPos, int spriteIndex)
 			:base(direction,speed,initPos,spriteIndex)
 		{
-			Sprite = new Sprite(Game.Graphics,Game.Textures[13],48f,70f);
+			Sprite = new Sprite(Game.Graphics,Game.Textures[13],38,6);
 			Sprite.Position = worldToSprite();
 			Sprite.Rotation = direction;
-			Sprite.Center = new Vector2(0.5f,0.5f);
+			Sprite.Center = new Vector2(0.9f,0.5f);
 		}
 		
 		public override void Update (float time)

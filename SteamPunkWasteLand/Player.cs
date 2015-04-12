@@ -208,7 +208,7 @@ namespace SteamPunkWasteLand
 			armSprite.Rotation = -aim;
 			
 			if (weapon != null){
-				weapon.Update(time, aim, new Vector3(worldPos.X+((spriteIndexY == 1)? 10:-10),worldPos.Y-sprite.Height/2,0),spriteIndexY);
+				weapon.Update(time, aim, new Vector3(worldPos.X+((spriteIndexY == 1)? 10:-10),worldPos.Y,0),spriteIndexY);
 			}
 		}
 		
