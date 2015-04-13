@@ -24,8 +24,6 @@ namespace SteamPunkWasteLand
 	public abstract class Enemy
 	{
 		#region Private Fields
-		
-		
 		private float deltaTime;
 		private bool hit;
 		private const float HitDelay = 0.5f;
@@ -39,6 +37,20 @@ namespace SteamPunkWasteLand
 			get{return sprite;}
 			set{sprite = value;}
 		}
+		private Vector3 pos;
+		public Vector3 Pos
+		{
+			get{return pos;}
+			set{pos = value;}
+		}
+		private float hp;
+		public float Hp
+		{
+			get{return hp;}
+			set{hp = value;}
+		}
+		
+		//protected
 		private int spriteIndex;
 		protected int SpriteIndex
 		{
@@ -50,12 +62,6 @@ namespace SteamPunkWasteLand
 		{
 			get{return weapon;}
 			set{weapon = value;}
-		}
-		private Vector3 pos;
-		public Vector3 Pos
-		{
-			get{return pos;}
-			set{pos = value;}
 		}
 		private Vector3 vel;
 		protected Vector3 Vel
@@ -86,18 +92,6 @@ namespace SteamPunkWasteLand
 		{
 			get{return aim;}
 			set{aim = value;}
-		}
-		private float speed;
-		protected float Speed
-		{
-			get{return speed;}
-			set{speed = value;}
-		}
-		private float hp;
-		public float Hp
-		{
-			get{return hp;}
-			set{hp = value;}
 		}
 		
 		#endregion
@@ -145,7 +139,7 @@ namespace SteamPunkWasteLand
 		{
 			hp -= b.Damage;
 			hitTime = 0;
-			if (pos.Y < 0.5f) {
+			if (pos.Y < 1f) {
 				vel.Y = 4f;
 			}
 		}
@@ -180,7 +174,6 @@ namespace SteamPunkWasteLand
 				sprite.SetColor(1,1,1,1);
 			}
 			sprite.Render();
-			weapon.Render();
 		}
 		#endregion
 	}

@@ -77,6 +77,7 @@
     <Folder Include="assets\" />
     <Folder Include="assets\Player\" />
     <Folder Include="assets\Weapons\" />
+    <Folder Include="assets\Enemies\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\Backgrounds\Cloud1.png" />
@@ -90,5 +91,6 @@
     <Content Include="assets\Weapons\Arrow.png" />
     <Content Include="assets\Weapons\Flamethrower.png" />
     <Content Include="assets\Weapons\Flame.png" />
+    <Content Include="assets\Enemies\dragonTemp.png" />
   </ItemGroup>
 </Project>

@@ -23,9 +23,29 @@ namespace SteamPunkWasteLand
 {
 	public class E_Dragon : Enemy
 	{
+		
 		public E_Dragon (Vector3 initPos)
 			:base(initPos)
 		{
+			Hp = 500;
+			Weapon = new W_Flamethrower();
+			
+			Sprite = new Sprite(Game.Graphics,Game.Textures[6]);
+			Sprite.Center = new Vector2(0.5f,0.5f);
+			Sprite.Position = worldToSprite();
+			
+			FireSpeed = 0f;
+		}
+		
+		public override void Update (float time)
+		{
+			
+			base.Update (time);
+		}
+		
+		public override void Render ()
+		{
+			base.Render();
 		}
 	}
 }

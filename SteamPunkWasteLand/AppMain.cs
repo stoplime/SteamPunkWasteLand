@@ -71,7 +71,7 @@ namespace SteamPunkWasteLand
 			
 			Game.EBullets = new List<Bullet>();
 			Game.Enemies = new List<Enemy>();
-			E_Guard g = new E_Guard(new Vector3(200,50,0));
+			E_Dragon g = new E_Dragon(new Vector3(200,50,0));
 			Game.Enemies.Add(g);
 		}
 
@@ -85,7 +85,7 @@ namespace SteamPunkWasteLand
 			Game.Textures.Add(new Texture2D("/Application/assets/Player/arm.png",false));			//4		Player arm
 			
 			Game.Textures.Add(new Texture2D("/Application/assets/Player/Tophat_Sheet.png",false));	//5		Zeppelin
-			Game.Textures.Add(new Texture2D("/Application/assets/Player/Tophat_Sheet.png",false));	//6		Dragon
+			Game.Textures.Add(new Texture2D("/Application/assets/Enemies/dragonTemp.png",false));	//6		Dragon
 			Game.Textures.Add(new Texture2D("/Application/assets/Player/Tophat_Sheet.png",false));	//7		Imperial Guards
 			
 			Game.Textures.Add(new Texture2D("/Application/assets/Player/arm.png",false));			//8		Cannon

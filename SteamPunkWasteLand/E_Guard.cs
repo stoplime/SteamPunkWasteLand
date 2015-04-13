@@ -23,6 +23,8 @@ namespace SteamPunkWasteLand
 {
 	public class E_Guard : Enemy
 	{
+		private const float SPEED = 0.5f;
+		
 		public E_Guard (Vector3 initPos)
 			:base(initPos)
 		{
@@ -34,7 +36,6 @@ namespace SteamPunkWasteLand
 			Sprite.Position = worldToSprite();
 			
 			FireSpeed = 1f;
-			Speed = 0.50f;
 		}
 		
 		public override void Update (float time)
@@ -62,7 +63,7 @@ namespace SteamPunkWasteLand
 			Weapon.Update(time,((SpriteIndex == 1)? Aim+FMath.PI:Aim),new Vector3(Pos.X+((SpriteIndex == 1)? 10:-10),Pos.Y+Sprite.Height/2,0),SpriteIndex);
 			float Vx = 0;
 			if(distSq > 25000){
-				Vx = ((right)?1:-1)*Speed;
+				Vx = ((right)?1:-1)*SPEED;
 			}
 			Vel = new Vector3(Vx,Vel.Y-9.8f*time,0);
 			Physics(time);
@@ -74,6 +75,7 @@ namespace SteamPunkWasteLand
 		{
 			Sprite.SetTextureCoord(0,SpriteIndex*Sprite.Height,Sprite.Width,(SpriteIndex+1)*Sprite.Height);
 			base.Render ();
+			Weapon.Render();
 		}
 	}
 }
