@@ -23,6 +23,8 @@ namespace SteamPunkWasteLand
 {
 	public class W_Flamethrower : Weapon
 	{
+		private float deviation = 0.05f;
+		
 		public W_Flamethrower ()
 		{
 			Type = WeaponType.Flamethrower;
@@ -38,9 +40,9 @@ namespace SteamPunkWasteLand
 			Vector3 firePos = new Vector3(
 				ExtendArc(Pos.X,25.3f,Aim,-0.161f,SpriteIndex,true),
 				ExtendArc(Pos.Y-8,25.3f,Aim,-0.161f,SpriteIndex,false),0);
-			B_Flame b = new B_Flame(-Aim, 
-			                        200f+vel.Length()*50*FMath.Cos(FMath.Atan2(vel.Y,vel.X*(SpriteIndex==0?1:-1))+Aim), 
-			                        firePos, SpriteIndex, 0.3f);
+			float unSteady = -Aim+deviation*(Game.Rand.Next(2)==0?1:-1)*(float)Game.Rand.NextDouble();
+			float relativeVel = 200f+vel.Length()*50f*FMath.Cos(FMath.Atan2(-vel.Y,vel.X)-((SpriteIndex==0)?unSteady:unSteady-FMath.PI));
+			B_Flame b = new B_Flame(unSteady, relativeVel, firePos, SpriteIndex, 0.3f);
 			return b;
 		}
 	}

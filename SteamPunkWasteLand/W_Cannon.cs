@@ -23,6 +23,8 @@ namespace SteamPunkWasteLand
 {
 	public class W_Cannon : Weapon
 	{
+		public float deviation = 0.05f;
+		
 		public W_Cannon ()
 		{
 			Type = WeaponType.Cannon;
@@ -38,9 +40,9 @@ namespace SteamPunkWasteLand
 			Vector3 firePos = new Vector3(
 				ExtendArc(Pos.X,31.4f,Aim,-0.160f,SpriteIndex,true),
 				ExtendArc(Pos.Y-4,31.4f,Aim,-0.160f,SpriteIndex,false),0);
-			B_CannonBall b = new B_CannonBall(-Aim,
-			                                  500f+vel.Length()*50*FMath.Cos(FMath.Atan2(vel.Y,vel.X*(SpriteIndex==0?1:-1))+Aim),
-			                                  firePos, SpriteIndex);
+			float unSteady = -Aim+deviation*(Game.Rand.Next(2)==0?1:-1)*(float)Game.Rand.NextDouble();
+			float relativeVel = 600f+vel.Length()*30f*FMath.Cos(FMath.Atan2(-vel.Y,vel.X)-((SpriteIndex==0)?unSteady:unSteady-FMath.PI));
+			B_CannonBall b = new B_CannonBall(unSteady, relativeVel, firePos, SpriteIndex);
 			return b;
 		}
 	}

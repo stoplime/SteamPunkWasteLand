@@ -24,6 +24,7 @@ namespace SteamPunkWasteLand
 	public class E_Dragon : Enemy
 	{
 		private Sprite head;
+		private float deltaTime;
 		public E_Dragon (Vector3 initPos)
 			:base(initPos)
 		{
@@ -37,8 +38,9 @@ namespace SteamPunkWasteLand
 			head = new Sprite(Game.Graphics,Game.Textures[15],60,50);
 			head.Center = new Vector2(0.5f,0.5f);
 			
+			deltaTime = 0;
 			FireSpeed = 0f;
-			//SpriteIndex = 1;
+			SpriteIndex = 1;
 		}
 		
 		public float ExtendArc (float initPos, float extention, float angle, float phi, int mirror, bool cos)
@@ -54,6 +56,7 @@ namespace SteamPunkWasteLand
 		
 		public override void Update (float time)
 		{
+			deltaTime += time;
 			Vector3 tempVel = Vel;
 			if (SpriteIndex == 0) {
 				//go right
@@ -61,6 +64,9 @@ namespace SteamPunkWasteLand
 			}else{
 				tempVel.X = -5f;
 			}
+			
+			//sin wave flying
+			tempVel.Y = FMath.Sin(deltaTime)*1.5f;//*0.8f;
 			
 			Vel = tempVel;
 			
@@ -77,7 +83,13 @@ namespace SteamPunkWasteLand
 				Firing = false;
 			}
 			
-			Aim = FMath.Atan2(Target.Y-(Pos.Y+Sprite.Height/2),Target.X-(Pos.X+(SpriteIndex==0?148:-148)));
+			Sprite.Rotation = FMath.Atan2(-tempVel.Y,tempVel.X)+((SpriteIndex==1)?FMath.PI:0);
+			
+			Vector3 weaponPos = new Vector3(
+				ExtendArc(Pos.X,143.087f,-Sprite.Rotation,-0.02951f,SpriteIndex,true),
+				ExtendArc(Pos.Y+Sprite.Height/2,143.087f,-Sprite.Rotation,-0.02951f,SpriteIndex,false),0);
+			
+			Aim = FMath.Atan2(Target.Y-(weaponPos.Y),Target.X-(weaponPos.X));
 			if (SpriteIndex == 0) {
 				if (Aim > FMath.PI/2) {
 					Aim = FMath.PI/2;
@@ -94,14 +106,13 @@ namespace SteamPunkWasteLand
 				}
 			}
 			
-			Weapon.Update(time,((SpriteIndex == 1)? Aim+FMath.PI:Aim),
-			              new Vector3(Pos.X+((SpriteIndex==1)?-143:143),5+Pos.Y+Sprite.Height/2,0),SpriteIndex);
+			Weapon.Update(time,((SpriteIndex == 1)? Aim+FMath.PI:Aim), weaponPos,SpriteIndex);
 			
 			head.Position = new Vector3(
 				ExtendArc(Sprite.Position.X,143.087f,Sprite.Rotation,0.03951f,SpriteIndex,true),
 				ExtendArc(Sprite.Position.Y,143.087f,Sprite.Rotation,0.03951f,SpriteIndex,false),0);
 			
-			head.Rotation = (SpriteIndex==1)?-Aim+FMath.PI+0.45f:-Aim-0.45f;
+			head.Rotation = ((SpriteIndex==1)?-Aim+FMath.PI+0.45f:-Aim-0.45f);
 			
 			base.Update (time);
 		}
