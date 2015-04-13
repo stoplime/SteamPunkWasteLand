@@ -102,7 +102,7 @@ namespace SteamPunkWasteLand
 			return s;
 		}
 		
-		public abstract Bullet Fire ();
+		public abstract Bullet Fire (Vector3 vel);
 		
 		public bool Delay ()
 		{

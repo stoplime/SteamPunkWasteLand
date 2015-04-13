@@ -26,19 +26,25 @@ namespace SteamPunkWasteLand
 		private float explodeDelay;
 		private int spriteIndex;
 		
+		private Sprite explode;
+		
 		public B_CannonBall (float direction, float speed, Vector3 initPos)
 			:this(direction,speed,initPos,0)
 		{}
 		public B_CannonBall (float direction, float speed, Vector3 initPos, int spriteIndex)
 			:base(direction,speed,initPos,spriteIndex)
 		{
-			explodeDelay = 1f;//1sec
+			explodeDelay = 0.5f;//1sec
 			spriteIndex = 0;
 			
-			Sprite = new Sprite(Game.Graphics,Game.Textures[11],48,70);
+			Sprite = new Sprite(Game.Graphics,Game.Textures[11],9,9);
 			Sprite.Position = worldToSprite();
 			Sprite.Rotation = direction;
 			Sprite.Center = new Vector2(0.5f,0.5f);
+			
+			explode = new Sprite(Game.Graphics,Game.Textures[14],32,32);
+			explode.Center = new Vector2(0.5f,0.5f);
+			explode.Position = Sprite.Position;
 		}
 		
 		public override void Update (float time)
@@ -56,6 +62,8 @@ namespace SteamPunkWasteLand
 			
 			//explode
 			if (Hit) {
+				explode.Position = Sprite.Position;
+				Sprite = explode;
 				explodeDelay -= time;
 			}
 			
@@ -70,9 +78,9 @@ namespace SteamPunkWasteLand
 		{
 			if (Hit) {
 				//animate explosion
-				//Sprite.SetTextureCoord();
+				Sprite.SetTextureCoord((5-FMath.Floor(explodeDelay*10))*Sprite.Width,0,(6-FMath.Floor(explodeDelay*10))*Sprite.Width,Sprite.Height);
 			}
-			base.Render ();
+			Sprite.Render();
 		}
 	}
 }

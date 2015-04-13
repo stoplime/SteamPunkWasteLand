@@ -34,14 +34,16 @@ namespace SteamPunkWasteLand
 			FireSpd = 0.005f;
 		}
 		
-		public override Bullet Fire ()
+		public override Bullet Fire (Vector3 vel)
 		{
 			DeltaTime = 0;
 			Vector3 firePos = new Vector3(
 				ExtendArc(Pos.X,32f,Aim,0f,SpriteIndex,true),
 				ExtendArc(Pos.Y-3,32f,Aim,0f,SpriteIndex,false),0);
 			float unSteady = -Aim+deviation*(Game.Rand.Next(2)==0?1:-1)*(float)Game.Rand.NextDouble();
-			B_Arrow b = new B_Arrow(unSteady, 500f, firePos,SpriteIndex);
+			B_Arrow b = new B_Arrow(unSteady,
+			                        500f+vel.Length()*50*FMath.Cos(FMath.Atan2(vel.Y,vel.X*(SpriteIndex==0?1:-1))-unSteady),
+			                        firePos,SpriteIndex);
 			return b;
 			
 		}

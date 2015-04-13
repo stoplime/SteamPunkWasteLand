@@ -158,7 +158,7 @@ namespace SteamPunkWasteLand
 			
 			if (deltaTime > fireSpeed && firing) {
 				deltaTime = 0;
-				Game.EBullets.Add(weapon.Fire());
+				Game.EBullets.Add(weapon.Fire(vel));
 			}
 			
 			pos += vel * Game.TimeSpeed;
@@ -168,6 +168,7 @@ namespace SteamPunkWasteLand
 		
 		public virtual void Render()
 		{
+			sprite.SetTextureCoord(0,spriteIndex*sprite.Height,sprite.Width,(spriteIndex+1)*sprite.Height);
 			if (hitTime < HitDelay) {
 				sprite.SetColor(1,0.5f,0.5f,1);
 			}else{

@@ -60,7 +60,8 @@ namespace SteamPunkWasteLand
 			}else{
 				Firing = false;
 			}
-			Weapon.Update(time,((SpriteIndex == 1)? Aim+FMath.PI:Aim),new Vector3(Pos.X+((SpriteIndex == 1)? 10:-10),Pos.Y+Sprite.Height/2,0),SpriteIndex);
+			Weapon.Update(time,((SpriteIndex == 1)? Aim+FMath.PI:Aim),
+			              new Vector3(Pos.X+((SpriteIndex == 1)? 10:-10),Pos.Y+Sprite.Height/2,0),SpriteIndex);
 			float Vx = 0;
 			if(distSq > 25000){
 				Vx = ((right)?1:-1)*SPEED;
@@ -73,7 +74,7 @@ namespace SteamPunkWasteLand
 		
 		public override void Render ()
 		{
-			Sprite.SetTextureCoord(0,SpriteIndex*Sprite.Height,Sprite.Width,(SpriteIndex+1)*Sprite.Height);
+			
 			base.Render ();
 			Weapon.Render();
 		}

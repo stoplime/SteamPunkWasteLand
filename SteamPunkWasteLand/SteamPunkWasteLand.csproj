@@ -91,6 +91,10 @@
     <Content Include="assets\Weapons\Arrow.png" />
     <Content Include="assets\Weapons\Flamethrower.png" />
     <Content Include="assets\Weapons\Flame.png" />
-    <Content Include="assets\Enemies\dragonTemp.png" />
+    <Content Include="assets\Weapons\CannonBall.png" />
+    <Content Include="assets\Weapons\Cannon.png" />
+    <Content Include="assets\Weapons\explosion_spriteSheet.png" />
+    <Content Include="assets\Enemies\Dragon.png" />
+    <Content Include="assets\Enemies\DragonHead.png" />
   </ItemGroup>
 </Project>

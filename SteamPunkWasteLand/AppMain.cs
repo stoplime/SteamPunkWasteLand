@@ -65,9 +65,11 @@ namespace SteamPunkWasteLand
 			
 			Game.Loots = new List<Loot>();
 			L_CrossBow l = new L_CrossBow(new Vector3(-200, 300,0));
-			L_Flamethrower ll = new L_Flamethrower(new Vector3(200, 300,0));
+			L_Cannon ll = new L_Cannon(new Vector3(200, 300,0));
+			L_Flamethrower lll = new L_Flamethrower(new Vector3(0,600,0));
 			Game.Loots.Add(l);
 			Game.Loots.Add(ll);
+			Game.Loots.Add(lll);
 			
 			Game.EBullets = new List<Bullet>();
 			Game.Enemies = new List<Enemy>();
@@ -85,17 +87,19 @@ namespace SteamPunkWasteLand
 			Game.Textures.Add(new Texture2D("/Application/assets/Player/arm.png",false));			//4		Player arm
 			
 			Game.Textures.Add(new Texture2D("/Application/assets/Player/Tophat_Sheet.png",false));	//5		Zeppelin
-			Game.Textures.Add(new Texture2D("/Application/assets/Enemies/dragonTemp.png",false));	//6		Dragon
+			Game.Textures.Add(new Texture2D("/Application/assets/Enemies/Dragon.png",false));		//6		Dragon
 			Game.Textures.Add(new Texture2D("/Application/assets/Player/Tophat_Sheet.png",false));	//7		Imperial Guards
 			
-			Game.Textures.Add(new Texture2D("/Application/assets/Player/arm.png",false));			//8		Cannon
+			Game.Textures.Add(new Texture2D("/Application/assets/Weapons/Cannon.png",false));		//8		Cannon
 			Game.Textures.Add(new Texture2D("/Application/assets/Weapons/Flamethrower.png",false));	//9		Flamethrower
 			Game.Textures.Add(new Texture2D("/Application/assets/Weapons/Crossbow.png",false));		//10	Crossbow
 			
-			Game.Textures.Add(new Texture2D("/Application/assets/Player/arm.png",false));			//11	Cannon Ball
+			Game.Textures.Add(new Texture2D("/Application/assets/Weapons/CannonBall.png",false));	//11	Cannon Ball
 			Game.Textures.Add(new Texture2D("/Application/assets/Weapons/Flame.png",false));		//12	Flame Particle
 			Game.Textures.Add(new Texture2D("/Application/assets/Weapons/Arrow.png",false));		//13	Arrows
 			
+			Game.Textures.Add(new Texture2D("/Application/assets/Weapons/explosion_spriteSheet.png",false));//14	Explosions
+			Game.Textures.Add(new Texture2D("/Application/assets/Enemies/DragonHead.png",false));		//15	DragonHead
 		}
 
 		public static void LootUpdate (float time)

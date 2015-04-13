@@ -28,7 +28,7 @@ namespace SteamPunkWasteLand
 		{
 			Type = WeaponType.Cannon;
 			
-			Sprite = new Sprite(Game.Graphics,Game.Textures[8],48,70);
+			Sprite = new Sprite(Game.Graphics,Game.Textures[8],70,34);
 			Sprite.Center = new Vector2(0.5f,0.5f);
 			Sprite.Position = worldToSprite();
 		}

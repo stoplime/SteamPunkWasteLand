@@ -23,29 +23,95 @@ namespace SteamPunkWasteLand
 {
 	public class E_Dragon : Enemy
 	{
-		
+		private Sprite head;
 		public E_Dragon (Vector3 initPos)
 			:base(initPos)
 		{
 			Hp = 500;
 			Weapon = new W_Flamethrower();
 			
-			Sprite = new Sprite(Game.Graphics,Game.Textures[6]);
+			Sprite = new Sprite(Game.Graphics,Game.Textures[6],344,174);
 			Sprite.Center = new Vector2(0.5f,0.5f);
 			Sprite.Position = worldToSprite();
 			
+			head = new Sprite(Game.Graphics,Game.Textures[15],60,50);
+			head.Center = new Vector2(0.5f,0.5f);
+			
 			FireSpeed = 0f;
+			//SpriteIndex = 1;
+		}
+		
+		public float ExtendArc (float initPos, float extention, float angle, float phi, int mirror, bool cos)
+		{
+			float a = angle+(mirror==0?-phi:phi);
+			float s;
+			if (cos) 
+				s = initPos+FMath.Cos(a)*extention*(mirror==0?1:-1);
+			else
+				s = initPos+FMath.Sin(a)*extention*(mirror==0?1:-1);
+			return s;
 		}
 		
 		public override void Update (float time)
 		{
+			Vector3 tempVel = Vel;
+			if (SpriteIndex == 0) {
+				//go right
+				tempVel.X = 5f;
+			}else{
+				tempVel.X = -5f;
+			}
+			
+			Vel = tempVel;
+			
+			if (Pos.X > Game.Graphics.Screen.Width*2f) {
+				SpriteIndex = 1;
+			}
+			else if(Pos.X < -Game.Graphics.Screen.Width*2f){
+				SpriteIndex = 0;
+			}
+			
+			if(Target.DistanceSquared(Pos) < 250000){
+				Firing = true;
+			}else{
+				Firing = false;
+			}
+			
+			Aim = FMath.Atan2(Target.Y-(Pos.Y+Sprite.Height/2),Target.X-(Pos.X+(SpriteIndex==0?148:-148)));
+			if (SpriteIndex == 0) {
+				if (Aim > FMath.PI/2) {
+					Aim = FMath.PI/2;
+				}
+				if (Aim < -FMath.PI/2) {
+					Aim = -FMath.PI/2;
+				}
+			}else{
+				if (Aim < FMath.PI/2 && Aim > 0) {
+					Aim = FMath.PI/2;
+				}
+				if (Aim > -FMath.PI/2 && Aim < 0) {
+					Aim = -FMath.PI/2;
+				}
+			}
+			
+			Weapon.Update(time,((SpriteIndex == 1)? Aim+FMath.PI:Aim),
+			              new Vector3(Pos.X+((SpriteIndex==1)?-143:143),5+Pos.Y+Sprite.Height/2,0),SpriteIndex);
+			
+			head.Position = new Vector3(
+				ExtendArc(Sprite.Position.X,143.087f,Sprite.Rotation,0.03951f,SpriteIndex,true),
+				ExtendArc(Sprite.Position.Y,143.087f,Sprite.Rotation,0.03951f,SpriteIndex,false),0);
+			
+			head.Rotation = (SpriteIndex==1)?-Aim+FMath.PI+0.45f:-Aim-0.45f;
 			
 			base.Update (time);
 		}
 		
 		public override void Render ()
 		{
+			//Weapon.Render();
 			base.Render();
+			head.SetTextureCoord(0,SpriteIndex*head.Height,head.Width,(SpriteIndex+1)*head.Height);
+			head.Render();
 		}
 	}
 }

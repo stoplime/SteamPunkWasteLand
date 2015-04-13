@@ -201,7 +201,7 @@ namespace SteamPunkWasteLand
 			if ((gpd.Buttons & GamePadButtons.Cross) != 0) {
 				if (Game.ObtainedWeapons.Count > 0) {
 					if (weapon.Delay()) {
-						Game.PBullets.Add(weapon.Fire());
+						Game.PBullets.Add(weapon.Fire(vel));
 					}
 				}
 			}

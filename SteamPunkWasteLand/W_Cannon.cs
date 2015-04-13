@@ -27,18 +27,20 @@ namespace SteamPunkWasteLand
 		{
 			Type = WeaponType.Cannon;
 			
-			Sprite = new Sprite(Game.Graphics,Game.Textures[9],48,70);
+			Sprite = new Sprite(Game.Graphics,Game.Textures[8],70,34);
 			Sprite.Center = new Vector2(0.5f,0.5f);
 			FireSpd = 1f;
 		}
 		
-		public override Bullet Fire ()
+		public override Bullet Fire (Vector3 vel)
 		{
 			DeltaTime = 0;
 			Vector3 firePos = new Vector3(
-				ExtendArc(Pos.X,15f,Aim,0.588f,SpriteIndex,true),
-				ExtendArc(Pos.Y-Sprite.Height/2,15f,Aim,0.588f,SpriteIndex,false),0);
-			B_CannonBall b = new B_CannonBall(-Aim, 500f, firePos, SpriteIndex);
+				ExtendArc(Pos.X,31.4f,Aim,-0.160f,SpriteIndex,true),
+				ExtendArc(Pos.Y-4,31.4f,Aim,-0.160f,SpriteIndex,false),0);
+			B_CannonBall b = new B_CannonBall(-Aim,
+			                                  500f+vel.Length()*50*FMath.Cos(FMath.Atan2(vel.Y,vel.X*(SpriteIndex==0?1:-1))+Aim),
+			                                  firePos, SpriteIndex);
 			return b;
 		}
 	}
