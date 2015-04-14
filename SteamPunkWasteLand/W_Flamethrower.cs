@@ -31,7 +31,7 @@ namespace SteamPunkWasteLand
 			
 			Sprite = new Sprite(Game.Graphics,Game.Textures[9],52,14);
 			Sprite.Center = new Vector2(0.5f,0.5f);
-			FireSpd = 0.02f;
+			FireSpd = 0.002f;
 		}
 		
 		public override Bullet Fire (Vector3 vel)

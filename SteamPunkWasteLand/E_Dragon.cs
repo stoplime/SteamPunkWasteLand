@@ -39,8 +39,15 @@ namespace SteamPunkWasteLand
 			head.Center = new Vector2(0.5f,0.5f);
 			
 			deltaTime = 0;
-			FireSpeed = 0f;
+			FireSpeed = 0.01f;
 			SpriteIndex = 1;
+		}
+		
+		public override void CollideWithB (Bullet b)
+		{
+			if(!(b is B_Flame)){
+				base.CollideWithB (b);
+			}
 		}
 		
 		public float ExtendArc (float initPos, float extention, float angle, float phi, int mirror, bool cos)
@@ -56,26 +63,29 @@ namespace SteamPunkWasteLand
 		
 		public override void Update (float time)
 		{
+			float Time = time/Game.TimeSpeed;
 			deltaTime += time;
 			Vector3 tempVel = Vel;
 			if (SpriteIndex == 0) {
 				//go right
-				tempVel.X = 5f;
+				tempVel.X += (300f*Time-tempVel.X)/10f;
 			}else{
-				tempVel.X = -5f;
+				tempVel.X += (-300f*Time-tempVel.X)/10f;
 			}
 			
 			//sin wave flying
-			tempVel.Y = FMath.Sin(deltaTime)*1.5f;//*0.8f;
-			
-			Vel = tempVel;
+			tempVel.Y += (FMath.Sin(deltaTime)*90f*Time-tempVel.Y)/10f;//*0.8f;
 			
 			if (Pos.X > Game.Graphics.Screen.Width*2f) {
 				SpriteIndex = 1;
+				tempVel.X = -300f*Time;
 			}
 			else if(Pos.X < -Game.Graphics.Screen.Width*2f){
 				SpriteIndex = 0;
+				tempVel.X = 300f*Time;
 			}
+			
+			Vel = tempVel;
 			
 			if(Target.DistanceSquared(Pos) < 250000){
 				Firing = true;

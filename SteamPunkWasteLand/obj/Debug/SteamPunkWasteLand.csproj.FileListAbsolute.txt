@@ -55,9 +55,9 @@ C:\Users\stoplime\Documents\GitHub\SteamPunkWasteLand\SteamPunkWasteLand\bin\Deb
 C:\Users\stoplime\Documents\GitHub\SteamPunkWasteLand\SteamPunkWasteLand\bin\Debug\SteamPunkWasteLand-unsigned\Application\assets\Weapons\Cannon.png
 C:\Users\stoplime\Documents\GitHub\SteamPunkWasteLand\SteamPunkWasteLand\bin\Debug\SteamPunkWasteLand-signed\Application\assets\Weapons\CannonBall.png
 C:\Users\stoplime\Documents\GitHub\SteamPunkWasteLand\SteamPunkWasteLand\bin\Debug\SteamPunkWasteLand-signed\Application\assets\Weapons\Cannon.png
-C:\Users\stoplime\Documents\GitHub\SteamPunkWasteLand\SteamPunkWasteLand\bin\Debug\SteamPunkWasteLand-unsigned\Application\assets\Weapons\explosion_spriteSheet.png
-C:\Users\stoplime\Documents\GitHub\SteamPunkWasteLand\SteamPunkWasteLand\bin\Debug\SteamPunkWasteLand-signed\Application\assets\Weapons\explosion_spriteSheet.png
 C:\Users\stoplime\Documents\GitHub\SteamPunkWasteLand\SteamPunkWasteLand\bin\Debug\SteamPunkWasteLand-unsigned\Application\assets\Enemies\Dragon.png
 C:\Users\stoplime\Documents\GitHub\SteamPunkWasteLand\SteamPunkWasteLand\bin\Debug\SteamPunkWasteLand-unsigned\Application\assets\Enemies\DragonHead.png
 C:\Users\stoplime\Documents\GitHub\SteamPunkWasteLand\SteamPunkWasteLand\bin\Debug\SteamPunkWasteLand-signed\Application\assets\Enemies\Dragon.png
 C:\Users\stoplime\Documents\GitHub\SteamPunkWasteLand\SteamPunkWasteLand\bin\Debug\SteamPunkWasteLand-signed\Application\assets\Enemies\DragonHead.png
+C:\Users\stoplime\Documents\GitHub\SteamPunkWasteLand\SteamPunkWasteLand\bin\Debug\SteamPunkWasteLand-unsigned\Application\assets\Weapons\explosion.png
+C:\Users\stoplime\Documents\GitHub\SteamPunkWasteLand\SteamPunkWasteLand\bin\Debug\SteamPunkWasteLand-signed\Application\assets\Weapons\explosion.png

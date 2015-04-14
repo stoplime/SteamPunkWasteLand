@@ -135,7 +135,7 @@ namespace SteamPunkWasteLand
 			}
 		}
 		
-		public void CollideWithB (Bullet b)
+		public virtual void CollideWithB (Bullet b)
 		{
 			hp -= b.Damage;
 			hitTime = 0;
@@ -156,9 +156,12 @@ namespace SteamPunkWasteLand
 			
 			//aim += deviation*FMath.Sin(FMath.PI*2*(float)Game.Rand.NextDouble());
 			
-			if (deltaTime > fireSpeed && firing) {
-				deltaTime = 0;
-				Game.EBullets.Add(weapon.Fire(vel));
+			if (firing) {
+				int numbFire = (int)FMath.Floor(deltaTime/fireSpeed);
+				for (int i = 0; i < numbFire; i++) {
+					deltaTime = 0;
+					Game.EBullets.Add(weapon.Fire(vel));
+				}
 			}
 			
 			pos += vel * Game.TimeSpeed;

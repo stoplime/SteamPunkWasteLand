@@ -73,7 +73,7 @@ namespace SteamPunkWasteLand
 			
 			Game.EBullets = new List<Bullet>();
 			Game.Enemies = new List<Enemy>();
-			E_Dragon g = new E_Dragon(new Vector3(200,50,0));
+			E_Dragon g = new E_Dragon(new Vector3(1800,50,0));
 			Game.Enemies.Add(g);
 		}
 
@@ -98,8 +98,8 @@ namespace SteamPunkWasteLand
 			Game.Textures.Add(new Texture2D("/Application/assets/Weapons/Flame.png",false));		//12	Flame Particle
 			Game.Textures.Add(new Texture2D("/Application/assets/Weapons/Arrow.png",false));		//13	Arrows
 			
-			Game.Textures.Add(new Texture2D("/Application/assets/Weapons/explosion_spriteSheet.png",false));//14	Explosions
-			Game.Textures.Add(new Texture2D("/Application/assets/Enemies/DragonHead.png",false));		//15	DragonHead
+			Game.Textures.Add(new Texture2D("/Application/assets/Weapons/explosion.png",false));	//14	Explosions
+			Game.Textures.Add(new Texture2D("/Application/assets/Enemies/DragonHead.png",false));	//15	DragonHead
 		}
 
 		public static void LootUpdate (float time)

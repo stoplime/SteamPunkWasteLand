@@ -104,11 +104,9 @@ namespace SteamPunkWasteLand
 		
 		public abstract Bullet Fire (Vector3 vel);
 		
-		public bool Delay ()
+		public int Delay ()
 		{
-			if (deltaTime > fireSpd)
-				return true;
-			return false;
+			return (int)FMath.Floor(deltaTime/fireSpd);
 		}
 		
 		#endregion
