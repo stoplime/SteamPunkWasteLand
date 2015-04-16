@@ -24,8 +24,6 @@ namespace SteamPunkWasteLand
 	public abstract class Enemy
 	{
 		#region Private Fields
-		private float deltaTime;
-		private bool hit;
 		private const float HitDelay = 0.5f;
 		private float hitTime;
 		#endregion
@@ -75,6 +73,12 @@ namespace SteamPunkWasteLand
 			get{return target;}
 			set{target = value;}
 		}
+		private float deltaTime;
+		protected float DeltaTime
+		{
+			get{return deltaTime;}
+			set{deltaTime = value;}
+		}
 		private float fireSpeed;
 		protected float FireSpeed
 		{
@@ -92,6 +96,12 @@ namespace SteamPunkWasteLand
 		{
 			get{return aim;}
 			set{aim = value;}
+		}
+		private float hitRadius;
+		public float HitRadius
+		{
+			get{return hitRadius;}
+			set{hitRadius = value;}
 		}
 		
 		#endregion
@@ -112,6 +122,17 @@ namespace SteamPunkWasteLand
 		public Vector3 worldToSprite ()
 		{
 			return WorldCoord.WorldToView(new Vector3(pos.X,pos.Y+sprite.Height/2,0));
+		}
+		
+		public float ExtendArc (float initPos, float extention, float angle, float phi, int mirror, bool cos)
+		{
+			float a = angle+(mirror==0?-phi:phi);
+			float s;
+			if (cos) 
+				s = initPos+FMath.Cos(a)*extention*(mirror==0?1:-1);
+			else
+				s = initPos+FMath.Sin(a)*extention*(mirror==0?1:-1);
+			return s;
 		}
 		
 		protected virtual void Physics (float time)
@@ -143,6 +164,14 @@ namespace SteamPunkWasteLand
 				vel.Y = 4f;
 			}
 		}
+		
+		public virtual void FireMethod ()
+		{
+			if (deltaTime > fireSpeed) {
+				deltaTime = 0;
+				Game.EBullets.Add(weapon.Fire(vel));
+			}
+		}
 		#endregion
 		
 		#region Original Methods
@@ -156,12 +185,8 @@ namespace SteamPunkWasteLand
 			
 			//aim += deviation*FMath.Sin(FMath.PI*2*(float)Game.Rand.NextDouble());
 			
-			if (firing) {
-				int numbFire = (int)FMath.Floor(deltaTime/fireSpeed);
-				for (int i = 0; i < numbFire; i++) {
-					deltaTime = 0;
-					Game.EBullets.Add(weapon.Fire(vel));
-				}
+			if(firing){
+				FireMethod();
 			}
 			
 			pos += vel * Game.TimeSpeed;

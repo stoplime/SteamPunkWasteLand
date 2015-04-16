@@ -24,22 +24,48 @@ namespace SteamPunkWasteLand
 	public class W_Flamethrower : Weapon
 	{
 		private float deviation = 0.05f;
+		private bool isEnemy;
 		
-		public W_Flamethrower ()
+		public W_Flamethrower()
+			:this(false)
+		{}
+		
+		public W_Flamethrower (bool isEnemy)
 		{
 			Type = WeaponType.Flamethrower;
+			this.isEnemy = isEnemy;
 			
-			Sprite = new Sprite(Game.Graphics,Game.Textures[9],52,14);
+			if(isEnemy){
+				Sprite = new Sprite(Game.Graphics,Game.Textures[15],60,50);
+			}else{
+				Sprite = new Sprite(Game.Graphics,Game.Textures[9],52,14);
+			}
 			Sprite.Center = new Vector2(0.5f,0.5f);
 			FireSpd = 0.002f;
+		}
+		
+		public override void Update (float time, float aim, Vector3 sholderPos, int index, bool isEnemy)
+		{
+			base.Update (time, aim, sholderPos, index, isEnemy);
+			
+			if (isEnemy) {
+				Sprite.Rotation = -aim + 0.32f;
+			}
 		}
 		
 		public override Bullet Fire (Vector3 vel)
 		{
 			DeltaTime = 0;
-			Vector3 firePos = new Vector3(
-				ExtendArc(Pos.X,25.3f,Aim,-0.161f,SpriteIndex,true),
-				ExtendArc(Pos.Y-8,25.3f,Aim,-0.161f,SpriteIndex,false),0);
+			Vector3 firePos;
+			if(isEnemy){
+				firePos = new Vector3(
+					ExtendArc(Pos.X,32.4f,Aim,(SpriteIndex==1?0.406f:0.406f+FMath.PI/4),SpriteIndex,true),
+					ExtendArc(Pos.Y,32.4f,Aim,(SpriteIndex==1?0.406f:0.406f+FMath.PI/4),SpriteIndex,false),0);
+			}else{
+				firePos = new Vector3(
+					ExtendArc(Pos.X,25.3f,Aim,-0.161f,SpriteIndex,true),
+					ExtendArc(Pos.Y-8,25.3f,Aim,-0.161f,SpriteIndex,false),0);
+			}
 			float unSteady = -Aim+deviation*(Game.Rand.Next(2)==0?1:-1)*(float)Game.Rand.NextDouble();
 			float relativeVel = 200f+vel.Length()*50f*FMath.Cos(FMath.Atan2(-vel.Y,vel.X)-((SpriteIndex==0)?unSteady:unSteady-FMath.PI));
 			B_Flame b = new B_Flame(unSteady, relativeVel, firePos, SpriteIndex, 0.3f);

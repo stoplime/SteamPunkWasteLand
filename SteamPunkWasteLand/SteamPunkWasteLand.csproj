@@ -62,6 +62,7 @@
     <Compile Include="L_CrossBow.cs" />
     <Compile Include="L_Flamethrower.cs" />
     <Compile Include="L_Cannon.cs" />
+    <Compile Include="E_AirShip.cs" />
   </ItemGroup>
   <ItemGroup>
     <ShaderProgram Include="shaders\Simple.fcg" />
@@ -85,8 +86,6 @@
     <Content Include="assets\Backgrounds\Ground1.png" />
     <Content Include="assets\Backgrounds\Sky1.png" />
     <Content Include="assets\Backgrounds\Sky2.png" />
-    <Content Include="assets\Player\Tophat_Sheet.png" />
-    <Content Include="assets\Player\arm.png" />
     <Content Include="assets\Weapons\Crossbow.png" />
     <Content Include="assets\Weapons\Arrow.png" />
     <Content Include="assets\Weapons\Flamethrower.png" />
@@ -96,5 +95,7 @@
     <Content Include="assets\Enemies\Dragon.png" />
     <Content Include="assets\Enemies\DragonHead.png" />
     <Content Include="assets\Weapons\explosion.png" />
+    <Content Include="assets\Player\Tophat_Sheet.png" />
+    <Content Include="assets\Player\arm.png" />
   </ItemGroup>
 </Project>

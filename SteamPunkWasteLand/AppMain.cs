@@ -63,6 +63,7 @@ namespace SteamPunkWasteLand
 			Game.PBullets = new List<Bullet>();
 			Game.ObtainedWeapons = new List<Weapon>();
 			
+			//test add
 			Game.Loots = new List<Loot>();
 			L_CrossBow l = new L_CrossBow(new Vector3(-200, 300,0));
 			L_Cannon ll = new L_Cannon(new Vector3(200, 300,0));
@@ -73,7 +74,8 @@ namespace SteamPunkWasteLand
 			
 			Game.EBullets = new List<Bullet>();
 			Game.Enemies = new List<Enemy>();
-			E_Dragon g = new E_Dragon(new Vector3(1800,50,0));
+			E_Zeppelin g = new E_Zeppelin(new Vector3(500,300,0));
+			//E_Dragon g = new E_Dragon(new Vector3(500,50,0));
 			Game.Enemies.Add(g);
 		}
 
@@ -81,7 +83,7 @@ namespace SteamPunkWasteLand
 		{
 			Game.Textures.Add(new Texture2D("/Application/assets/Backgrounds/Sky2.png",false));		//0		Sky
 			Game.Textures.Add(new Texture2D("/Application/assets/Backgrounds/Ground1.png",false));	//1		Ground
-			Game.Textures.Add(new Texture2D("/Application/assets/Backgrounds/Cloud2.png",false));	//2		Clouds
+			Game.Textures.Add(new Texture2D("/Application/assets/Backgrounds/Cloud1.png",false));	//2		Clouds
 			
 			Game.Textures.Add(new Texture2D("/Application/assets/Player/Tophat_Sheet.png",false));	//3		Player
 			Game.Textures.Add(new Texture2D("/Application/assets/Player/arm.png",false));			//4		Player arm
@@ -143,8 +145,7 @@ namespace SteamPunkWasteLand
 			Game.Player1.Update(gamePadData,time);
 			WorldCoord.FocusObject = Game.Player1.WorldPos;
 			
-			float pDist = (Game.Player1.Sprite.Width+Game.Player1.Sprite.Height)/4f;
-			float pDistSq = pDist*pDist;
+			float pDistSq = Game.Player1.HitRadius*Game.Player1.HitRadius;
 			for (int i = 0; i < Game.EBullets.Count; i++) {
 				if (!Game.EBullets[i].Hit) {
 					if ((Game.Player1.WorldPos).DistanceSquared(Game.EBullets[i].Pos) < pDistSq) 

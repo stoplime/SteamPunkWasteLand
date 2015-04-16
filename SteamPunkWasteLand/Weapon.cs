@@ -109,21 +109,32 @@ namespace SteamPunkWasteLand
 			return (int)FMath.Floor(deltaTime/fireSpd);
 		}
 		
+		private void adjustSholder(float aim, Vector3 sholderPos)
+		{
+			pos.X = ExtendArc(sholderPos.X,ArmLenght,aim,phi,spriteIndex,true);
+			pos.Y = ExtendArc(sholderPos.Y,ArmLenght,aim,phi,spriteIndex,false);
+		}
+		
 		#endregion
 		
 		#region Original Methods
 		//for the player
 		public virtual void Update (float time, float aim, Vector3 sholderPos, int index)
 		{
+			this.Update(time,aim,sholderPos,index,false);
+		}
+		
+		public virtual void Update (float time, float aim, Vector3 sholderPos, int index, bool isEnemy)
+		{
 			deltaTime += time;
 			this.aim = aim;
 			spriteIndex = index;
 			
-//			float angle = aim+(spriteIndex==0?-phi:phi);
-//			pos.X = sholderPos.X+FMath.Cos(angle)*ArmLenght*(spriteIndex==0?1:-1);
-//			pos.Y = sholderPos.Y+FMath.Sin(angle)*ArmLenght*(spriteIndex==0?1:-1);
-			pos.X = ExtendArc(sholderPos.X,ArmLenght,aim,phi,spriteIndex,true);
-			pos.Y = ExtendArc(sholderPos.Y,ArmLenght,aim,phi,spriteIndex,false);
+			if(!isEnemy){
+				adjustSholder(aim,sholderPos);
+			}else{
+				pos = sholderPos;
+			}
 			
 			sprite.Position = worldToSprite();
 			sprite.Rotation = -aim;

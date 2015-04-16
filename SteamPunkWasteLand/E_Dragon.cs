@@ -23,20 +23,19 @@ namespace SteamPunkWasteLand
 {
 	public class E_Dragon : Enemy
 	{
-		private Sprite head;
 		private float deltaTime;
 		public E_Dragon (Vector3 initPos)
 			:base(initPos)
 		{
 			Hp = 500;
-			Weapon = new W_Flamethrower();
+			Weapon = new W_Flamethrower(true);
 			
 			Sprite = new Sprite(Game.Graphics,Game.Textures[6],344,174);
 			Sprite.Center = new Vector2(0.5f,0.5f);
 			Sprite.Position = worldToSprite();
+			HitRadius = (Sprite.Width+Sprite.Height)/4f;
 			
-			head = new Sprite(Game.Graphics,Game.Textures[15],60,50);
-			head.Center = new Vector2(0.5f,0.5f);
+			
 			
 			deltaTime = 0;
 			FireSpeed = 0.01f;
@@ -46,19 +45,19 @@ namespace SteamPunkWasteLand
 		public override void CollideWithB (Bullet b)
 		{
 			if(!(b is B_Flame)){
+				//float y = Vel.Y;
 				base.CollideWithB (b);
+				//Vel = new Vector3(Vel.X,y,0);
 			}
 		}
 		
-		public float ExtendArc (float initPos, float extention, float angle, float phi, int mirror, bool cos)
+		public override void FireMethod ()
 		{
-			float a = angle+(mirror==0?-phi:phi);
-			float s;
-			if (cos) 
-				s = initPos+FMath.Cos(a)*extention*(mirror==0?1:-1);
-			else
-				s = initPos+FMath.Sin(a)*extention*(mirror==0?1:-1);
-			return s;
+			int numbFire = (int)FMath.Floor(DeltaTime/FireSpeed);
+			DeltaTime = 0;
+			for (int i = 0; i < numbFire; i++) {
+				Game.EBullets.Add(Weapon.Fire(Vel));
+			}
 		}
 		
 		public override void Update (float time)
@@ -96,8 +95,8 @@ namespace SteamPunkWasteLand
 			Sprite.Rotation = FMath.Atan2(-tempVel.Y,tempVel.X)+((SpriteIndex==1)?FMath.PI:0);
 			
 			Vector3 weaponPos = new Vector3(
-				ExtendArc(Pos.X,143.087f,-Sprite.Rotation,-0.02951f,SpriteIndex,true),
-				ExtendArc(Pos.Y+Sprite.Height/2,143.087f,-Sprite.Rotation,-0.02951f,SpriteIndex,false),0);
+				ExtendArc(Pos.X,143.087f,-Sprite.Rotation,-0.03951f,SpriteIndex,true),
+				ExtendArc(Pos.Y+Sprite.Height/2,143.087f,-Sprite.Rotation,-0.03951f,SpriteIndex,false),0);
 			
 			Aim = FMath.Atan2(Target.Y-(weaponPos.Y),Target.X-(weaponPos.X));
 			if (SpriteIndex == 0) {
@@ -116,23 +115,22 @@ namespace SteamPunkWasteLand
 				}
 			}
 			
-			Weapon.Update(time,((SpriteIndex == 1)? Aim+FMath.PI:Aim), weaponPos,SpriteIndex);
+			Weapon.Update(time,((SpriteIndex == 1)? Aim+FMath.PI:Aim), weaponPos,SpriteIndex,true);
 			
-			head.Position = new Vector3(
-				ExtendArc(Sprite.Position.X,143.087f,Sprite.Rotation,0.03951f,SpriteIndex,true),
-				ExtendArc(Sprite.Position.Y,143.087f,Sprite.Rotation,0.03951f,SpriteIndex,false),0);
-			
-			head.Rotation = ((SpriteIndex==1)?-Aim+FMath.PI+0.45f:-Aim-0.45f);
+//			head.Position = new Vector3(
+//				ExtendArc(Sprite.Position.X,143.087f,Sprite.Rotation,0.03951f,SpriteIndex,true),
+//				ExtendArc(Sprite.Position.Y,143.087f,Sprite.Rotation,0.03951f,SpriteIndex,false),0);
+//			
+//			head.Rotation = ((SpriteIndex==1)?-Aim+FMath.PI+0.45f:-Aim-0.45f);
 			
 			base.Update (time);
 		}
 		
 		public override void Render ()
 		{
-			//Weapon.Render();
+			
 			base.Render();
-			head.SetTextureCoord(0,SpriteIndex*head.Height,head.Width,(SpriteIndex+1)*head.Height);
-			head.Render();
+			Weapon.Render();
 		}
 	}
 }

@@ -21,16 +21,32 @@ using Sce.PlayStation.Core;
 
 namespace SteamPunkWasteLand
 {
-	public class E_Zeppelin : Enemy
+	public class E_AirShip : Enemy
 	{
-		private float speed;
+		private const float DOWNTime = 60f;
 		
-		public E_Zeppelin (Vector3 initPos)
+		private List<Weapon> cannons;
+		private List<float> fireTime;
+		private int cannonIndex;
+		private float speed;
+		private float downCount;
+		private bool isDown;
+		
+		public E_AirShip (Vector3 initPos)
 			:base(initPos)
 		{
-			Hp = 200;
-			Weapon = new W_Cannon();
-			//Its initial pos in the Y needs to be between 90% to 50% the height of screen
+			Hp = 2000;
+			cannonIndex = 0;
+			cannons = new List<Weapon>();
+			fireTime = new List<float>();
+			for (int i = 0; i < 8; i++) {
+				cannons.Add(new W_Cannon());
+				fireTime.Add((float)(Game.Rand.NextDouble()*5+2));
+			}
+			Weapon = cannons[cannonIndex];
+			
+			downCount = 0;
+			isDown = true;
 			
 			Sprite = new Sprite(Game.Graphics,Game.Textures[6],344,174);
 			Sprite.Center = new Vector2(0.5f,0.5f);
@@ -38,28 +54,19 @@ namespace SteamPunkWasteLand
 			HitRadius = (Sprite.Width+Sprite.Height)/4f;
 			
 			FireSpeed = 2f;
-			speed = 100f;
-			SpriteIndex = 0;
+			speed = 50f;
 		}
 		
 		public override void Update (float time)
 		{
 			float Time = time/Game.TimeSpeed;
+			downCount += time;
 			Vector3 tempVel = Vel;
-			if (SpriteIndex == 0) {
-				//go right
+			if (downCount > DOWNTime && !isDown) {
+				downCount = 0;
 				tempVel.X += (speed*Time-tempVel.X)/10f;
 			}else{
 				tempVel.X += (-speed*Time-tempVel.X)/10f;
-			}
-			
-			if (Pos.X > Game.Graphics.Screen.Width*2f) {
-				SpriteIndex = 1;
-				tempVel.X = -speed*Time;
-			}
-			else if(Pos.X < -Game.Graphics.Screen.Width*2f){
-				SpriteIndex = 0;
-				tempVel.X = speed*Time;
 			}
 			
 			Vel = tempVel;

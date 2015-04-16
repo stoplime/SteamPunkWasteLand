@@ -28,7 +28,6 @@ namespace SteamPunkWasteLand
 		public const float SPEED = 435f;
 		public const float JUMP = 6.0f;
 		public const float ACCEL = 10f;
-		public const float MAX_HP = 500;
 		
 		public const float GRAVITY = 9.8f;
 		public const float ARM_SPD = 4f;
@@ -73,11 +72,24 @@ namespace SteamPunkWasteLand
 			set{aim = value;}
 		}
 		
+		private float maxHp;
+		public float MaxHp
+		{
+			get{return maxHp;}
+			set{maxHp = value;}
+		}
+		
 		private float hp;
 		public float Hp
 		{
 			get{return hp;}
 			set{hp = value;}
+		}
+		private float hitRadius;
+		public float HitRadius
+		{
+			get{return hitRadius;}
+			set{hitRadius = value;}
 		}
 		#endregion
 		
@@ -87,14 +99,15 @@ namespace SteamPunkWasteLand
 			sprite = new Sprite(Game.Graphics,Game.Textures[3],48,70);
 			worldPos = Vector3.Zero;
 			vel = Vector3.Zero;
-			hp = MAX_HP;
+			maxHp = 100;
+			hp = maxHp;
 			hitTime = HitDelay;
 			
 			spriteIndex = 0;
 			timer = 0;
 			sprite.Position = worldToSprite();
 			sprite.Center = new Vector2(0.5f,0.5f);
-			
+			hitRadius = (sprite.Width+sprite.Height)/4f;
 			
 			armSprite = new Sprite(Game.Graphics,Game.Textures[4],48,70);
 			armSprite.Center = sprite.Center;

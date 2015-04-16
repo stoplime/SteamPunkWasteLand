@@ -24,7 +24,6 @@ namespace SteamPunkWasteLand
 	public class B_CannonBall : Bullet
 	{
 		private float explodeDelay;
-		private int spriteIndex;
 		
 		private Sprite explode;
 		
@@ -45,6 +44,8 @@ namespace SteamPunkWasteLand
 			explode = new Sprite(Game.Graphics,Game.Textures[14],32,32);
 			explode.Center = new Vector2(0.5f,0.5f);
 			explode.Position = Sprite.Position;
+			
+			Damage = 10;
 		}
 		
 		public override void Update (float time)
