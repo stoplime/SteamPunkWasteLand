@@ -23,7 +23,7 @@ namespace SteamPunkWasteLand
 {
 	public class E_Guard : Enemy
 	{
-		private const float SPEED = 0.5f;
+		private const float SPEED = 30f;
 		
 		public E_Guard (Vector3 initPos)
 			:base(initPos)
@@ -65,8 +65,22 @@ namespace SteamPunkWasteLand
 			              new Vector3(Pos.X+((SpriteIndex == 1)? 10:-10),Pos.Y+Sprite.Height/2,0),SpriteIndex);
 			float Vx = 0;
 			if(distSq > 25000){
-				Vx = ((right)?1:-1)*SPEED;
+				Vx = ((right)?1:-1)*SPEED*time;
 			}
+			foreach (Enemy e in Game.Enemies) {
+				if (e is E_Guard) {
+					if (e != this) {
+						float dist = e.Pos.X-Pos.X; 
+						if(dist < Sprite.Width && dist > 0){
+							Vx -= SPEED*time/2f;
+						}
+						if(dist > -Sprite.Width && dist < 0){
+							Vx += SPEED*time/2f;
+						}
+					}
+				}
+			}
+			
 			Vel = new Vector3(Vx,Vel.Y-9.8f*time,0);
 			Physics(time);
 			

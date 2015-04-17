@@ -63,6 +63,7 @@
     <Compile Include="L_Flamethrower.cs" />
     <Compile Include="L_Cannon.cs" />
     <Compile Include="E_AirShip.cs" />
+    <Compile Include="Spawner.cs" />
   </ItemGroup>
   <ItemGroup>
     <ShaderProgram Include="shaders\Simple.fcg" />

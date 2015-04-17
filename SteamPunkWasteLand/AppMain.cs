@@ -49,11 +49,18 @@ namespace SteamPunkWasteLand
 		{
 			Game.Graphics = new GraphicsContext ();
 			Game.Running = true;
-			Game.TimeSpeed = 1f;
 			Game.Rand = new Random();
 			Game.GameState = States.MainMenu;
 			Game.Textures = new List<Texture2D>();
 			InitTextures();
+			
+			NewGame();
+		}
+		
+		public static void NewGame()
+		{
+			Game.TimeSpeed = 1f;
+			Game.Level = 1;
 			
 			Game.BgSky = new Background(Game.Textures[0]);
 			Game.BgGround = new BackgroundGround(Game.Textures[1]);
@@ -62,21 +69,23 @@ namespace SteamPunkWasteLand
 			Game.Player1 = new Player();
 			Game.PBullets = new List<Bullet>();
 			Game.ObtainedWeapons = new List<Weapon>();
-			
-			//test add
-			Game.Loots = new List<Loot>();
-			L_CrossBow l = new L_CrossBow(new Vector3(-200, 300,0));
-			L_Cannon ll = new L_Cannon(new Vector3(200, 300,0));
-			L_Flamethrower lll = new L_Flamethrower(new Vector3(0,600,0));
-			Game.Loots.Add(l);
-			Game.Loots.Add(ll);
-			Game.Loots.Add(lll);
-			
-			Game.EBullets = new List<Bullet>();
 			Game.Enemies = new List<Enemy>();
-			E_Zeppelin g = new E_Zeppelin(new Vector3(500,300,0));
-			//E_Dragon g = new E_Dragon(new Vector3(500,50,0));
-			Game.Enemies.Add(g);
+			Game.EBullets = new List<Bullet>();
+			Game.Loots = new List<Loot>();
+			
+			Game.Spawner = new Spawner();
+			
+//			//test add
+//			L_CrossBow l = new L_CrossBow(new Vector3(-200, 300,0));
+//			L_Cannon ll = new L_Cannon(new Vector3(200, 300,0));
+//			L_Flamethrower lll = new L_Flamethrower(new Vector3(0,600,0));
+//			Game.Loots.Add(l);
+//			Game.Loots.Add(ll);
+//			Game.Loots.Add(lll);
+//			
+//			E_Zeppelin g = new E_Zeppelin(new Vector3(500,300,0));
+//			//E_Dragon g = new E_Dragon(new Vector3(500,50,0));
+//			Game.Enemies.Add(g);
 		}
 
 		public static void InitTextures ()
@@ -142,6 +151,9 @@ namespace SteamPunkWasteLand
 			if ((gamePadData.Buttons & GamePadButtons.Select) != 0) {
 				Game.Running = false;
 			}
+			
+			Game.Spawner.Update(time);
+			
 			Game.Player1.Update(gamePadData,time);
 			WorldCoord.FocusObject = Game.Player1.WorldPos;
 			

@@ -1,0 +1,21 @@
+// insert levels here
+// Format: type, posX, posY, sleep;
+// One level per line
+// 
+// Type:
+// Wb = spawn cross bow
+// Wf = spawn flame thrower
+// Wc = spawn cannon
+// Eg = spawn imperial guard
+// Ed = spawn dragon
+// Ez = spawn zeppelin
+// Ea = spawn air ship
+// 
+// Pos Key words:
+// left = left most posX
+// right = right most posX
+// top = top most posY
+// skip one line after this one, very important
+
+Wb,0,150,1;Eg,left,0,0.1;Eg,right,0,0.1;Eg,left,0,0.1;Eg,right,0,0.1;Eg,left,0,0.1;Eg,right,0,0.1;Eg,left,0,0.1;Eg,right,0,0.1;
+Wc,0,100,1;Ez,left,50,1;
