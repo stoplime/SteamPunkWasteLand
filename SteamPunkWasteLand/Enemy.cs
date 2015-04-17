@@ -26,6 +26,8 @@ namespace SteamPunkWasteLand
 		#region Private Fields
 		private const float HitDelay = 0.5f;
 		private float hitTime;
+		private Sprite hpSprite;
+		private Sprite hpBoxSprite;
 		#endregion
 		
 		#region Properties
@@ -49,6 +51,12 @@ namespace SteamPunkWasteLand
 		}
 		
 		//protected
+		private float maxHp;
+		protected float MaxHp
+		{
+			get{return maxHp;}
+			set{maxHp = value;}
+		}
 		private int spriteIndex;
 		protected int SpriteIndex
 		{
@@ -115,6 +123,10 @@ namespace SteamPunkWasteLand
 			spriteIndex = 0;
 			firing = false;
 			hitTime = HitDelay;
+			
+			hpSprite = new Sprite(Game.Graphics,Game.Textures[16]);
+			hpBoxSprite = new Sprite(Game.Graphics,Game.Textures[16]);
+			hpBoxSprite.SetColor(0,0,0,0.5f);
 		}
 		#endregion
 		
@@ -172,6 +184,28 @@ namespace SteamPunkWasteLand
 				Game.EBullets.Add(weapon.Fire(vel));
 			}
 		}
+		
+		public void HpDisp (float hpMax, float hp, Vector3 pos, float width, float height, int offsetY)
+		{
+			hpSprite.Width = ((float)hp/hpMax)*width;
+			hpSprite.Height = height;
+			if (hp < (float)hpMax/5) {
+				hpSprite.SetColor(1f,0f,0f,1f);
+			}else if (hp < (float)hpMax/2) {
+				hpSprite.SetColor(1f,0.5f,0f,1f);
+			}else{
+				hpSprite.SetColor(0f,1f,0f,1f);
+			}
+			hpSprite.Position = pos;
+			hpSprite.Position.Y -= offsetY;
+			
+			hpBoxSprite.Width = width+4;
+			hpBoxSprite.Height = height+4;
+			hpBoxSprite.Position = hpSprite.Position;
+			hpBoxSprite.Position.X -= 2;
+			hpBoxSprite.Position.Y -= 2;
+		}
+		
 		#endregion
 		
 		#region Original Methods
@@ -192,6 +226,8 @@ namespace SteamPunkWasteLand
 			pos += vel * Game.TimeSpeed;
 			
 			sprite.Position = worldToSprite();
+			
+			HpDisp(maxHp,hp,new Vector3(sprite.Position.X-sprite.Width/2,sprite.Position.Y,0),sprite.Width,0.05f*sprite.Height,(int)(sprite.Height/2));
 		}
 		
 		public virtual void Render()
@@ -203,6 +239,8 @@ namespace SteamPunkWasteLand
 				sprite.SetColor(1,1,1,1);
 			}
 			sprite.Render();
+			hpBoxSprite.Render();
+			hpSprite.Render();
 		}
 		#endregion
 	}

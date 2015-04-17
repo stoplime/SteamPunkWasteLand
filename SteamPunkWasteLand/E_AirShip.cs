@@ -35,7 +35,8 @@ namespace SteamPunkWasteLand
 		public E_AirShip (Vector3 initPos)
 			:base(initPos)
 		{
-			Hp = 2000;
+			MaxHp = 2000;
+			Hp = MaxHp;
 			cannonIndex = 0;
 			cannons = new List<Weapon>();
 			fireTime = new List<float>();

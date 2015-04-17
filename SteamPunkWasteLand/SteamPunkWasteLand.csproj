@@ -80,6 +80,7 @@
     <Folder Include="assets\Player\" />
     <Folder Include="assets\Weapons\" />
     <Folder Include="assets\Enemies\" />
+    <Folder Include="assets\Other\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\Backgrounds\Cloud1.png" />
@@ -98,5 +99,6 @@
     <Content Include="assets\Weapons\explosion.png" />
     <Content Include="assets\Player\Tophat_Sheet.png" />
     <Content Include="assets\Player\arm.png" />
+    <Content Include="assets\Other\White.png" />
   </ItemGroup>
 </Project>

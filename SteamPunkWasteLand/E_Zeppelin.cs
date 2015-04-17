@@ -28,7 +28,8 @@ namespace SteamPunkWasteLand
 		public E_Zeppelin (Vector3 initPos)
 			:base(initPos)
 		{
-			Hp = 200;
+			MaxHp = 200;
+			Hp = MaxHp;
 			Weapon = new W_Cannon();
 			//Its initial pos in the Y needs to be between 90% to 50% the height of screen
 			

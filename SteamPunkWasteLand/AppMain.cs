@@ -111,6 +111,9 @@ namespace SteamPunkWasteLand
 			
 			Game.Textures.Add(new Texture2D("/Application/assets/Weapons/explosion.png",false));	//14	Explosions
 			Game.Textures.Add(new Texture2D("/Application/assets/Enemies/DragonHead.png",false));	//15	DragonHead
+			Game.Textures.Add(new Texture2D("/Application/assets/Other/White.png",false));			//16	white pixel
+			
+			Game.Textures.Add(new Texture2D("/Application/assets/Enemies/DragonHead.png",false));	//17	???
 		}
 
 		public static void LootUpdate (float time)

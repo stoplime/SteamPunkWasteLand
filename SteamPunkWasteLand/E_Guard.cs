@@ -28,7 +28,8 @@ namespace SteamPunkWasteLand
 		public E_Guard (Vector3 initPos)
 			:base(initPos)
 		{
-			Hp = 20;
+			MaxHp = 20;
+			Hp = MaxHp;
 			Weapon = new W_CrossBow();
 			
 			Sprite = new Sprite(Game.Graphics,Game.Textures[7],48,70);

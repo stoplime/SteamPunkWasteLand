@@ -61,3 +61,5 @@ C:\Users\stoplime\Documents\GitHub\SteamPunkWasteLand\SteamPunkWasteLand\bin\Deb
 C:\Users\stoplime\Documents\GitHub\SteamPunkWasteLand\SteamPunkWasteLand\bin\Debug\SteamPunkWasteLand-signed\Application\assets\Enemies\DragonHead.png
 C:\Users\stoplime\Documents\GitHub\SteamPunkWasteLand\SteamPunkWasteLand\bin\Debug\SteamPunkWasteLand-unsigned\Application\assets\Weapons\explosion.png
 C:\Users\stoplime\Documents\GitHub\SteamPunkWasteLand\SteamPunkWasteLand\bin\Debug\SteamPunkWasteLand-signed\Application\assets\Weapons\explosion.png
+C:\Users\stoplime\Documents\GitHub\SteamPunkWasteLand\SteamPunkWasteLand\bin\Debug\SteamPunkWasteLand-unsigned\Application\assets\Other\White.png
+C:\Users\stoplime\Documents\GitHub\SteamPunkWasteLand\SteamPunkWasteLand\bin\Debug\SteamPunkWasteLand-signed\Application\assets\Other\White.png
