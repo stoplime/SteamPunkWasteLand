@@ -38,7 +38,7 @@ namespace SteamPunkWasteLand
 			Sprite.Rotation = Dir;
 			Sprite.Center = new Vector2(0.5f,0.5f);
 			
-			Damage = 0.1f;
+			Damage = 0.2f;
 		}
 		
 		public override void Update (float time)

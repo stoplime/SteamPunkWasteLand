@@ -34,6 +34,7 @@ namespace SteamPunkWasteLand
 	public static class Game
 	{
 		public static bool Running;
+		public static HUD hud;
 		public static GraphicsContext Graphics;
 		public static Random Rand;
 		public static States GameState;

@@ -52,14 +52,14 @@ namespace SteamPunkWasteLand
 			}
 		}
 		
-		public override void FireMethod ()
-		{
-			int numbFire = (int)FMath.Floor(DeltaTime/FireSpeed);
-			DeltaTime = 0;
-			for (int i = 0; i < numbFire; i++) {
-				Game.EBullets.Add(Weapon.Fire(Vel));
-			}
-		}
+//		public override void FireMethod ()
+//		{
+//			int numbFire = (int)FMath.Floor(DeltaTime/FireSpeed);
+//			DeltaTime = 0;
+//			for (int i = 0; i < numbFire; i++) {
+//				Game.EBullets.Add(Weapon.Fire(Vel));
+//			}
+//		}
 		
 		public override void Update (float time)
 		{
@@ -100,21 +100,23 @@ namespace SteamPunkWasteLand
 				ExtendArc(Pos.Y+Sprite.Height/2,143.087f,-Sprite.Rotation,-0.03951f,SpriteIndex,false),0);
 			
 			Aim = FMath.Atan2(Target.Y-(weaponPos.Y),Target.X-(weaponPos.X));
+			float adjustAim = Aim;
 			if (SpriteIndex == 0) {
-				if (Aim > FMath.PI/2) {
-					Aim = FMath.PI/2;
+				if (adjustAim > FMath.PI/2) {
+					adjustAim = FMath.PI/2;
 				}
-				if (Aim < -FMath.PI/2) {
-					Aim = -FMath.PI/2;
+				if (adjustAim < -FMath.PI/2) {
+					adjustAim = -FMath.PI/2;
 				}
 			}else{
-				if (Aim < FMath.PI/2 && Aim > 0) {
-					Aim = FMath.PI/2;
+				if (adjustAim < FMath.PI/2 && adjustAim > 0) {
+					adjustAim = FMath.PI/2;
 				}
-				if (Aim > -FMath.PI/2 && Aim < 0) {
-					Aim = -FMath.PI/2;
+				if (adjustAim > -FMath.PI/2 && adjustAim < 0) {
+					adjustAim = -FMath.PI/2;
 				}
 			}
+			Aim = adjustAim + ((SpriteIndex==1)?(-FMath.PI/16f):(FMath.PI/8f));
 			
 			Weapon.Update(time,((SpriteIndex == 1)? Aim+FMath.PI:Aim), weaponPos,SpriteIndex,true);
 			

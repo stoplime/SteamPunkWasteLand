@@ -54,6 +54,8 @@ namespace SteamPunkWasteLand
 			Game.Textures = new List<Texture2D>();
 			InitTextures();
 			
+			Game.hud = new HUD();
+			
 			NewGame();
 		}
 		
@@ -113,7 +115,9 @@ namespace SteamPunkWasteLand
 			Game.Textures.Add(new Texture2D("/Application/assets/Enemies/DragonHead.png",false));	//15	DragonHead
 			Game.Textures.Add(new Texture2D("/Application/assets/Other/White.png",false));			//16	white pixel
 			
-			Game.Textures.Add(new Texture2D("/Application/assets/Enemies/DragonHead.png",false));	//17	???
+			Game.Textures.Add(new Texture2D("/Application/assets/Other/AnimatedGear.png",false));	//17	HUD gear
+			Game.Textures.Add(new Texture2D("/Application/assets/Other/hpTube.png",false));			//18	HP Tube
+			Game.Textures.Add(new Texture2D("/Application/assets/Other/AnimatedGear.png",false));	//19	HUD gear
 		}
 
 		public static void LootUpdate (float time)
@@ -154,6 +158,8 @@ namespace SteamPunkWasteLand
 			if ((gamePadData.Buttons & GamePadButtons.Select) != 0) {
 				Game.Running = false;
 			}
+			
+			Game.hud.Update(time);
 			
 			Game.Spawner.Update(time);
 			
@@ -238,6 +244,8 @@ namespace SteamPunkWasteLand
 			foreach(Loot l in Game.Loots){
 				l.Render();
 			}
+			
+			Game.hud.Render();
 			
 			Game.Graphics.SwapBuffers ();
 		}
