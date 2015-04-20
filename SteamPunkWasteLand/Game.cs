@@ -44,12 +44,14 @@ namespace SteamPunkWasteLand
 		
 		public static Background BgSky,BgGround,BgCloud;
 		public static Player Player1;
-		
+		public static long Score;
+		public static int Money;
 		
 		public static List<Loot> Loots;
 		public static List<Enemy> Enemies;
 		public static List<Bullet> PBullets;
 		public static List<Bullet> EBullets;
+		public static List<Coins> AnimatedMoney;
 		
 		public static List<Texture2D> Textures;
 		public static List<Weapon> ObtainedWeapons;

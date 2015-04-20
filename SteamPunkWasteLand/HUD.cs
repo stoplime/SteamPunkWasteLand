@@ -36,6 +36,9 @@ namespace SteamPunkWasteLand
 		private int hpWidth = 1000;
 		private int hpHeight = 20;
 		
+		private Text score;
+		private Text money;
+		
 		public HUD ()
 		{
 			height = Game.Graphics.Screen.Height;
@@ -46,6 +49,9 @@ namespace SteamPunkWasteLand
 			initGear();
 			
 			initHP();
+			score = new Text(Game.Graphics.Screen.Width-20,height-20,300,40,1,1,Game.Score.ToString());
+			money = new Text(22*scale,height-22*scale,75*scale,75*scale,0,0,Game.Money.ToString());
+			money.TextSize = 18;
 		}
 		
 		private void initGear()
@@ -101,6 +107,9 @@ namespace SteamPunkWasteLand
 			}
 			
 			hpUpdate();
+			
+			score.Update(Game.Score.ToString());
+			money.Update(Game.Money.ToString());
 		}
 		
 		public void Render()
@@ -110,6 +119,8 @@ namespace SteamPunkWasteLand
 			hpTube.Render();
 			playerHp.Render();
 			gear.Render();
+			score.Render();
+			money.Render();
 		}
 		
 	}

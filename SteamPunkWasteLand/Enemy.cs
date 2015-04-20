@@ -49,6 +49,18 @@ namespace SteamPunkWasteLand
 			get{return hp;}
 			set{hp = value;}
 		}
+		private float hitRadius;
+		public float HitRadius
+		{
+			get{return hitRadius;}
+			set{hitRadius = value;}
+		}
+		private int score;
+		public int Score
+		{
+			get{return score;}
+			set{score = value;}
+		}
 		
 		//protected
 		private float maxHp;
@@ -105,12 +117,13 @@ namespace SteamPunkWasteLand
 			get{return aim;}
 			set{aim = value;}
 		}
-		private float hitRadius;
-		public float HitRadius
+		private int moneyLoot;
+		protected int MoneyLoot
 		{
-			get{return hitRadius;}
-			set{hitRadius = value;}
+			get{return moneyLoot;}
+			set{moneyLoot = value;}
 		}
+		
 		
 		#endregion
 		
@@ -170,7 +183,7 @@ namespace SteamPunkWasteLand
 		
 		public virtual void CollideWithB (Bullet b)
 		{
-			hp -= b.Damage;
+			hp -= b.Damage * Game.Player1.DamgeMultiplier;
 			hitTime = 0;
 			if (pos.Y < 1f) {
 				vel.Y = 4f;
@@ -204,6 +217,32 @@ namespace SteamPunkWasteLand
 			hpBoxSprite.Position = hpSprite.Position;
 			hpBoxSprite.Position.X -= 2;
 			hpBoxSprite.Position.Y -= 2;
+		}
+
+		public virtual void animateDeath ()
+		{
+			sprite.Rotation = FMath.PI/2f;
+			
+		}
+		
+		public bool DeathUpdate (float time)
+		{
+			if (hp <= 0) {
+				if (moneyLoot <= 0) {
+					return true;
+				}else{
+					for (int i = 0; i < 10; i++) {
+						if (moneyLoot > 0) {
+							moneyLoot--;
+							Coins c = new Coins(pos);
+							Game.AnimatedMoney.Add(c);
+						}
+					}
+					//animate death
+					animateDeath();
+				}
+			}
+			return false;
 		}
 		
 		#endregion

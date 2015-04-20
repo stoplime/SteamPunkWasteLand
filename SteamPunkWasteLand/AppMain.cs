@@ -22,6 +22,7 @@ using Sce.PlayStation.Core;
 using Sce.PlayStation.Core.Environment;
 using Sce.PlayStation.Core.Graphics;
 using Sce.PlayStation.Core.Input;
+using Sce.PlayStation.HighLevel.UI;
 
 namespace SteamPunkWasteLand
 {
@@ -48,6 +49,7 @@ namespace SteamPunkWasteLand
 		public static void Initialize ()
 		{
 			Game.Graphics = new GraphicsContext ();
+			UISystem.Initialize(Game.Graphics);
 			Game.Running = true;
 			Game.Rand = new Random();
 			Game.GameState = States.MainMenu;
@@ -56,6 +58,8 @@ namespace SteamPunkWasteLand
 			
 			Game.hud = new HUD();
 			
+			
+			
 			NewGame();
 		}
 		
@@ -63,6 +67,8 @@ namespace SteamPunkWasteLand
 		{
 			Game.TimeSpeed = 1f;
 			Game.Level = 1;
+			Game.Score = 0;
+			Game.Money = 0;
 			
 			Game.BgSky = new Background(Game.Textures[0]);
 			Game.BgGround = new BackgroundGround(Game.Textures[1]);
@@ -74,6 +80,7 @@ namespace SteamPunkWasteLand
 			Game.Enemies = new List<Enemy>();
 			Game.EBullets = new List<Bullet>();
 			Game.Loots = new List<Loot>();
+			Game.AnimatedMoney = new List<Coins>();
 			
 			Game.Spawner = new Spawner();
 			
@@ -117,7 +124,7 @@ namespace SteamPunkWasteLand
 			
 			Game.Textures.Add(new Texture2D("/Application/assets/Other/AnimatedGear.png",false));	//17	HUD gear
 			Game.Textures.Add(new Texture2D("/Application/assets/Other/hpTube.png",false));			//18	HP Tube
-			Game.Textures.Add(new Texture2D("/Application/assets/Other/AnimatedGear.png",false));	//19	HUD gear
+			Game.Textures.Add(new Texture2D("/Application/assets/Other/Coin.png",false));			//19	Coin
 		}
 
 		public static void LootUpdate (float time)
@@ -178,7 +185,13 @@ namespace SteamPunkWasteLand
 			}
 			
 			for (int i = 0; i < Game.Enemies.Count; i++) {
-				Game.Enemies[i].Update(time);
+				if (Game.Enemies[i].Hp > 0) {
+					Game.Enemies[i].Update(time);
+				}else if(Game.Enemies[i].DeathUpdate(time)){
+					Game.Score += Game.Enemies[i].Score;
+					Game.Enemies.RemoveAt(i);
+					break;
+				}
 				//bullet collision
 				for (int j = 0; j < Game.PBullets.Count; j++) {
 					if (!Game.PBullets[j].Hit) {
@@ -207,6 +220,14 @@ namespace SteamPunkWasteLand
 				Game.PBullets[i].Update(time);
 				if (Game.PBullets[i].Despawn) {
 					Game.PBullets.RemoveAt(i);
+				}
+			}
+			
+			for (int i = 0; i < Game.AnimatedMoney.Count; i++) {
+				Game.AnimatedMoney[i].Update(time);
+				if (Game.AnimatedMoney[i].Despawn) {
+					Game.AnimatedMoney.RemoveAt(i);
+					Game.Money++;
 				}
 			}
 			
@@ -243,6 +264,10 @@ namespace SteamPunkWasteLand
 			
 			foreach(Loot l in Game.Loots){
 				l.Render();
+			}
+			
+			foreach(Coins c in Game.AnimatedMoney){
+				c.Render();
 			}
 			
 			Game.hud.Render();

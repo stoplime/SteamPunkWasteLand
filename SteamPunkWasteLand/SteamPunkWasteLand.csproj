@@ -65,6 +65,7 @@
     <Compile Include="E_AirShip.cs" />
     <Compile Include="Spawner.cs" />
     <Compile Include="HUD.cs" />
+    <Compile Include="Coins.cs" />
   </ItemGroup>
   <ItemGroup>
     <ShaderProgram Include="shaders\Simple.fcg" />
@@ -103,5 +104,6 @@
     <Content Include="assets\Other\White.png" />
     <Content Include="assets\Other\hpTube.png" />
     <Content Include="assets\Other\AnimatedGear.png" />
+    <Content Include="assets\Other\Coin.png" />
   </ItemGroup>
 </Project>

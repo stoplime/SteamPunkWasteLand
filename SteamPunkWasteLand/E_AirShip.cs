@@ -23,6 +23,8 @@ namespace SteamPunkWasteLand
 {
 	public class E_AirShip : Enemy
 	{
+		// THIS IS UNTESTED, ONLY FOR FUTURE UPDATES //
+		
 		private const float DOWNTime = 60f;
 		
 		private List<Weapon> cannons;

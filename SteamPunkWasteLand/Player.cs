@@ -91,6 +91,12 @@ namespace SteamPunkWasteLand
 			get{return hitRadius;}
 			set{hitRadius = value;}
 		}
+		private float damageMultiplier;
+		public float DamgeMultiplier
+		{
+			get{return damageMultiplier;}
+			set{DamgeMultiplier = value;}
+		}
 		#endregion
 		
 		#region Constructor
@@ -102,6 +108,8 @@ namespace SteamPunkWasteLand
 			maxHp = 100;
 			hp = maxHp;
 			hitTime = HitDelay;
+			
+			damageMultiplier = 10;
 			
 			spriteIndex = 0;
 			timer = 0;
