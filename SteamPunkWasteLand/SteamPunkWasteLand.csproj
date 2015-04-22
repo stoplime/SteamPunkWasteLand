@@ -66,6 +66,9 @@
     <Compile Include="Spawner.cs" />
     <Compile Include="HUD.cs" />
     <Compile Include="Coins.cs" />
+    <Compile Include="ButtonSet.cs" />
+    <Compile Include="Button.cs" />
+    <Compile Include="HighScoresDisplay.cs" />
   </ItemGroup>
   <ItemGroup>
     <ShaderProgram Include="shaders\Simple.fcg" />
@@ -83,6 +86,7 @@
     <Folder Include="assets\Weapons\" />
     <Folder Include="assets\Enemies\" />
     <Folder Include="assets\Other\" />
+    <Folder Include="assets\Menu\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\Backgrounds\Cloud1.png" />
@@ -99,11 +103,12 @@
     <Content Include="assets\Enemies\Dragon.png" />
     <Content Include="assets\Enemies\DragonHead.png" />
     <Content Include="assets\Weapons\explosion.png" />
-    <Content Include="assets\Player\Tophat_Sheet.png" />
     <Content Include="assets\Player\arm.png" />
     <Content Include="assets\Other\White.png" />
     <Content Include="assets\Other\hpTube.png" />
     <Content Include="assets\Other\AnimatedGear.png" />
     <Content Include="assets\Other\Coin.png" />
+    <Content Include="assets\Menu\MenuButtonsSheet.png" />
+    <Content Include="assets\Player\Tophat_Sheet.png" />
   </ItemGroup>
 </Project>

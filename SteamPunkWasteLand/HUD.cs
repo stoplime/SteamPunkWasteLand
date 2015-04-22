@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using Sce.PlayStation.Core;
+using Sce.PlayStation.HighLevel.UI;
 
 namespace SteamPunkWasteLand
 {
@@ -39,6 +40,9 @@ namespace SteamPunkWasteLand
 		private Text score;
 		private Text money;
 		
+		private Text intro;
+		private Text outro;
+		
 		public HUD ()
 		{
 			height = Game.Graphics.Screen.Height;
@@ -46,11 +50,18 @@ namespace SteamPunkWasteLand
 			hpWidth = (int)(hpWidth*scale);
 			hpHeight = (int)(hpHeight*scale);
 			
+			intro = new Text(Game.Graphics.Screen.Width/2f,height/2f,1000,80,0,0,"LEVEL "+Game.Level+", Start!");
+			intro.TextColor = new UIColor(240/256f,155/256f,33/256f,1);
+			intro.TextSize = 60;
+			outro = new Text(Game.Graphics.Screen.Width/2f,height/2f,1000,80,0,0,"Press 'X' to continue next level!");
+			outro.TextColor = new UIColor(240/256f,155/256f,33/256f,1);
+			outro.TextSize = 60;
+			
 			initGear();
 			
 			initHP();
 			score = new Text(Game.Graphics.Screen.Width-20,height-20,300,40,1,1,Game.Score.ToString());
-			money = new Text(22*scale,height-22*scale,75*scale,75*scale,0,0,Game.Money.ToString());
+			money = new Text(25*scale,height-20*scale,75*scale,75*scale,0,0,Game.Money.ToString());
 			money.TextSize = 18;
 		}
 		
@@ -91,6 +102,17 @@ namespace SteamPunkWasteLand
 				playerHp.SetColor(0f,1f,0f,1f);
 			}
 		}
+
+		private void introOutro ()
+		{
+			if (time < 2) {
+				intro.TextAlpha = ((time < 1)?1-time:1);
+				intro.Render();
+			}
+			if (Game.LevelFinished) {
+				outro.Render();
+			}
+		}
 		
 		public void Update(float t)
 		{
@@ -121,6 +143,8 @@ namespace SteamPunkWasteLand
 			gear.Render();
 			score.Render();
 			money.Render();
+			
+			introOutro();
 		}
 		
 	}

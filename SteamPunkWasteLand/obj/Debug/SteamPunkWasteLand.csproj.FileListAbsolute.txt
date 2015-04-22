@@ -69,3 +69,5 @@ C:\Users\stoplime\Documents\GitHub\SteamPunkWasteLand\SteamPunkWasteLand\bin\Deb
 C:\Users\stoplime\Documents\GitHub\SteamPunkWasteLand\SteamPunkWasteLand\bin\Debug\SteamPunkWasteLand-signed\Application\assets\Other\hpTube.png
 C:\Users\stoplime\Documents\GitHub\SteamPunkWasteLand\SteamPunkWasteLand\bin\Debug\SteamPunkWasteLand-unsigned\Application\assets\Other\Coin.png
 C:\Users\stoplime\Documents\GitHub\SteamPunkWasteLand\SteamPunkWasteLand\bin\Debug\SteamPunkWasteLand-signed\Application\assets\Other\Coin.png
+C:\Users\stoplime\Documents\GitHub\SteamPunkWasteLand\SteamPunkWasteLand\bin\Debug\SteamPunkWasteLand-unsigned\Application\assets\Menu\MenuButtonsSheet.png
+C:\Users\stoplime\Documents\GitHub\SteamPunkWasteLand\SteamPunkWasteLand\bin\Debug\SteamPunkWasteLand-signed\Application\assets\Menu\MenuButtonsSheet.png

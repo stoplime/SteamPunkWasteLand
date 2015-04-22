@@ -103,7 +103,7 @@ namespace SteamPunkWasteLand
 			
 		}
 		
-		public void Update(float time)
+		public bool Update(float time)
 		{
 			deltaTime += time;
 			
@@ -114,7 +114,7 @@ namespace SteamPunkWasteLand
 					if (queue.Count > 0) {
 						string action = queue.Dequeue();
 						if (action == null) {
-							return;
+							return false;
 						}
 						// action, posX, posY, delay;
 						string[] spwn = action.Split(',');
@@ -178,11 +178,8 @@ namespace SteamPunkWasteLand
 						endGame = true;
 					}
 				}
-			}//end game
-			else{
-				
 			}
-			
+			return endGame;
 		}
 	}
 }

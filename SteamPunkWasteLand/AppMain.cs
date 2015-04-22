@@ -1,5 +1,5 @@
 /*	
- * Copyright (C) 2015  Steffen Lim
+ * Copyright (C) 2015  Steffen Lim and Nicolas Vilenueva
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published 
@@ -45,7 +45,8 @@ namespace SteamPunkWasteLand
 				Console.WriteLine("FPS: "+(int)(1/time));
 			}
 		}
-
+		
+		#region Main Methods
 		public static void Initialize ()
 		{
 			Game.Graphics = new GraphicsContext ();
@@ -56,17 +57,77 @@ namespace SteamPunkWasteLand
 			Game.Textures = new List<Texture2D>();
 			InitTextures();
 			
-			Game.hud = new HUD();
+			NewMenu();
+		}
+
+		public static void Update (float time)
+		{
+			var gamePadData = GamePad.GetData (0);
+			if ((gamePadData.Buttons & GamePadButtons.Select) != 0) {
+				Game.Running = false;
+			}
 			
+			switch (Game.GameState) {
+			case States.MainMenu:
+				MenuUpdate(gamePadData);
+				break;
+			case States.Play:
+				InGameUpdate(time,gamePadData);
+				break;
+			case States.HighScore:
+				HighScoreUpdate(gamePadData);
+				break;
+			case States.Name:
+				break;
+			default:
+				break;
+			}
 			
+		}
+		
+		public static void Render ()
+		{
+			Game.Graphics.SetClearColor (0.0f, 0.0f, 0.0f, 0.0f);
+			Game.Graphics.Clear ();
 			
-			NewGame();
+			switch (Game.GameState) {
+			case States.MainMenu:
+				MenuRender();
+				break;
+			case States.Play:
+				InGameRender();
+				break;
+			case States.HighScore:
+				HighScoreRender();
+				break;
+			case States.Name:
+				break;
+			default:
+				break;
+			}
+			
+			Game.Graphics.SwapBuffers ();
+		}
+		#endregion
+		
+		#region Instanciate States
+		public static void NewMenu ()
+		{
+			Game.BgMenu = new Background(Game.Textures[0]);
+			
+			float X = Game.Graphics.Screen.Width/2f;
+			float Y = Game.Graphics.Screen.Height/2f;
+			
+			Game.MenuButtons = new ButtonSet(Game.Textures[22], new Vector2(200,75));
+			Game.MenuButtons.AddButton(new Vector3(X,Y,0));			//play
+			Game.MenuButtons.AddButton(new Vector3(X,Y+100,0));		//high score
+			Game.MenuButtons.AddButton(new Vector3(X,Y+200,0));		//quit
 		}
 		
 		public static void NewGame()
 		{
 			Game.TimeSpeed = 1f;
-			Game.Level = 1;
+			Game.Level = 0;
 			Game.Score = 0;
 			Game.Money = 0;
 			
@@ -74,7 +135,6 @@ namespace SteamPunkWasteLand
 			Game.BgGround = new BackgroundGround(Game.Textures[1]);
 			Game.BgCloud = new BackgroundClouds(Game.Textures[2]);
 			
-			Game.Player1 = new Player();
 			Game.PBullets = new List<Bullet>();
 			Game.ObtainedWeapons = new List<Weapon>();
 			Game.Enemies = new List<Enemy>();
@@ -82,24 +142,20 @@ namespace SteamPunkWasteLand
 			Game.Loots = new List<Loot>();
 			Game.AnimatedMoney = new List<Coins>();
 			
-			Game.Spawner = new Spawner();
-			
-//			//test add
-//			L_CrossBow l = new L_CrossBow(new Vector3(-200, 300,0));
-//			L_Cannon ll = new L_Cannon(new Vector3(200, 300,0));
-//			L_Flamethrower lll = new L_Flamethrower(new Vector3(0,600,0));
-//			Game.Loots.Add(l);
-//			Game.Loots.Add(ll);
-//			Game.Loots.Add(lll);
-//			
-//			E_Zeppelin g = new E_Zeppelin(new Vector3(500,300,0));
-//			//E_Dragon g = new E_Dragon(new Vector3(500,50,0));
-//			Game.Enemies.Add(g);
+			NextLevel();
 		}
 
+		public static void NewHighScore ()
+		{
+			Game.BgMenu = new Background(Game.Textures[0]);
+			Game.HSD = new HighScoresDisplay();
+		}
+		#endregion
+		
+		#region textures
 		public static void InitTextures ()
 		{
-			Game.Textures.Add(new Texture2D("/Application/assets/Backgrounds/Sky2.png",false));		//0		Sky
+			Game.Textures.Add(new Texture2D("/Application/assets/Backgrounds/Sky1.png",false));		//0		Sky
 			Game.Textures.Add(new Texture2D("/Application/assets/Backgrounds/Ground1.png",false));	//1		Ground
 			Game.Textures.Add(new Texture2D("/Application/assets/Backgrounds/Cloud1.png",false));	//2		Clouds
 			
@@ -125,8 +181,15 @@ namespace SteamPunkWasteLand
 			Game.Textures.Add(new Texture2D("/Application/assets/Other/AnimatedGear.png",false));	//17	HUD gear
 			Game.Textures.Add(new Texture2D("/Application/assets/Other/hpTube.png",false));			//18	HP Tube
 			Game.Textures.Add(new Texture2D("/Application/assets/Other/Coin.png",false));			//19	Coin
+			
+			Game.Textures.Add(new Texture2D("/Application/assets/Backgrounds/Sky2.png",false));		//20	Sky2
+			Game.Textures.Add(new Texture2D("/Application/assets/Backgrounds/Cloud2.png",false));	//21	Cloud2
+			
+			Game.Textures.Add(new Texture2D("/Application/assets/Menu/MenuButtonsSheet.png",false));//22	Menu Buttons
 		}
-
+		#endregion
+		
+		#region InGame Methods
 		public static void LootUpdate (float time)
 		{
 			for (int i = 0; i < Game.Loots.Count; i++) {
@@ -158,17 +221,38 @@ namespace SteamPunkWasteLand
 				}
 			}
 		}
-
-		public static void Update (float time)
+		
+		public static void NextLevel()
 		{
-			var gamePadData = GamePad.GetData (0);
-			if ((gamePadData.Buttons & GamePadButtons.Select) != 0) {
-				Game.Running = false;
-			}
+			Game.Level++;
+			Game.Player1 = new Player();
+			Game.Spawner = new Spawner();
+			Game.LevelFinished = false;
+			Game.hud = new HUD();
 			
+			if (Game.Level % 2 ==0) {
+				Game.BgSky = new Background(Game.Textures[20]);
+			}else{
+				Game.BgSky = new Background(Game.Textures[0]);
+			}
+			if (Game.Level/3 % 2 == 0) {
+				Game.BgCloud = new BackgroundClouds(Game.Textures[2]);
+			}else{
+				Game.BgCloud = new BackgroundClouds(Game.Textures[21]);
+			}
+		}
+		
+		public static void InGameUpdate (float time, GamePadData gamePadData)
+		{
 			Game.hud.Update(time);
 			
-			Game.Spawner.Update(time);
+			Game.LevelFinished = Game.Spawner.Update(time);//returns true once finished spawning
+			
+			if (Game.LevelFinished) {
+				if (Game.Enemies.Count > 0) {
+					Game.LevelFinished = false;
+				}
+			}
 			
 			Game.Player1.Update(gamePadData,time);
 			WorldCoord.FocusObject = Game.Player1.WorldPos;
@@ -231,6 +315,12 @@ namespace SteamPunkWasteLand
 				}
 			}
 			
+			if (Game.LevelFinished) {
+				if ((gamePadData.Buttons & GamePadButtons.Start) != 0 && (gamePadData.ButtonsPrev & GamePadButtons.Start) == 0) {
+					NextLevel();
+				}
+			}
+			
 			LootUpdate(time);
 			
 			
@@ -238,12 +328,9 @@ namespace SteamPunkWasteLand
 			Game.BgCloud.Update();
 			Game.BgGround.Update();
 		}
-
-		public static void Render ()
+		
+		public static void InGameRender ()
 		{
-			Game.Graphics.SetClearColor (0.0f, 0.0f, 0.0f, 0.0f);
-			Game.Graphics.Clear ();
-			
 			Game.BgSky.Render();
 			Game.BgGround.Render();
 			Game.BgCloud.Render();
@@ -271,8 +358,106 @@ namespace SteamPunkWasteLand
 			}
 			
 			Game.hud.Render();
-			
-			Game.Graphics.SwapBuffers ();
 		}
+		
+		public static void PlayDispose ()
+		{
+			Game.hud = null;
+			Game.BgSky = null;
+			Game.BgGround = null;
+			Game.BgCloud = null;
+			
+			Game.Player1 = null;
+			Game.Spawner = null;
+			
+			Game.Loots.Clear();
+			Game.Enemies.Clear();
+			Game.PBullets.Clear();
+			Game.EBullets.Clear();
+			Game.ObtainedWeapons.Clear();
+			
+			for (int i = Game.AnimatedMoney.Count-1; i >= 0; i--) {
+				Game.Money++;
+				Game.AnimatedMoney.RemoveAt(i);
+			}
+		}
+		#endregion
+		
+		#region Main Menu Methods
+		public static void MenuUpdate (GamePadData gamePadData)
+		{
+			int selection = -1;
+			
+			//selection movement
+			if ((gamePadData.Buttons & GamePadButtons.Up) != 0 && (gamePadData.ButtonsPrev & GamePadButtons.Up) == 0) {
+				Game.MenuButtons.SelectPrevious();
+			}
+			if ((gamePadData.Buttons & GamePadButtons.Down) != 0 && (gamePadData.ButtonsPrev & GamePadButtons.Down) == 0) {
+				Game.MenuButtons.SelectNext();
+			}
+			
+			//selecting
+			if ((gamePadData.Buttons & GamePadButtons.Cross) != 0) {
+				selection = Game.MenuButtons.Select;
+			}
+			
+			Game.MenuButtons.Update();
+			
+			switch (selection) {
+			case 0://play
+				Game.GameState = States.Play;
+				MenuDispose();
+				NewGame();
+				break;
+			case 1://high score
+				Game.GameState = States.HighScore;
+				MenuDispose();
+				NewHighScore();
+				break;
+			case 2://quit
+				Game.Running = false;
+				break;
+			default:
+				break;
+			}
+		}
+		
+		public static void MenuRender ()
+		{
+			Game.BgMenu.Render();
+			Game.MenuButtons.Render();
+		}
+		
+		public static void MenuDispose ()
+		{
+			Game.BgMenu = null;
+			Game.MenuButtons = null;
+		}
+		#endregion
+		
+		#region High Score
+		public static void HighScoreUpdate (GamePadData gamePadData)
+		{
+			//check if clicked back
+			if ((gamePadData.Buttons & GamePadButtons.Back) != 0 || (gamePadData.Buttons & GamePadButtons.Start) != 0) {
+				Game.GameState = States.MainMenu;
+				HighScoreDispose();
+				NewMenu();
+			}
+		}
+		
+		public static void HighScoreRender ()
+		{
+			Game.BgMenu.Render();
+			Game.HSD.Render();
+		}
+		
+		public static void HighScoreDispose ()
+		{
+			Game.HSD = null;
+			Game.BgMenu = null;
+		}
+		#endregion
+		
 	}
 }

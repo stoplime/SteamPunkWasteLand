@@ -38,13 +38,16 @@ namespace SteamPunkWasteLand
 		public static GraphicsContext Graphics;
 		public static Random Rand;
 		public static States GameState;
-		public static Spawner Spawner;
-		public static float TimeSpeed;
+		public static long Score;
 		public static int Level;
+		public static List<Texture2D> Textures;
 		
+		#region In Game
+		public static bool LevelFinished;
+		public static float TimeSpeed;
 		public static Background BgSky,BgGround,BgCloud;
 		public static Player Player1;
-		public static long Score;
+		public static Spawner Spawner;
 		public static int Money;
 		
 		public static List<Loot> Loots;
@@ -52,9 +55,18 @@ namespace SteamPunkWasteLand
 		public static List<Bullet> PBullets;
 		public static List<Bullet> EBullets;
 		public static List<Coins> AnimatedMoney;
-		
-		public static List<Texture2D> Textures;
 		public static List<Weapon> ObtainedWeapons;
+		#endregion
+		
+		#region Main Menu
+		public static Background BgMenu;
+		public static ButtonSet MenuButtons;
+		#endregion
+		
+		#region High Score
+		public static HighScoresDisplay HSD;
+		#endregion
+		
 	}
 }
 

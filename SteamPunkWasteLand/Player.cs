@@ -109,7 +109,7 @@ namespace SteamPunkWasteLand
 			hp = maxHp;
 			hitTime = HitDelay;
 			
-			damageMultiplier = 10;
+			damageMultiplier = 1000;
 			
 			spriteIndex = 0;
 			timer = 0;
