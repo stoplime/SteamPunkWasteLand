@@ -38,9 +38,10 @@ namespace SteamPunkWasteLand
 		public static GraphicsContext Graphics;
 		public static Random Rand;
 		public static States GameState;
-		public static long Score;
+		public static int Score;
 		public static int Level;
 		public static List<Texture2D> Textures;
+		public static List<HighScore> HighScores;
 		
 		#region In Game
 		public static bool LevelFinished;
@@ -67,6 +68,9 @@ namespace SteamPunkWasteLand
 		public static HighScoresDisplay HSD;
 		#endregion
 		
+		#region Naming
+		public static EnterNameDisplay NameDisplay;
+		#endregion
 	}
 }
 

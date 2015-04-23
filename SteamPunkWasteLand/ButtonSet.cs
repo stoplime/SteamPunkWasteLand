@@ -35,6 +35,11 @@ namespace SteamPunkWasteLand
 			set{selecting = value;}
 		}
 		
+		public int Count
+		{
+			get{return buttons.Count;}
+		}
+		
 		public ButtonSet (Texture2D text, Vector2 size)
 		{
 			texture = text;

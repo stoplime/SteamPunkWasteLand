@@ -24,38 +24,13 @@ namespace SteamPunkWasteLand
 {
 	public class HighScoresDisplay
 	{
-		private string[] names;
-		private string[] scores;
-		
 		private Text[] textNames;
 		private Text[] textScores;
 		
 		public HighScoresDisplay ()
 		{
-			names = new string[10];
-			scores = new string[10];
-			
 			textNames = new Text[10];
 			textScores = new Text[10];
-			
-			StreamReader sr = null;
-			try {
-				sr = new StreamReader("Documents/highscores.txt");
-				loadHighscores(sr);
-			} catch (FileNotFoundException) {
-				File.CreateText("Documents/highscores.txt");
-				StreamWriter sw = new StreamWriter("Documents/highscores.txt");
-				for (int i = 0; i < 10; i++) {
-					sw.WriteLine("---,--");
-					names[i] = "---";
-					scores[i] = "--";
-				}
-				sw.Close();
-			} finally {
-				if (sr != null) {
-					sr.Close();
-				}
-			}
 			
 			float X = Game.Graphics.Screen.Width/2f;
 			float Y = Game.Graphics.Screen.Height/2f;
@@ -66,28 +41,19 @@ namespace SteamPunkWasteLand
 			float Nx = X+175;
 			float dy = 35;
 			
+			StreamWriter sw = new StreamWriter("Documents/highscores.txt",false);
 			for (int i = 0; i < 10; i++) {
-				textNames[i] = new Text(leftX,(i*dy)+topY,500,dy,-1,-1,(i+1)+". "+names[i]);
-				textScores[i] = new Text(Nx,(i*dy)+topY,150,dy,-1,-1,scores[i]);
-			}
-			
-		}
-		
-		private void loadHighscores(StreamReader sr)
-		{
-			for (int i = 0; i < 10; i++) {
-				string[] line = sr.ReadLine().Split(',');
-				if (line[0] != null || line[0] != "") {
-					names[i] = line[0];
-				}else{
-					names[i] = "---";
+				string name = Game.HighScores[i].Name;
+				string score = Game.HighScores[i].Score.ToString();
+				if (score.StartsWith("0")) {
+					score = "--";
 				}
-				if (line[1] != null || line[1] != "") {
-					scores[i] = line[1];
-				}else{
-					scores[i] = "--";
-				}
+				textNames[i] = new Text(leftX,(i*dy)+topY,500,dy,-1,-1,(i+1)+". "+name);
+				textScores[i] = new Text(Nx,(i*dy)+topY,150,dy,-1,-1,score);
+				
+				sw.WriteLine(name+","+score);
 			}
+			sw.Close();
 		}
 		
 		public void Render ()

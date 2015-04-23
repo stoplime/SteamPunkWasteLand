@@ -71,3 +71,9 @@ C:\Users\stoplime\Documents\GitHub\SteamPunkWasteLand\SteamPunkWasteLand\bin\Deb
 C:\Users\stoplime\Documents\GitHub\SteamPunkWasteLand\SteamPunkWasteLand\bin\Debug\SteamPunkWasteLand-signed\Application\assets\Other\Coin.png
 C:\Users\stoplime\Documents\GitHub\SteamPunkWasteLand\SteamPunkWasteLand\bin\Debug\SteamPunkWasteLand-unsigned\Application\assets\Menu\MenuButtonsSheet.png
 C:\Users\stoplime\Documents\GitHub\SteamPunkWasteLand\SteamPunkWasteLand\bin\Debug\SteamPunkWasteLand-signed\Application\assets\Menu\MenuButtonsSheet.png
+C:\Users\stoplime\Documents\GitHub\SteamPunkWasteLand\SteamPunkWasteLand\bin\Debug\SteamPunkWasteLand-unsigned\Application\assets\Menu\ABC2.png
+C:\Users\stoplime\Documents\GitHub\SteamPunkWasteLand\SteamPunkWasteLand\bin\Debug\SteamPunkWasteLand-unsigned\Application\assets\Menu\ABC1.png
+C:\Users\stoplime\Documents\GitHub\SteamPunkWasteLand\SteamPunkWasteLand\bin\Debug\SteamPunkWasteLand-signed\Application\assets\Menu\ABC2.png
+C:\Users\stoplime\Documents\GitHub\SteamPunkWasteLand\SteamPunkWasteLand\bin\Debug\SteamPunkWasteLand-signed\Application\assets\Menu\ABC1.png
+C:\Users\stoplime\Documents\GitHub\SteamPunkWasteLand\SteamPunkWasteLand\bin\Debug\SteamPunkWasteLand-unsigned\Application\assets\Menu\EnterKeys.png
+C:\Users\stoplime\Documents\GitHub\SteamPunkWasteLand\SteamPunkWasteLand\bin\Debug\SteamPunkWasteLand-signed\Application\assets\Menu\EnterKeys.png

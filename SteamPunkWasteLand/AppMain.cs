@@ -18,6 +18,7 @@
 using System;
 using System.Diagnostics;
 using System.Collections.Generic;
+using System.IO;
 using Sce.PlayStation.Core;
 using Sce.PlayStation.Core.Environment;
 using Sce.PlayStation.Core.Graphics;
@@ -55,7 +56,9 @@ namespace SteamPunkWasteLand
 			Game.Rand = new Random();
 			Game.GameState = States.MainMenu;
 			Game.Textures = new List<Texture2D>();
+			Game.HighScores = new List<HighScore>();
 			InitTextures();
+			InitHighScores();
 			
 			NewMenu();
 		}
@@ -78,6 +81,7 @@ namespace SteamPunkWasteLand
 				HighScoreUpdate(gamePadData);
 				break;
 			case States.Name:
+				NamingUpdate(gamePadData);
 				break;
 			default:
 				break;
@@ -101,6 +105,7 @@ namespace SteamPunkWasteLand
 				HighScoreRender();
 				break;
 			case States.Name:
+				NamingRender();
 				break;
 			default:
 				break;
@@ -150,9 +155,15 @@ namespace SteamPunkWasteLand
 			Game.BgMenu = new Background(Game.Textures[0]);
 			Game.HSD = new HighScoresDisplay();
 		}
+		
+		public static void NewName ()
+		{
+			Game.BgMenu = new Background(Game.Textures[0]);
+			Game.NameDisplay = new EnterNameDisplay();
+		}
 		#endregion
 		
-		#region textures
+		#region Other Methods
 		public static void InitTextures ()
 		{
 			Game.Textures.Add(new Texture2D("/Application/assets/Backgrounds/Sky1.png",false));		//0		Sky
@@ -186,6 +197,40 @@ namespace SteamPunkWasteLand
 			Game.Textures.Add(new Texture2D("/Application/assets/Backgrounds/Cloud2.png",false));	//21	Cloud2
 			
 			Game.Textures.Add(new Texture2D("/Application/assets/Menu/MenuButtonsSheet.png",false));//22	Menu Buttons
+			Game.Textures.Add(new Texture2D("/Application/assets/Menu/ABC1.png",false));			//23	ABC Buttons 1
+			Game.Textures.Add(new Texture2D("/Application/assets/Menu/ABC2.png",false));			//24	ABC Buttons 2
+			Game.Textures.Add(new Texture2D("/Application/assets/Menu/EnterKeys.png",false));		//25	Extra Keys
+			
+		}
+
+		public static void InitHighScores ()
+		{
+			StreamReader sr = null;
+			try {
+				sr = new StreamReader("Documents/highscores.txt");
+				for (int i = 0; i < 10; i++) {
+					string name = "---";
+					string score = "--";
+					string[] line = sr.ReadLine().Split(',');
+					if (line.Length == 2 && (line[0] != "" || line[1] != "")) {
+						name = line[0];
+						score = line[1];
+					}
+					Game.HighScores.Add(new HighScore(name,score));
+				}
+			} catch (FileNotFoundException) {
+				File.CreateText("Documents/highscores.txt");
+				StreamWriter sw = new StreamWriter("Documents/highscores.txt");
+				for (int i = 0; i < 10; i++) {
+					sw.WriteLine("---,--");
+					Game.HighScores.Add(new HighScore("---","--"));
+				}
+				sw.Close();
+			} finally {
+				if (sr != null) {
+					sr.Close();
+				}
+			}
 		}
 		#endregion
 		
@@ -409,10 +454,10 @@ namespace SteamPunkWasteLand
 				MenuDispose();
 				NewGame();
 				break;
-			case 1://high score
-				Game.GameState = States.HighScore;
+			case 1://high score// ************************************* FOr Testing
+				Game.GameState = States.Name;
 				MenuDispose();
-				NewHighScore();
+				NewName();
 				break;
 			case 2://quit
 				Game.Running = false;
@@ -459,5 +504,29 @@ namespace SteamPunkWasteLand
 		}
 		#endregion
 		
+		#region Naming
+		public static void NamingUpdate (GamePadData gamePadData)
+		{
+			
+			if (Game.NameDisplay.Update(gamePadData)) {
+				Game.GameState = States.HighScore;
+				NamingDispose();
+				NewHighScore();
+			}
+			
+		}
+		
+		public static void NamingRender ()
+		{
+			Game.BgMenu.Render();
+			Game.NameDisplay.Render();
+		}
+		
+		public static void NamingDispose ()
+		{
+			Game.BgMenu = null;
+			Game.NameDisplay = null;
+		}
+		#endregion
 	}
 }

@@ -1,23 +1,18 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="SteamPunkWasteLand\Button.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="SteamPunkWasteLand\HighScore.cs">
     <Files>
-      <File FileName="SteamPunkWasteLand\AppMain.cs" Line="27" Column="29" />
-      <File FileName="SteamPunkWasteLand\Game.cs" Line="49" Column="33" />
-      <File FileName="SteamPunkWasteLand\HUD.cs" Line="53" Column="39" />
+      <File FileName="SteamPunkWasteLand\AppMain.cs" Line="234" Column="4" />
+      <File FileName="SteamPunkWasteLand\Game.cs" Line="41" Column="20" />
+      <File FileName="SteamPunkWasteLand\EnterNameDisplay.cs" Line="164" Column="32" />
+      <File FileName="SteamPunkWasteLand\HighScore.cs" Line="13" Column="3" />
+      <File FileName="SteamPunkWasteLand\HighScoresDisplay.cs" Line="46" Column="43" />
+      <File FileName="SteamPunkWasteLand\HUD.cs" Line="56" Column="68" />
       <File FileName="SteamPunkWasteLand\Player.cs" Line="213" Column="5" />
-      <File FileName="SteamPunkWasteLand\Spawner.cs" Line="34" Column="4" />
-      <File FileName="SteamPunkWasteLand\Enemy.cs" Line="1" Column="1" />
-      <File FileName="SteamPunkWasteLand\E_Guard.cs" Line="42" Column="36" />
-      <File FileName="SteamPunkWasteLand\E_Dragon.cs" Line="35" Column="43" />
-      <File FileName="SteamPunkWasteLand\E_Zeppelin.cs" Line="44" Column="40" />
-      <File FileName="SteamPunkWasteLand\Coins.cs" Line="76" Column="40" />
-      <File FileName="SteamPunkWasteLand\Loot.cs" Line="75" Column="4" />
-      <File FileName="SteamPunkWasteLand\B_Arrow.cs" Line="37" Column="15" />
-      <File FileName="SteamPunkWasteLand\bin\Debug\SteamPunkWasteLand-unsigned\Documents\levels.txt" Line="20" Column="128" />
+      <File FileName="SteamPunkWasteLand\Spawner.cs" Line="117" Column="20" />
       <File FileName="c:\Users\stoplime\Documents\GitHub\SteamPunkWasteLand\SteamPunkWasteLand\Text.cs" Line="199" Column="32" />
-      <File FileName="SteamPunkWasteLand\ButtonSet.cs" Line="49" Column="96" />
-      <File FileName="SteamPunkWasteLand\Button.cs" Line="54" Column="44" />
+      <File FileName="SteamPunkWasteLand\ButtonSet.cs" Line="40" Column="30" />
+      <File FileName="SteamPunkWasteLand\Button.cs" Line="58" Column="26" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
