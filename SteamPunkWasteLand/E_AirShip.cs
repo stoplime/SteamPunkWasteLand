@@ -1,5 +1,5 @@
 /*	
- * Copyright (C) 2015  Steffen Lim
+ * Copyright (C) 2015  Steffen Lim and Nicolas Villanueva
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published 
@@ -23,9 +23,10 @@ namespace SteamPunkWasteLand
 {
 	public class E_AirShip : Enemy
 	{
-		private List<Weapon> cannons;
-		private List<float> fireTime;
-		private int cannonIndex;
+		private List<Weapon> weapons;
+		private List<float> fireSpeeds;
+		private List<float> deltaTimes;
+		private int weaponIndex;
 		private float speed;
 		private float downCount;
 		
@@ -34,19 +35,29 @@ namespace SteamPunkWasteLand
 		{
 			MaxHp = 3001;//2000;//TODO: Revert this back
 			Hp = MaxHp;
-			cannonIndex = 0;
-			cannons = new List<Weapon>();
-			fireTime = new List<float>();
-			for (int i = 0; i < 8; i++) {
-				cannons.Add(new W_Cannon());
-				fireTime.Add((float)(Game.Rand.NextDouble()*5+2));
+			weaponIndex = 0;
+			weapons = new List<Weapon>();
+			fireSpeeds = new List<float>();
+			deltaTimes = new List<float>();
+			
+			weapons.Add(new W_CrossBow(true));
+			weapons.Add(new W_CrossBow(true));
+			
+			weapons.Add(new W_Cannon(true));
+			weapons.Add(new W_Cannon(true));
+			weapons.Add(new W_Cannon(true));
+			
+			for (int i = 0; i < 5; i++) {
+				fireSpeeds.Add((float)(Game.Rand.NextDouble()*5+2));
+				deltaTimes.Add(0);
 			}
-			Weapon = cannons[cannonIndex];
+			
+			Weapon = weapons[weaponIndex];
 			
 			downCount = 0;
 			
 			Sprite = new Sprite(Game.Graphics,Game.Textures[26],512,350);
-			Sprite.Center = new Vector2(0.5f,0.5f);
+			Sprite.Center = new Vector2(0.5f,0.7843f);
 			Sprite.Position = worldToSprite();
 			HitRadius = (Sprite.Width+Sprite.Height)/4f;
 			HpOffset = true;
@@ -57,8 +68,44 @@ namespace SteamPunkWasteLand
 			speed = 50f;
 		}
 		
+		public Vector3 GetWeaponPos (int index, float angle)
+		{
+			float extend = 0;
+			float phi = 0;
+			switch (index) {
+			case 0://Left crossbow
+				extend = 80.5f;
+				phi = FMath.PI;
+				break;
+			case 1://Right crossbow
+				extend = 80.5f;
+				phi = 0;
+				break;
+			case 2://Left Cannon
+				extend = 140.88f;
+				phi = -3.467f;
+				break;
+			case 3://Middle Cannon
+				extend = 53;
+				phi = FMath.PI/2f;
+				break;
+			case 4://Right Cannon
+				extend = 147.36f;
+				phi = 0.3679f;
+				break;
+			default:
+				break;
+			}
+			return new Vector3(
+				ExtendArc(Pos.X,extend,angle,phi,SpriteIndex,true),
+				ExtendArc(Pos.Y+Sprite.Height/2f,extend,angle,phi,SpriteIndex,false),0);
+		}
+		
 		public override void Update (float time)
 		{
+			for (int i = 0; i < deltaTimes.Count; i++) {
+				deltaTimes[i] += time;
+			}
 			float Time = time/Game.TimeSpeed;
 			downCount += time;
 			Vector3 tempVel = Vel;
@@ -86,24 +133,43 @@ namespace SteamPunkWasteLand
 			
 			Vel = tempVel;
 			
+			for (int i = 0; i < weapons.Count; i++) {
+				Vector3 weaponPos = GetWeaponPos(i,-Sprite.Rotation);
+				float aim = FMath.Atan2(Target.Y-weaponPos.Y,Target.X-weaponPos.X);
+				aim += 0.0005f*(Target.X-Pos.X);
+				weapons[i].Update(time,(SpriteIndex==0?aim:aim+FMath.PI),weaponPos,SpriteIndex,true);
+			}
+			
+			
 			if (FMath.Abs(Pos.X-Target.X) < Game.Graphics.Screen.Width/2f) {
 				Firing = true;
 			}else{
 				Firing = false;
 			}
 			
-			Aim += 0.0005f*(Target.X-Pos.X);
-			
-			Weapon.Update(time,(SpriteIndex==0?Aim:Aim+FMath.PI),Pos,SpriteIndex);
+			for (int i = 0; i < 4; i++) {
+				DeltaTime = deltaTimes[i];
+				FireSpeed = fireSpeeds[i];
+				FireMethod();
+				deltaTimes[i] = DeltaTime;
+				Weapon = weapons[(++weaponIndex)];
+			}
 			
 			base.Update (time);
+			
+			weaponIndex = 0;
+			Weapon = weapons[weaponIndex];
 			
 		}
 		
 		public override void Render ()
 		{
-			Weapon.Render();
 			base.Render ();
+			if(Hp > 0){
+				foreach (Weapon w in weapons) {
+					w.Render();
+				}
+			}
 		}
 	}
 }

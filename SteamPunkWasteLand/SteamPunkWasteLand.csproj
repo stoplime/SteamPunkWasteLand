@@ -117,5 +117,7 @@
     <Content Include="assets\Menu\EnterKeys.png" />
     <Content Include="assets\Other\BetterGear.png" />
     <Content Include="assets\Enemies\AirShip.png" />
+    <Content Include="assets\Enemies\E_Cannon.png" />
+    <Content Include="assets\Enemies\E_CrossBow.png" />
   </ItemGroup>
 </Project>

@@ -1,5 +1,5 @@
 /*	
- * Copyright (C) 2015  Steffen Lim
+ * Copyright (C) 2015  Steffen Lim and Nicolas Villanueva
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published 
@@ -24,12 +24,22 @@ namespace SteamPunkWasteLand
 	public class W_Cannon : Weapon
 	{
 		public float deviation = 0.05f;
+		public bool isEnemy;
 		
 		public W_Cannon ()
+			:this(false)
+		{}
+		
+		public W_Cannon (bool isEnemy)
 		{
+			this.isEnemy = isEnemy;
 			Type = WeaponType.Cannon;
 			
-			Sprite = new Sprite(Game.Graphics,Game.Textures[8],70,34);
+			if (!isEnemy) {
+				Sprite = new Sprite(Game.Graphics,Game.Textures[8],70,34);
+			}else{
+				Sprite = new Sprite(Game.Graphics,Game.Textures[28],40,40);
+			}
 			Sprite.Center = new Vector2(0.5f,0.5f);
 			FireSpd = 1f;
 		}

@@ -1,5 +1,5 @@
 /*	
- * Copyright (C) 2015  Steffen Lim
+ * Copyright (C) 2015  Steffen Lim and Nicolas Villanueva
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published 
@@ -86,7 +86,7 @@ namespace SteamPunkWasteLand
 			}
 			
 			Vel = new Vector3(Vx,Vel.Y-9.8f*time,0);
-			Physics(time);
+			Physics(time,9.8f,false);
 			
 			base.Update (time);
 		}
@@ -95,7 +95,9 @@ namespace SteamPunkWasteLand
 		{
 			
 			base.Render ();
-			Weapon.Render();
+			if(Hp > 0){
+				Weapon.Render();
+			}
 		}
 	}
 }

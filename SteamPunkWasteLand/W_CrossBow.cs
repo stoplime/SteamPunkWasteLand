@@ -1,5 +1,5 @@
 /*	
- * Copyright (C) 2015  Steffen Lim
+ * Copyright (C) 2015  Steffen Lim and Nicolas Villanueva
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published 
@@ -24,12 +24,23 @@ namespace SteamPunkWasteLand
 	public class W_CrossBow : Weapon
 	{
 		private const float deviation = 0.05f;
+		private bool isEnemy;
 		
 		public W_CrossBow ()
+			:this(false)
+		{}
+		
+		public W_CrossBow (bool isEnemy)
 		{
+			this.isEnemy = isEnemy;
 			Type = WeaponType.CrossBow;
 			
-			Sprite = new Sprite(Game.Graphics,Game.Textures[10],76,24);
+			if (!isEnemy) {
+				Sprite = new Sprite(Game.Graphics,Game.Textures[10],76,24);
+			}else{
+				Sprite = new Sprite(Game.Graphics,Game.Textures[27],34,34);
+			}
+			
 			Sprite.Center = new Vector2(0.5f,0.5f);
 			FireSpd = 0.5f;
 		}

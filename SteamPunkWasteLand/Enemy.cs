@@ -1,5 +1,5 @@
 /*	
- * Copyright (C) 2015  Steffen Lim
+ * Copyright (C) 2015  Steffen Lim and Nicolas Villanueva
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published 
@@ -28,6 +28,7 @@ namespace SteamPunkWasteLand
 		private float hitTime;
 		private Sprite hpSprite;
 		private Sprite hpBoxSprite;
+		private Vector3 lootPos;
 		#endregion
 		
 		#region Properties
@@ -141,6 +142,7 @@ namespace SteamPunkWasteLand
 			spriteIndex = 0;
 			firing = false;
 			hitTime = HitDelay;
+			lootPos = initPos;
 			
 			hpSprite = new Sprite(Game.Graphics,Game.Textures[16]);
 			hpBoxSprite = new Sprite(Game.Graphics,Game.Textures[16]);
@@ -166,9 +168,9 @@ namespace SteamPunkWasteLand
 			return s;
 		}
 		
-		protected virtual void Physics (float time)
+		protected virtual void Physics (float time, float g, bool posAdjust)
 		{
-			vel.Y -= 9.8f*time;
+			vel.Y -= g*time;
 			
 			//friction
 //			if (pos.Y > 0) {
@@ -181,9 +183,16 @@ namespace SteamPunkWasteLand
 //			}
 			
 			//ground level
-			if(pos.Y < 0){
-				vel.Y = 0;
-				pos.Y = 0;
+			if (!posAdjust) {
+				if(pos.Y < 0){
+					vel.Y = 0;
+					pos.Y = 0;
+				}	
+			}else{
+				if (pos.Y < -600) {
+					vel.Y = 0;
+					pos.Y = -600;
+				}
 			}
 		}
 		
@@ -225,10 +234,13 @@ namespace SteamPunkWasteLand
 			hpBoxSprite.Position.Y -= 2;
 		}
 
-		public virtual void animateDeath ()
+		public virtual void animateDeath (float time)
 		{
-			sprite.Rotation = FMath.PI/2f;
+			//sprite.Rotation = FMath.PI/2f;
+			Physics(time,2.4f,true);
+			pos += vel * Game.TimeSpeed;
 			
+			sprite.Position = worldToSprite();
 		}
 		
 		public bool DeathUpdate (float time)
@@ -240,12 +252,12 @@ namespace SteamPunkWasteLand
 					for (int i = 0; i < 10; i++) {
 						if (moneyLoot > 0) {
 							moneyLoot--;
-							Coins c = new Coins(pos);
+							Coins c = new Coins(lootPos);
 							Game.AnimatedMoney.Add(c);
 						}
 					}
 					//animate death
-					animateDeath();
+					animateDeath(time);
 				}
 			}
 			return false;
@@ -259,6 +271,7 @@ namespace SteamPunkWasteLand
 			deltaTime += time;
 			hitTime += time;
 			target = Game.Player1.WorldPos;
+			lootPos = pos;
 			aim = FMath.Atan2(target.Y-pos.Y,target.X-pos.X);
 			
 			
@@ -284,8 +297,10 @@ namespace SteamPunkWasteLand
 				sprite.SetColor(1,1,1,1);
 			}
 			sprite.Render();
-			hpBoxSprite.Render();
-			hpSprite.Render();
+			if (hp > 0) {
+				hpBoxSprite.Render();
+				hpSprite.Render();
+			}
 		}
 		#endregion
 	}

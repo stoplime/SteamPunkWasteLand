@@ -1,5 +1,5 @@
 /*	
- * Copyright (C) 2015  Steffen Lim and Nicolas Vilenueva
+ * Copyright (C) 2015  Steffen Lim and Nicolas Villanueva
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published 
@@ -202,6 +202,8 @@ namespace SteamPunkWasteLand
 			Game.Textures.Add(new Texture2D("/Application/assets/Menu/EnterKeys.png",false));		//25	Extra Keys
 			
 			Game.Textures.Add(new Texture2D("/Application/assets/Enemies/AirShip.png",false));		//26	AirShip
+			Game.Textures.Add(new Texture2D("/Application/assets/Enemies/E_CrossBow.png",false));	//27	E_CrossBow
+			Game.Textures.Add(new Texture2D("/Application/assets/Enemies/E_Cannon.png",false));		//28	E_cannon
 		}
 
 		public static void InitHighScores ()
@@ -327,15 +329,32 @@ namespace SteamPunkWasteLand
 				//bullet collision
 				for (int j = 0; j < Game.PBullets.Count; j++) {
 					if (!Game.PBullets[j].Hit) {
-						float dist = (Game.Enemies[i].Sprite.Width+Game.Enemies[i].Sprite.Height)/4f;
-						float distSq = dist * dist;
-						if ((Game.Enemies[i].Pos+
-						     new Vector3(0,Game.Enemies[i].Sprite.Height/2,0)
-						     ).DistanceSquared(Game.PBullets[j].Pos) < distSq) 
-						{
-							//hit
-							Game.Enemies[i].CollideWithB(Game.PBullets[j]);
-							Game.PBullets[j].CollideWithE(Game.Enemies[i]);
+						if (!Object.ReferenceEquals(Game.Enemies[i].GetType(),typeof(E_AirShip))) {
+							float dist = Game.Enemies[i].HitRadius;
+							float distSq = dist * dist;
+							if ((Game.Enemies[i].Pos+
+							     new Vector3(0,Game.Enemies[i].Sprite.Height/2f,0)
+							     ).DistanceSquared(Game.PBullets[j].Pos) < distSq) 
+							{
+								//hit
+								Game.Enemies[i].CollideWithB(Game.PBullets[j]);
+								Game.PBullets[j].CollideWithE(Game.Enemies[i]);
+							}
+						}else{
+							float Ex = Game.Enemies[i].Pos.X;
+							float Ey = Game.Enemies[i].Pos.Y + Game.Enemies[i].Sprite.Height/2f;
+							Vector3 topLeftBound = new Vector3(Ex-221,Ey-45.5f,0);
+							Vector3 bottomRightBound = new Vector3(Ex+221,Ey+266.5f,0);
+							
+							float Bx = Game.PBullets[j].Pos.X;
+							float By = Game.PBullets[j].Pos.Y;
+							if (Bx > topLeftBound.X && Bx < bottomRightBound.X) {
+								if (By < bottomRightBound.Y && By > topLeftBound.Y) {
+									//hit
+									Game.Enemies[i].CollideWithB(Game.PBullets[j]);
+									Game.PBullets[j].CollideWithE(Game.Enemies[i]);
+								}
+							}
 						}
 					}
 				}
