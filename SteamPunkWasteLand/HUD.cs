@@ -29,8 +29,7 @@ namespace SteamPunkWasteLand
 		private float height;
 		
 		private Sprite gear;
-		private int gearIndex;
-		private float gearCount;
+		private float gearSpeed;
 		
 		private Sprite playerHp;
 		private Sprite hpTube;
@@ -42,6 +41,7 @@ namespace SteamPunkWasteLand
 		
 		private Text intro;
 		private Text outro;
+		private float outroBlink;
 		
 		public HUD ()
 		{
@@ -53,36 +53,37 @@ namespace SteamPunkWasteLand
 			intro = new Text(Game.Graphics.Screen.Width/2f,height/2f,1000,80,0,0,"LEVEL "+Game.Level+", Start!");
 			intro.TextColor = new UIColor(240/256f,155/256f,33/256f,1);
 			intro.TextSize = 60;
-			outro = new Text(Game.Graphics.Screen.Width/2f,height/2f,1000,80,0,0,"Press 'X' to continue next level!");
+			outro = new Text(Game.Graphics.Screen.Width/2f,height/4f,1000,80,0,0,"Press 'X' to continue next level!");
 			outro.TextColor = new UIColor(240/256f,155/256f,33/256f,1);
 			outro.TextSize = 60;
+			outroBlink = 0;
 			
 			initGear();
 			
 			initHP();
 			score = new Text(Game.Graphics.Screen.Width-20,height-20,300,40,1,1,Game.Score.ToString());
-			money = new Text(25*scale,height-20*scale,75*scale,75*scale,0,0,Game.Money.ToString());
+			money = new Text(25*scale+7,height-20*scale,75*scale,75*scale,0,0,Game.Money.ToString());
 			money.TextSize = 18;
 		}
 		
 		private void initGear()
 		{
-			gear = new Sprite(Game.Graphics,Game.Textures[17],75,75);
+			gear = new Sprite(Game.Graphics,Game.Textures[17],150,150);
 			gear.Scale = new Vector2(scale,scale);
-			gear.Center = new Vector2(0f,1f);
-			gear.Position = new Vector3(0,height,0);
-			gearIndex = 0;
-			gearCount = 0;
+			gear.Center = new Vector2(0.5f,0.5f);
+			gear.Position = new Vector3(15,height,0);
+			//gear.SetColor(202/265f,140/265f,50/256f,1);
+			gearSpeed = 0.62f;
 		}
 		
 		private void initHP()
 		{
 			playerHp = new Sprite(Game.Graphics,Game.Textures[16]);
 			playerHp.Center = new Vector2(0,1);
-			playerHp.Position = new Vector3(60*scale,height-(5*scale),0);
+			playerHp.Position = new Vector3(60*scale+15,height-(5*scale),0);
 			hpTube = new Sprite(Game.Graphics,Game.Textures[18],hpWidth+(50*scale),hpHeight+(10*scale));
 			hpTube.Center = new Vector2(0,1);
-			hpTube.Position = new Vector3(60*scale,height,0);
+			hpTube.Position = new Vector3(60*scale+15,height,0);
 			hpTube.SetColor(162/265f,100/265f,10/256f,1);
 			hpTube.SetTextureUV(0,0,1,1);
 		}
@@ -106,27 +107,22 @@ namespace SteamPunkWasteLand
 		private void introOutro ()
 		{
 			if (time < 2) {
-				intro.TextAlpha = ((time < 1)?1-time:1);
+				intro.TextAlpha = 2-time;
 				intro.Render();
 			}
 			if (Game.LevelFinished) {
+				outro.TextAlpha = (1+FMath.Cos((time-outroBlink)*4))/2f;
 				outro.Render();
+			}else{
+				outroBlink = time;
 			}
 		}
 		
 		public void Update(float t)
 		{
 			this.time += t;
-			gearCount += t;
 			
-			if (gearCount > 0.1f) {
-				gearCount = 0;
-				if (gearIndex < 3) {
-					gearIndex++;
-				}else{
-					gearIndex = 0;
-				}
-			}
+			gear.Rotation += gearSpeed*t;
 			
 			hpUpdate();
 			
@@ -136,7 +132,6 @@ namespace SteamPunkWasteLand
 		
 		public void Render()
 		{
-			gear.SetTextureUV(gearIndex/4f,0,(gearIndex+1)/4f,1);
 			
 			hpTube.Render();
 			playerHp.Render();

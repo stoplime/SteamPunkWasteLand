@@ -34,11 +34,23 @@ namespace SteamPunkWasteLand
 		public static float Hheight = Game.Graphics.Screen.Height/2;
 		public static float ViewSpd;
 		
+		private static float EarthQuakeAngle;
+		private static float EarthQuakeMagnitude;
+		private static Vector3 Quake = Vector3.Zero;
+		
 		public static Vector3 WorldToView (Vector3 worldPos){
 			return new Vector3(WorldZero.X + worldPos.X,WorldZero.Y - worldPos.Y,0);
 		}
 		
+		public static void EarthQuake (float time)
+		{
+			EarthQuakeMagnitude = 5f;
+		}
+		
 		public static void UpdateFocus (float time){
+			
+			WorldZero -= Quake;
+			
 			float Hwidth = Game.Graphics.Screen.Width/2;
 			float Hheight = Game.Graphics.Screen.Height/2;
 			
@@ -54,16 +66,16 @@ namespace SteamPunkWasteLand
 					WorldZero.X += ViewSpd*time;//Game.TimeSpeed;
 				}
 			}
-//			if (FocusObject.Y > WorldZero.Y+Hheight+HEIGHT_DEVIATION) 
-//				WorldZero.Y += VIEW_SPEED*time;
-//			else if (FocusObject.Y < WorldZero.Y+Hheight-HEIGHT_DEVIATION) 
-//				WorldZero.Y -= VIEW_SPEED*time;
 			
-//			Vector3 f = ViewZero;
-//			f.X -= FocusObject.X;
-//			f.Y += FocusObject.Y;
-//			WorldZero = f;
+			//EarthQuake update
+			EarthQuakeAngle = (float)Game.Rand.NextDouble()*2*FMath.PI;
+			EarthQuakeMagnitude *= 0.8f;
+			if(EarthQuakeMagnitude < 0.2f){
+				EarthQuakeMagnitude = 0;
+			}
+			Quake = new Vector3(FMath.Cos(EarthQuakeAngle),FMath.Sin(EarthQuakeAngle),0)*EarthQuakeMagnitude;
 			
+			WorldZero += Quake;
 		}
 	}
 }

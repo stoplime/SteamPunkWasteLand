@@ -23,21 +23,16 @@ namespace SteamPunkWasteLand
 {
 	public class E_AirShip : Enemy
 	{
-		// THIS IS UNTESTED, ONLY FOR FUTURE UPDATES //
-		
-		private const float DOWNTime = 60f;
-		
 		private List<Weapon> cannons;
 		private List<float> fireTime;
 		private int cannonIndex;
 		private float speed;
 		private float downCount;
-		private bool isDown;
 		
 		public E_AirShip (Vector3 initPos)
 			:base(initPos)
 		{
-			MaxHp = 2000;
+			MaxHp = 3001;//2000;//TODO: Revert this back
 			Hp = MaxHp;
 			cannonIndex = 0;
 			cannons = new List<Weapon>();
@@ -49,12 +44,14 @@ namespace SteamPunkWasteLand
 			Weapon = cannons[cannonIndex];
 			
 			downCount = 0;
-			isDown = true;
 			
-			Sprite = new Sprite(Game.Graphics,Game.Textures[6],344,174);
+			Sprite = new Sprite(Game.Graphics,Game.Textures[26],512,350);
 			Sprite.Center = new Vector2(0.5f,0.5f);
 			Sprite.Position = worldToSprite();
 			HitRadius = (Sprite.Width+Sprite.Height)/4f;
+			HpOffset = true;
+			MoneyLoot = Game.Rand.Next(2000,4001);
+			Score = MoneyLoot;
 			
 			FireSpeed = 2f;
 			speed = 50f;
@@ -65,11 +62,26 @@ namespace SteamPunkWasteLand
 			float Time = time/Game.TimeSpeed;
 			downCount += time;
 			Vector3 tempVel = Vel;
-			if (downCount > DOWNTime && !isDown) {
-				downCount = 0;
-				tempVel.X += (speed*Time-tempVel.X)/10f;
+			//downward movement
+			if (Pos.Y-Target.Y > 350) {
+				tempVel.Y += (-speed*Time-tempVel.Y)/10f;
 			}else{
-				tempVel.X += (-speed*Time-tempVel.X)/10f;
+				tempVel.Y += (-tempVel.Y)/100f;//slowly normalize to zero
+			}
+			if (SpriteIndex == 0) {
+				//go right
+				tempVel.X += (speed*Time-tempVel.X)/20f;
+			}else{
+				tempVel.X += (-speed*Time-tempVel.X)/20f;
+			}
+			
+			if (Pos.X > Game.Graphics.Screen.Width*2f) {
+				SpriteIndex = 1;
+				tempVel.X = -speed*Time;
+			}
+			else if(Pos.X < -Game.Graphics.Screen.Width*2f){
+				SpriteIndex = 0;
+				tempVel.X = speed*Time;
 			}
 			
 			Vel = tempVel;
@@ -85,6 +97,7 @@ namespace SteamPunkWasteLand
 			Weapon.Update(time,(SpriteIndex==0?Aim:Aim+FMath.PI),Pos,SpriteIndex);
 			
 			base.Update (time);
+			
 		}
 		
 		public override void Render ()

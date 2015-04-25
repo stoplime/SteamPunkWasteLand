@@ -25,18 +25,22 @@ namespace SteamPunkWasteLand
 	public class Spawner
 	{
 		private float deltaTime;
-		private string[] line;
+		private List<string> line;
 		private Queue<string> queue;
 		private bool endGame;
 		private float wait;
+		private bool endless;
+		private Queue<SpawnObject> randomLevel;
 		
 		public Spawner ()
 		{
+			endless = false;
 			deltaTime = 0;
 			endGame = false;
 			wait = 0.5f;
-			line = new string[10]; // 10 levels
+			line = new List<string>(); // 10 levels
 			queue = new Queue<string>();
+			randomLevel = new Queue<SpawnObject>();
 			
 			StreamReader sr = null;
 			try{
@@ -52,32 +56,17 @@ namespace SteamPunkWasteLand
 					}
 				}
 				if (!sr.EndOfStream) {
-					line = sr.ReadLine().Split(';');
-					
+					string[] oneLine = sr.ReadLine().Split(';');
+					for (int i = 0; i < oneLine.Length; i++) {
+						line.Add(oneLine[i]);
+					}
 				}else{
-					endGame = true;
+					endless = true;
 				}
 			}catch(FileNotFoundException){
 				File.CreateText("Documents/levels.txt");
 				StreamWriter sw = new StreamWriter("Documents/levels.txt");
-				sw.WriteLine("// insert levels here");
-				sw.WriteLine("// Format: type, posX, posY, sleep;");
-				sw.WriteLine("// One level per line");
-				sw.WriteLine("// ");
-				sw.WriteLine("// Type:");
-				sw.WriteLine("// Wb = spawn cross bow");
-				sw.WriteLine("// Wf = spawn flame thrower");
-				sw.WriteLine("// Wc = spawn cannon");
-				sw.WriteLine("// Eg = spawn imperial guard");
-				sw.WriteLine("// Ed = spawn dragon");
-				sw.WriteLine("// Ez = spawn zeppelin");
-				sw.WriteLine("// Ea = spawn air ship");
-				sw.WriteLine("// ");
-				sw.WriteLine("// Pos Key words:");
-				sw.WriteLine("// left = left most posX");
-				sw.WriteLine("// right = right most posX");
-				sw.WriteLine("// top = top most posY");
-				sw.WriteLine("// skip one line after this one, very important");
+				CreateLevelsTextFile(sw);
 				sw.Close();
 				Console.WriteLine("Please build levels first before running the game.");
 			}catch(Exception e){
@@ -88,19 +77,125 @@ namespace SteamPunkWasteLand
 				}
 			}
 			
-			if(line.Length > 0){
-				if (line[0] == null) {
-					endGame = true;
-				}
-			}
+//			if(line.Count > 0){
+//				if (line[0] == null) {
+//					endGame = true;
+//				}
+//			}
 			
-			if(!endGame){
-				for (int i = 0; i < line.Length-1; i++) {
+			if(!endless){
+				for (int i = 0; i < line.Count-1; i++) {
 					queue.Enqueue(line[i]);
 					Console.WriteLine(line[i]);
 				}
+			}else{
+				CreateNewLevels();
 			}
+		}
+		
+		private void CreateLevelsTextFile (StreamWriter sw)
+		{
+			sw.WriteLine("// insert levels here");
+			sw.WriteLine("// Format: type, posX, posY, sleep;");
+			sw.WriteLine("// One level per line");
+			sw.WriteLine("// ");
+			sw.WriteLine("// Type:");
+			sw.WriteLine("// Wb = spawn cross bow");
+			sw.WriteLine("// Wf = spawn flame thrower");
+			sw.WriteLine("// Wc = spawn cannon");
+			sw.WriteLine("// Eg = spawn imperial guard");
+			sw.WriteLine("// Ed = spawn dragon");
+			sw.WriteLine("// Ez = spawn zeppelin");
+			sw.WriteLine("// Ea = spawn air ship");
+			sw.WriteLine("// ");
+			sw.WriteLine("// Pos Key words:");
+			sw.WriteLine("// left = left most posX");
+			sw.WriteLine("// right = right most posX");
+			sw.WriteLine("// top = top most posY");
+			sw.WriteLine("// ");
 			
+			sw.WriteLine("// skip one line after this one, very important");
+		}
+		
+		public void AddObjects (string item, int posX, int posY)
+		{
+			/*	Wb = spawn cross bow
+			 * 	Wf = spawn flame thrower
+			 * 	Wc = spawn cannon
+			 * 	Eg = spawn imperial guard
+			 * 	Ed = spawn dragon
+			 * 	Ez = spawn zeppelin
+			 * 	Ea = spawn air ship        
+			*/
+			switch (item) {
+			case "Wb":
+				L_CrossBow Wb = new L_CrossBow(new Vector3(posX,posY,0));
+				Game.Loots.Add(Wb);
+				break;
+			case "Wf":
+				L_Flamethrower Wf = new L_Flamethrower(new Vector3(posX,posY,0));
+				Game.Loots.Add(Wf);
+				break;
+			case "Wc":
+				L_Cannon Wc = new L_Cannon(new Vector3(posX,posY,0));
+				Game.Loots.Add(Wc);
+				break;
+			case "Eg":
+				E_Guard Eg = new E_Guard(new Vector3(posX,posY,0));
+				Game.Enemies.Add(Eg);
+				break;
+			case "Ed":
+				E_Dragon Ed = new E_Dragon(new Vector3(posX,posY,0));
+				Game.Enemies.Add(Ed);
+				break;
+			case "Ez":
+				E_Zeppelin Ez = new E_Zeppelin(new Vector3(posX,posY,0));
+				Game.Enemies.Add(Ez);
+				break;
+			case "Ea":
+				E_AirShip Ea = new E_AirShip(new Vector3(posX,posY,0));
+				Game.Enemies.Add(Ea);
+				break;
+			}
+		}
+		
+		public void CreateNewLevels ()
+		{
+			/*	Eg = spawn imperial guard
+			 * 	Ed = spawn dragon
+			 * 	Ez = spawn zeppelin
+			 * 	Ea = spawn air ship   
+			 */
+			for (int i = 0; i < Game.Level/5; i++) {
+				string enemy;
+				int posX,posY;
+				float delay;
+				int left = -Game.Graphics.Screen.Width*2;
+				int right = Game.Graphics.Screen.Width*2;
+				
+				double enemyProbability = Game.Rand.NextDouble()*100;
+				if (enemyProbability < 72.73) {
+					enemy = "Eg";
+					posX = (Game.Rand.Next(2)==0? left: right);
+					posY = 0;
+				}else if (enemyProbability < 90.91) {
+					enemy = "Ez";
+					posX = (Game.Rand.Next(2)==0? left: right);
+					posY = Game.Rand.Next(250,(int)(Game.Graphics.Screen.Height*7f/8f));
+				}else if (enemyProbability < 98.18) {
+					enemy = "Ed";
+					posX = (Game.Rand.Next(2)==0? left: right);
+					posY = 50;
+				}else{
+					enemy = "Ea";
+					posX = Game.Rand.Next(-150,150);
+					posY = Game.Graphics.Screen.Height;
+				}
+				delay = (float)Game.Rand.NextDouble()*4+1;
+				
+				SpawnObject obj = new SpawnObject(enemy,posX,posY,delay);
+				randomLevel.Enqueue(obj);
+			}
 		}
 		
 		public bool Update(float time)
@@ -111,74 +206,49 @@ namespace SteamPunkWasteLand
 			if (!endGame) {
 				if(deltaTime > wait){
 					deltaTime = 0;
-					if (queue.Count > 0) {
-						string action = queue.Dequeue();
-						if (action == null) {
-							return false;
-						}
-						// action, posX, posY, delay;
-						string[] spwn = action.Split(',');
-						string item = spwn[0];
-						int posX,posY;
-						if (spwn[1].Contains("left")) {
-							posX = -Game.Graphics.Screen.Width*2;
-						}else if (spwn[1].Contains("right")) {
-							posX = Game.Graphics.Screen.Width*2;
+					if (!endless) {
+						if (queue.Count > 0) {
+							string action = queue.Dequeue();
+							if (action == null) {
+								return false;
+							}
+							// action, posX, posY, delay;
+							string[] spwn = action.Split(',');
+							string item = spwn[0];
+							int posX,posY;
+							if (spwn[1].Contains("left")) {
+								posX = -Game.Graphics.Screen.Width*2;
+							}else if (spwn[1].Contains("right")) {
+								posX = Game.Graphics.Screen.Width*2;
+							}else{
+								posX = Int32.Parse(spwn[1]);
+							}
+							if (spwn[2].Contains("top")) {
+								posY = Game.Graphics.Screen.Height;
+							}else{
+								posY = Int32.Parse(spwn[2]);
+							}
+							
+							wait = float.Parse(spwn[3]);
+							
+							AddObjects(item,posX,posY);
+							
 						}else{
-							posX = Int32.Parse(spwn[1]);
-						}
-						if (spwn[2].Contains("top")) {
-							posY = Game.Graphics.Screen.Height;
-						}else{
-							posY = Int32.Parse(spwn[2]);
-						}
-						
-						wait = float.Parse(spwn[3]);
-						
-						
-						/*	Wb = spawn cross bow
-						 * 	Wf = spawn flame thrower
-						 * 	Wc = spawn cannon
-						 * 	Eg = spawn imperial guard
-						 * 	Ed = spawn dragon
-						 * 	Ez = spawn zeppelin
-						 * 	Ea = spawn air ship        
-						*/
-						switch (item) {
-						case "Wb":
-							L_CrossBow Wb = new L_CrossBow(new Vector3(posX,posY,0));
-							Game.Loots.Add(Wb);
-							break;
-						case "Wf":
-							L_Flamethrower Wf = new L_Flamethrower(new Vector3(posX,posY,0));
-							Game.Loots.Add(Wf);
-							break;
-						case "Wc":
-							L_Cannon Wc = new L_Cannon(new Vector3(posX,posY,0));
-							Game.Loots.Add(Wc);
-							break;
-						case "Eg":
-							E_Guard Eg = new E_Guard(new Vector3(posX,posY,0));
-							Game.Enemies.Add(Eg);
-							break;
-						case "Ed":
-							E_Dragon Ed = new E_Dragon(new Vector3(posX,posY,0));
-							Game.Enemies.Add(Ed);
-							break;
-						case "Ez":
-							E_Zeppelin Ez = new E_Zeppelin(new Vector3(posX,posY,0));
-							Game.Enemies.Add(Ez);
-							break;
-						case "Ea":
-							E_AirShip Ea = new E_AirShip(new Vector3(posX,posY,0));
-							Game.Enemies.Add(Ea);
-							break;
+							endGame = true;
 						}
 					}else{
-						endGame = true;
+						if (randomLevel.Count > 0) {
+							SpawnObject obj = randomLevel.Dequeue();
+							wait = obj.Delay;
+							AddObjects(obj.Type,obj.PosX,obj.PosY);
+						}else{
+							endGame = true;
+						}
 					}
 				}
+				
 			}
+			
 			return endGame;
 		}
 	}

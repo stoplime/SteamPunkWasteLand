@@ -40,8 +40,9 @@ namespace SteamPunkWasteLand
 			
 			FireSpeed = 2f;
 			speed = 100f;
-			Score = 1000;
+			
 			MoneyLoot = Game.Rand.Next(200,401);
+			Score = MoneyLoot;
 			
 			SpriteIndex = 0;
 		}

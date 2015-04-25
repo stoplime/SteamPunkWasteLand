@@ -71,6 +71,7 @@
     <Compile Include="HighScoresDisplay.cs" />
     <Compile Include="EnterNameDisplay.cs" />
     <Compile Include="HighScore.cs" />
+    <Compile Include="SpawnObject.cs" />
   </ItemGroup>
   <ItemGroup>
     <ShaderProgram Include="shaders\Simple.fcg" />
@@ -108,12 +109,13 @@
     <Content Include="assets\Player\arm.png" />
     <Content Include="assets\Other\White.png" />
     <Content Include="assets\Other\hpTube.png" />
-    <Content Include="assets\Other\AnimatedGear.png" />
     <Content Include="assets\Other\Coin.png" />
     <Content Include="assets\Menu\MenuButtonsSheet.png" />
     <Content Include="assets\Player\Tophat_Sheet.png" />
     <Content Include="assets\Menu\ABC2.png" />
     <Content Include="assets\Menu\ABC1.png" />
     <Content Include="assets\Menu\EnterKeys.png" />
+    <Content Include="assets\Other\BetterGear.png" />
+    <Content Include="assets\Enemies\AirShip.png" />
   </ItemGroup>
 </Project>

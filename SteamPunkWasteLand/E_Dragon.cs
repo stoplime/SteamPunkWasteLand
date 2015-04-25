@@ -41,8 +41,9 @@ namespace SteamPunkWasteLand
 			deltaTime = 0;
 			FireSpeed = 0.01f;
 			SpriteIndex = 1;
-			Score = 2500;
+			
 			MoneyLoot = Game.Rand.Next(500,1001);
+			Score = MoneyLoot;
 		}
 		
 		public override void CollideWithB (Bullet b)

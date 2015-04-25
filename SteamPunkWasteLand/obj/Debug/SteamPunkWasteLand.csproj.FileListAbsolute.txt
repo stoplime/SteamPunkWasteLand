@@ -63,8 +63,6 @@ C:\Users\stoplime\Documents\GitHub\SteamPunkWasteLand\SteamPunkWasteLand\bin\Deb
 C:\Users\stoplime\Documents\GitHub\SteamPunkWasteLand\SteamPunkWasteLand\bin\Debug\SteamPunkWasteLand-signed\Application\assets\Weapons\explosion.png
 C:\Users\stoplime\Documents\GitHub\SteamPunkWasteLand\SteamPunkWasteLand\bin\Debug\SteamPunkWasteLand-unsigned\Application\assets\Other\White.png
 C:\Users\stoplime\Documents\GitHub\SteamPunkWasteLand\SteamPunkWasteLand\bin\Debug\SteamPunkWasteLand-signed\Application\assets\Other\White.png
-C:\Users\stoplime\Documents\GitHub\SteamPunkWasteLand\SteamPunkWasteLand\bin\Debug\SteamPunkWasteLand-unsigned\Application\assets\Other\AnimatedGear.png
-C:\Users\stoplime\Documents\GitHub\SteamPunkWasteLand\SteamPunkWasteLand\bin\Debug\SteamPunkWasteLand-signed\Application\assets\Other\AnimatedGear.png
 C:\Users\stoplime\Documents\GitHub\SteamPunkWasteLand\SteamPunkWasteLand\bin\Debug\SteamPunkWasteLand-unsigned\Application\assets\Other\hpTube.png
 C:\Users\stoplime\Documents\GitHub\SteamPunkWasteLand\SteamPunkWasteLand\bin\Debug\SteamPunkWasteLand-signed\Application\assets\Other\hpTube.png
 C:\Users\stoplime\Documents\GitHub\SteamPunkWasteLand\SteamPunkWasteLand\bin\Debug\SteamPunkWasteLand-unsigned\Application\assets\Other\Coin.png
@@ -77,3 +75,7 @@ C:\Users\stoplime\Documents\GitHub\SteamPunkWasteLand\SteamPunkWasteLand\bin\Deb
 C:\Users\stoplime\Documents\GitHub\SteamPunkWasteLand\SteamPunkWasteLand\bin\Debug\SteamPunkWasteLand-signed\Application\assets\Menu\ABC1.png
 C:\Users\stoplime\Documents\GitHub\SteamPunkWasteLand\SteamPunkWasteLand\bin\Debug\SteamPunkWasteLand-unsigned\Application\assets\Menu\EnterKeys.png
 C:\Users\stoplime\Documents\GitHub\SteamPunkWasteLand\SteamPunkWasteLand\bin\Debug\SteamPunkWasteLand-signed\Application\assets\Menu\EnterKeys.png
+C:\Users\stoplime\Documents\GitHub\SteamPunkWasteLand\SteamPunkWasteLand\bin\Debug\SteamPunkWasteLand-unsigned\Application\assets\Other\BetterGear.png
+C:\Users\stoplime\Documents\GitHub\SteamPunkWasteLand\SteamPunkWasteLand\bin\Debug\SteamPunkWasteLand-signed\Application\assets\Other\BetterGear.png
+C:\Users\stoplime\Documents\GitHub\SteamPunkWasteLand\SteamPunkWasteLand\bin\Debug\SteamPunkWasteLand-unsigned\Application\assets\Enemies\AirShip.png
+C:\Users\stoplime\Documents\GitHub\SteamPunkWasteLand\SteamPunkWasteLand\bin\Debug\SteamPunkWasteLand-signed\Application\assets\Enemies\AirShip.png

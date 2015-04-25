@@ -43,7 +43,7 @@ namespace SteamPunkWasteLand
 				s.Start();
 				Update (time*Game.TimeSpeed);
 				Render ();
-				Console.WriteLine("FPS: "+(int)(1/time));
+				//Console.WriteLine("FPS: "+(int)(1/time));
 			}
 		}
 		
@@ -189,7 +189,7 @@ namespace SteamPunkWasteLand
 			Game.Textures.Add(new Texture2D("/Application/assets/Enemies/DragonHead.png",false));	//15	DragonHead
 			Game.Textures.Add(new Texture2D("/Application/assets/Other/White.png",false));			//16	white pixel
 			
-			Game.Textures.Add(new Texture2D("/Application/assets/Other/AnimatedGear.png",false));	//17	HUD gear
+			Game.Textures.Add(new Texture2D("/Application/assets/Other/BetterGear.png",false));		//17	HUD gear
 			Game.Textures.Add(new Texture2D("/Application/assets/Other/hpTube.png",false));			//18	HP Tube
 			Game.Textures.Add(new Texture2D("/Application/assets/Other/Coin.png",false));			//19	Coin
 			
@@ -201,6 +201,7 @@ namespace SteamPunkWasteLand
 			Game.Textures.Add(new Texture2D("/Application/assets/Menu/ABC2.png",false));			//24	ABC Buttons 2
 			Game.Textures.Add(new Texture2D("/Application/assets/Menu/EnterKeys.png",false));		//25	Extra Keys
 			
+			Game.Textures.Add(new Texture2D("/Application/assets/Enemies/AirShip.png",false));		//26	AirShip
 		}
 
 		public static void InitHighScores ()
@@ -272,6 +273,8 @@ namespace SteamPunkWasteLand
 			Game.Level++;
 			Game.Player1 = new Player();
 			Game.Spawner = new Spawner();
+			Game.EBullets.Clear();
+			Game.PBullets.Clear();
 			Game.LevelFinished = false;
 			Game.hud = new HUD();
 			
@@ -455,6 +458,7 @@ namespace SteamPunkWasteLand
 				NewGame();
 				break;
 			case 1://high score// ************************************* FOr Testing
+				//TODO: change this back to highscores
 				Game.GameState = States.Name;
 				MenuDispose();
 				NewName();

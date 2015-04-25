@@ -123,7 +123,12 @@ namespace SteamPunkWasteLand
 			get{return moneyLoot;}
 			set{moneyLoot = value;}
 		}
-		
+		private bool hpOffset;
+		protected bool HpOffset
+		{
+			get{return hpOffset;}
+			set{hpOffset = value;}
+		}
 		
 		#endregion
 		
@@ -140,6 +145,7 @@ namespace SteamPunkWasteLand
 			hpSprite = new Sprite(Game.Graphics,Game.Textures[16]);
 			hpBoxSprite = new Sprite(Game.Graphics,Game.Textures[16]);
 			hpBoxSprite.SetColor(0,0,0,0.5f);
+			hpOffset = false;
 		}
 		#endregion
 		
@@ -266,7 +272,7 @@ namespace SteamPunkWasteLand
 			
 			sprite.Position = worldToSprite();
 			
-			HpDisp(maxHp,hp,new Vector3(sprite.Position.X-sprite.Width/2,sprite.Position.Y,0),sprite.Width,0.05f*sprite.Height,(int)(sprite.Height/2));
+			HpDisp(maxHp,hp,new Vector3(sprite.Position.X-sprite.Width/2,sprite.Position.Y,0),sprite.Width,0.05f*sprite.Height,(int)(sprite.Height*(HpOffset?-1:1)/2));
 		}
 		
 		public virtual void Render()

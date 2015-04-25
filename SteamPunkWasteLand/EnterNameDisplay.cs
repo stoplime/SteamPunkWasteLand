@@ -67,7 +67,7 @@ namespace SteamPunkWasteLand
 			extras.AddButton(new Vector3(X+96,488,0));
 			extras.AddButton(new Vector3(X+224,488,0));
 			
-			nameDisplay = new Text(X-256,200,576,64,-1,1,name);
+			nameDisplay = new Text(X-288,200,576,64,-1,1,name);
 			nameDisplay.TextSize = 64;
 			nameDisplay.TextColor = new UIColor(240/256f,155/256f,33/256f,1);
 		}

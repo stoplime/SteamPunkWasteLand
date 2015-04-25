@@ -38,8 +38,9 @@ namespace SteamPunkWasteLand
 			HitRadius = (Sprite.Width+Sprite.Height)/4f;
 			
 			FireSpeed = 1f;
-			Score = 100;
+			
 			MoneyLoot = Game.Rand.Next(20,41);
+			Score = MoneyLoot;
 		}
 		
 		public override void Update (float time)
