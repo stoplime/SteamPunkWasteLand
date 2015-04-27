@@ -94,6 +94,7 @@
     <Folder Include="assets\Menu\" />
     <Folder Include="assets\PauseMenu\" />
     <Folder Include="assets\Music\" />
+    <Folder Include="assets\Sound\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\Backgrounds\Cloud1.png" />
@@ -134,5 +135,18 @@
     <Content Include="assets\PauseMenu\Slider.png" />
     <Content Include="assets\Music\MainMenuMusic.mp3" />
     <Content Include="assets\Music\InGameMusic.mp3" />
+    <Content Include="assets\Menu\NewHishscorePromp.png" />
+    <Content Include="assets\Menu\Title.png" />
+    <Content Include="assets\Menu\DeathMessage.png" />
+    <Content Include="assets\Menu\Highscores.png" />
+    <Content Include="assets\Menu\Instructions.png" />
+    <Content Include="assets\Sound\Flamethrower.wav" />
+    <Content Include="assets\Sound\DragonRoar.wav" />
+    <Content Include="assets\Sound\Cannon.wav" />
+    <Content Include="assets\Sound\Explosion.wav" />
+    <Content Include="assets\Sound\Crossbow.wav" />
+    <Content Include="assets\Sound\DeathScream.wav" />
+    <Content Include="assets\Other\indicatorRight.png" />
+    <Content Include="assets\Other\indicatorLeft.png" />
   </ItemGroup>
 </Project>

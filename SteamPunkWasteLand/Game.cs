@@ -29,7 +29,8 @@ namespace SteamPunkWasteLand
 		MainMenu,
 		Play,
 		HighScore,
-		Name
+		Name,
+		Instruction
 	}
 	
 	public static class Game
@@ -67,6 +68,8 @@ namespace SteamPunkWasteLand
 		#region Main Menu
 		public static Background BgMenu;
 		public static ButtonSet MenuButtons;
+		public static Sprite Title;
+		public static Text ToInstructions;
 		#endregion
 		
 		#region High Score
@@ -75,6 +78,10 @@ namespace SteamPunkWasteLand
 		
 		#region Naming
 		public static EnterNameDisplay NameDisplay;
+		#endregion
+		
+		#region Instructions
+		public static Sprite InstructionSprite;
 		#endregion
 	}
 }

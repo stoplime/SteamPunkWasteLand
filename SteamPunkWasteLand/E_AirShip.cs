@@ -76,7 +76,11 @@ namespace SteamPunkWasteLand
 			base.animateDeath (time);
 			
 			float angle = FMath.Atan2(Vel.Y,Vel.X);
-			Sprite.Rotation = (angle-Sprite.Rotation)/20f;
+			Sprite.Rotation = (angle-Sprite.Rotation)/20f*(SpriteIndex==0?-1:1);
+			
+			if(Pos.Y <= -100 && Pos.Y > -500){
+				WorldCoord.EarthQuake(time);
+			}
 		}
 		
 		public Vector3 GetWeaponPos (int index, float angle)

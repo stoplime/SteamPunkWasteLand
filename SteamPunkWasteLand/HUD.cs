@@ -38,6 +38,10 @@ namespace SteamPunkWasteLand
 		private Text intro;
 		private Text outro;
 		private float outroBlink;
+		private Sprite deathMessage;
+		private Text pressZ;
+		private Sprite indicatorLeft;
+		private Sprite indicatorRight;
 		
 		public HUD ()
 		{
@@ -53,6 +57,18 @@ namespace SteamPunkWasteLand
 			outro.TextColor = new UIColor (240 / 256f, 155 / 256f, 33 / 256f, 1);
 			outro.TextSize = 60;
 			outroBlink = 0;
+			
+			deathMessage = new Sprite (Game.Graphics, Game.Textures [39]);
+			deathMessage.Center = new Vector2 (0.5f, 0.5f);
+			deathMessage.Position = new Vector3 (Game.Graphics.Screen.Width / 2f, Game.Graphics.Screen.Height / 2f, 0);
+			pressZ = new Text (deathMessage.Position.X, deathMessage.Position.Y + 20, 100, 30, 0, -1, "Press 'Z'");
+			
+			indicatorLeft = new Sprite (Game.Graphics, Game.Textures [41]);
+			indicatorRight = new Sprite (Game.Graphics, Game.Textures [42]);
+			indicatorLeft.Center = new Vector2 (1, 0.5f);
+			indicatorRight.Center = new Vector2 (0, 0.5f);
+			indicatorLeft.Position = new Vector3 (Game.Graphics.Screen.Width, height / 2f, 0);
+			indicatorRight.Position = new Vector3 (0, height / 2f, 0);
 			
 			initGear ();
 			
@@ -130,7 +146,9 @@ namespace SteamPunkWasteLand
 			
 			hpUpdate ();
 			
-			score.Update (Game.Score.ToString ());
+			
+			
+			score.Update ("Score: " + Game.Score.ToString ());
 			money.Update (Game.Money.ToString ());
 		}
 		
@@ -145,6 +163,18 @@ namespace SteamPunkWasteLand
 			hpText.Render ();
 			
 			introOutro ();
+			
+//			bool onScreen = (Game.Enemies.Count!=0)?false:true;
+//			for (int i = 0; i < Game.Enemies.Count; i++) {
+//				if (Game.Enemies[i].Pos.X >) {
+//					
+//				}
+//			}
+			
+			if (Game.Player1.Hp <= 0) {
+				deathMessage.Render ();
+				pressZ.Render ();
+			}
 		}
 		
 	}

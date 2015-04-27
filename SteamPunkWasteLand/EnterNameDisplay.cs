@@ -35,13 +35,19 @@ namespace SteamPunkWasteLand
 		private ButtonSet extras;
 		private Text nameDisplay;
 		
+		private Sprite newHighscorePromp;
+		
 		public EnterNameDisplay ()
 		{
 			typed = false;
-			name = "PLAYER";
+			name = "NAME";
 			selection = 0;
 			
 			float X = Game.Graphics.Screen.Width / 2f;
+			
+			newHighscorePromp = new Sprite(Game.Graphics,Game.Textures[38]);
+			newHighscorePromp.Center = new Vector2(0.5f,0);
+			newHighscorePromp.Position = new Vector3(Game.Graphics.Screen.Width/2f,20,0);
 			
 			letters = new ButtonSet (Game.Textures [23], new Vector2 (64, 64));
 			letters2 = new ButtonSet (Game.Textures [24], new Vector2 (64, 64));
@@ -186,6 +192,8 @@ namespace SteamPunkWasteLand
 		
 		public void Render ()
 		{
+			newHighscorePromp.Render();
+			
 			nameDisplay.Render ();
 			
 			letters.Render ();

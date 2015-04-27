@@ -25,6 +25,7 @@ namespace SteamPunkWasteLand
 	{
 		private Text[] textNames;
 		private Text[] textScores;
+		private Sprite highscoreText;
 		
 		public HighScoresDisplay ()
 		{
@@ -39,6 +40,10 @@ namespace SteamPunkWasteLand
 			
 			float Nx = X + 175;
 			float dy = 35;
+			
+			highscoreText = new Sprite(Game.Graphics, Game.Textures[37]);
+			highscoreText.Center = new Vector2(0.5f,0);
+			highscoreText.Position = new Vector3(Game.Graphics.Screen.Width/2f,10,0);
 			
 			StreamWriter sw = new StreamWriter ("Documents/highscores.txt", false);
 			for (int i = 0; i < 10; i++) {
@@ -57,6 +62,7 @@ namespace SteamPunkWasteLand
 		
 		public void Render ()
 		{
+			highscoreText.Render();
 			foreach (Text t in textNames) {
 				t.Render ();
 			}

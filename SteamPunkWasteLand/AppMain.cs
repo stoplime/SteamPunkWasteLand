@@ -83,6 +83,9 @@ namespace SteamPunkWasteLand
 			case States.Name:
 				NamingUpdate (gamePadData);
 				break;
+			case States.Instruction:
+				InstructionUpdate (gamePadData);
+				break;
 			default:
 				break;
 			}
@@ -107,6 +110,9 @@ namespace SteamPunkWasteLand
 			case States.Name:
 				NamingRender ();
 				break;
+			case States.Instruction:
+				InstructionRender();
+				break;
 			default:
 				break;
 			}
@@ -123,6 +129,12 @@ namespace SteamPunkWasteLand
 			float X = Game.Graphics.Screen.Width / 2f;
 			float Y = Game.Graphics.Screen.Height / 2f;
 			
+			Game.Title = new Sprite(Game.Graphics,Game.Textures[36]);
+			Game.Title.Center = new Vector2(0.5f,0);
+			Game.Title.Position = new Vector3(X,20,0);
+			
+			Game.ToInstructions = new Text(0,2*Y,400,50,-1,1,"Press 'X' to see instructions");
+			
 			Game.MenuButtons = new ButtonSet (Game.Textures [22], new Vector2 (200, 75));
 			Game.MenuButtons.AddButton (new Vector3 (X, Y, 0));				//play
 			Game.MenuButtons.AddButton (new Vector3 (X, Y + 100, 0));		//high score
@@ -134,7 +146,7 @@ namespace SteamPunkWasteLand
 			Game.TimeSpeed = 1f;
 			Game.Level = 0;
 			Game.Score = 0;
-			Game.Money = 100000;//TODO: fix this
+			Game.Money = 0;
 			
 			Game.BgSky = new Background (Game.Textures [0]);
 			Game.BgGround = new BackgroundGround (Game.Textures [1]);
@@ -172,12 +184,24 @@ namespace SteamPunkWasteLand
 		{
 			Game.BgMenu = new Background (Game.Textures [0]);
 			Game.HSD = new HighScoresDisplay ();
+			
+			Game.ToInstructions = new Text(0,Game.Graphics.Screen.Height,400,50,-1,1,"Press 'X' to go back to Main Menu");
 		}
 		
 		public static void NewName ()
 		{
 			Game.BgMenu = new Background (Game.Textures [0]);
 			Game.NameDisplay = new EnterNameDisplay ();
+		}
+		
+		public static void NewInstruction ()
+		{
+			Game.BgMenu = new Background(Game.Textures[0]);
+			Game.InstructionSprite = new Sprite(Game.Graphics,Game.Textures[40]);
+			Game.InstructionSprite.Center = new Vector2(0.5f,0);
+			Game.InstructionSprite.Position = new Vector3(Game.Graphics.Screen.Width/2f,20,0);
+			
+			Game.ToInstructions = new Text(0,Game.Graphics.Screen.Height,400,50,-1,1,"Press 'X' to go back to Main Menu");
 		}
 		#endregion
 		
@@ -231,6 +255,15 @@ namespace SteamPunkWasteLand
 			Game.Textures.Add (new Texture2D ("/Application/assets/PauseMenu/SettingsButtons.png", false));		//33	Resume / Exit
 			Game.Textures.Add (new Texture2D ("/Application/assets/PauseMenu/Slider.png", false));				//34	slider
 			Game.Textures.Add (new Texture2D ("/Application/assets/PauseMenu/Icons.png", false));				//35	Upgrade Icons
+			
+			Game.Textures.Add (new Texture2D ("/Application/assets/Menu/Title.png", false));					//36	Title menu
+			Game.Textures.Add (new Texture2D ("/Application/assets/Menu/Highscores.png", false));				//37	Highscores text
+			Game.Textures.Add (new Texture2D ("/Application/assets/Menu/NewHishscorePromp.png", false));		//38	new highscores Text
+			Game.Textures.Add (new Texture2D ("/Application/assets/Menu/DeathMessage.png", false));				//39	Death Message
+			Game.Textures.Add (new Texture2D ("/Application/assets/Menu/Instructions.png", false));				//40	Instructions
+			
+			Game.Textures.Add (new Texture2D ("/Application/assets/Other/indicatorLeft.png", false));			//41	Indicator Left
+			Game.Textures.Add (new Texture2D ("/Application/assets/Other/indicatorRight.png", false));			//42	Indicator Right
 		}
 
 		public static void InitHighScores ()
@@ -323,6 +356,21 @@ namespace SteamPunkWasteLand
 		{
 			Game.hud.Update (time);
 			
+			if (Game.Player1.Hp <= 0) {
+				Game.Pause.IsPause = true;
+				if ((gamePadData.Buttons & GamePadButtons.Select) != 0) {
+					if (Game.Score > Game.HighScores [Game.HighScores.Count - 1].Score) {
+						Game.GameState = States.Name;
+						NewName ();
+					} else {
+						Game.GameState = States.HighScore;
+						NewHighScore ();
+					}
+					PlayDispose ();
+					return;
+				}
+			}
+			
 			if (!Game.Pause.IsPause) {
 				//*************************
 				if ((gamePadData.Buttons & GamePadButtons.Select) != 0 && (gamePadData.ButtonsPrev & GamePadButtons.Select) == 0) {
@@ -340,17 +388,7 @@ namespace SteamPunkWasteLand
 				Game.Player1.Update (gamePadData, time);
 				WorldCoord.FocusObject = Game.Player1.WorldPos;
 			
-				if (Game.Player1.Hp <= 0) {
-					if (Game.Score > Game.HighScores [Game.HighScores.Count - 1].Score) {
-						Game.GameState = States.Name;
-						NewName ();
-					} else {
-						Game.GameState = States.HighScore;
-						NewHighScore ();
-					}
-					PlayDispose ();
-					return;
-				}
+				
 			
 				float pDistSq = Game.Player1.HitRadius * Game.Player1.HitRadius;
 				for (int i = 0; i < Game.EBullets.Count; i++) {
@@ -520,6 +558,13 @@ namespace SteamPunkWasteLand
 				selection = Game.MenuButtons.Select;
 			}
 			
+			if ((gamePadData.Buttons & GamePadButtons.Start) != 0 && (gamePadData.ButtonsPrev & GamePadButtons.Start) == 0) {
+				Game.GameState = States.Instruction;
+				MenuDispose ();
+				NewInstruction ();
+				return;
+			}
+			
 			Game.MenuButtons.Update ();
 			
 			switch (selection) {
@@ -545,6 +590,8 @@ namespace SteamPunkWasteLand
 		{
 			Game.BgMenu.Render ();
 			Game.MenuButtons.Render ();
+			Game.Title.Render();
+			Game.ToInstructions.Render();
 		}
 		
 		public static void MenuDispose ()
@@ -569,25 +616,25 @@ namespace SteamPunkWasteLand
 		{
 			Game.BgMenu.Render ();
 			Game.HSD.Render ();
+			Game.ToInstructions.Render();
 		}
 		
 		public static void HighScoreDispose ()
 		{
 			Game.HSD = null;
 			Game.BgMenu = null;
+			Game.ToInstructions = null;
 		}
 		#endregion
 		
 		#region Naming
 		public static void NamingUpdate (GamePadData gamePadData)
 		{
-			
 			if (Game.NameDisplay.Update (gamePadData)) {
 				Game.GameState = States.HighScore;
 				NamingDispose ();
 				NewHighScore ();
 			}
-			
 		}
 		
 		public static void NamingRender ()
@@ -600,6 +647,31 @@ namespace SteamPunkWasteLand
 		{
 			Game.BgMenu = null;
 			Game.NameDisplay = null;
+		}
+		#endregion
+		
+		#region Instructions
+		public static void InstructionUpdate (GamePadData gamePadData)
+		{
+			if ((gamePadData.Buttons & GamePadButtons.Start) != 0 && (gamePadData.ButtonsPrev & GamePadButtons.Start) == 0) {
+				Game.GameState = States.MainMenu;
+				InstructionDispose ();
+				NewMenu ();
+			}
+		}
+		
+		public static void InstructionRender ()
+		{
+			Game.BgMenu.Render();
+			Game.InstructionSprite.Render();
+			Game.ToInstructions.Render();
+		}
+		
+		public static void InstructionDispose ()
+		{
+			Game.BgMenu = null;
+			Game.InstructionSprite = null;
+			Game.ToInstructions = null;
 		}
 		#endregion
 	}
