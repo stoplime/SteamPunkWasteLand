@@ -30,12 +30,15 @@ namespace SteamPunkWasteLand
 		private float speed;
 		private float downCount;
 		
+		private float guardSpawnTime;
+		
 		public E_AirShip (Vector3 initPos)
 			:base(initPos)
 		{
-			MaxHp = 3001;//2000;//TODO: Revert this back
+			MaxHp = 1600+50*Game.Level;
 			Hp = MaxHp;
 			weaponIndex = 0;
+			guardSpawnTime = (float)Game.Rand.NextDouble()*5f+10f;
 			weapons = new List<Weapon>();
 			fireSpeeds = new List<float>();
 			deltaTimes = new List<float>();
@@ -66,6 +69,15 @@ namespace SteamPunkWasteLand
 			
 			FireSpeed = 2f;
 			speed = 50f;
+			SpriteIndex = 0;
+		}
+		
+		public override void animateDeath (float time)
+		{
+			base.animateDeath (time);
+			
+			float angle = FMath.Atan2(Vel.Y,Vel.X);
+			Sprite.Rotation = (angle-Sprite.Rotation)/20f;
 		}
 		
 		public Vector3 GetWeaponPos (int index, float angle)
@@ -103,6 +115,8 @@ namespace SteamPunkWasteLand
 		
 		public override void Update (float time)
 		{
+			guardSpawnTime -= time;
+			
 			for (int i = 0; i < deltaTimes.Count; i++) {
 				deltaTimes[i] += time;
 			}
@@ -140,7 +154,6 @@ namespace SteamPunkWasteLand
 				weapons[i].Update(time,(SpriteIndex==0?aim:aim+FMath.PI),weaponPos,SpriteIndex,true);
 			}
 			
-			
 			if (FMath.Abs(Pos.X-Target.X) < Game.Graphics.Screen.Width/2f) {
 				Firing = true;
 			}else{
@@ -153,6 +166,13 @@ namespace SteamPunkWasteLand
 				FireMethod();
 				deltaTimes[i] = DeltaTime;
 				Weapon = weapons[(++weaponIndex)];
+			}
+			
+			//Spawn guards
+			if (guardSpawnTime <= 0) {
+				guardSpawnTime = (float)Game.Rand.NextDouble()*5f+10f;
+				E_Guard g = new E_Guard(Pos);
+				Game.Enemies.Add(g);
 			}
 			
 			base.Update (time);

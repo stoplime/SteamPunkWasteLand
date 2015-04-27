@@ -40,6 +40,12 @@ namespace SteamPunkWasteLand
 			set{textureCoord = value;}
 		}
 		
+		public Vector3 Pos
+		{
+			get{return sprite.Position;}
+			set{sprite.Position = value;}
+		}
+		
 		private enum ButtonState
 		{
 			normal,

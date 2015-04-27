@@ -40,16 +40,21 @@ namespace SteamPunkWasteLand
 		public static States GameState;
 		public static int Score;
 		public static int Level;
+		public static float Music;
+		public static float Sound;
 		public static List<Texture2D> Textures;
 		public static List<HighScore> HighScores;
 		
 		#region In Game
+		public static Pause Pause;
 		public static bool LevelFinished;
 		public static float TimeSpeed;
 		public static Background BgSky,BgGround,BgCloud;
 		public static Player Player1;
 		public static Spawner Spawner;
 		public static int Money;
+		
+		public static float[,] Upgrades;
 		
 		public static List<Loot> Loots;
 		public static List<Enemy> Enemies;

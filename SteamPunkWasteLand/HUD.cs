@@ -38,6 +38,7 @@ namespace SteamPunkWasteLand
 		
 		private Text score;
 		private Text money;
+		private Text hpText;
 		
 		private Text intro;
 		private Text outro;
@@ -63,7 +64,10 @@ namespace SteamPunkWasteLand
 			initHP();
 			score = new Text(Game.Graphics.Screen.Width-20,height-20,300,40,1,1,Game.Score.ToString());
 			money = new Text(25*scale+7,height-20*scale,75*scale,75*scale,0,0,Game.Money.ToString());
+			hpText = new Text(60*scale+15+hpWidth/2f,height-hpHeight/2f-(3*scale),300,30,0,0,FMath.Round(Game.Player1.Hp*100)/100f+" / "+Game.Player1.MaxHp);
 			money.TextSize = 18;
+			hpText.TextSize = 18;
+			hpText.TextColor = new UIColor(0,0,0,1);
 		}
 		
 		private void initGear()
@@ -102,6 +106,11 @@ namespace SteamPunkWasteLand
 			}else{
 				playerHp.SetColor(0f,1f,0f,1f);
 			}
+			
+			if (Game.Player1.Hp < Game.Player1.MaxHp/2f) {
+				hpText.TextColor = new UIColor(1,1,1,1);
+			}
+			hpText.Update(Game.Player1.Hp+" / "+Game.Player1.MaxHp);
 		}
 
 		private void introOutro ()
@@ -138,6 +147,7 @@ namespace SteamPunkWasteLand
 			gear.Render();
 			score.Render();
 			money.Render();
+			hpText.Render();
 			
 			introOutro();
 		}

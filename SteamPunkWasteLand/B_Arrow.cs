@@ -35,6 +35,7 @@ namespace SteamPunkWasteLand
 			Sprite.Center = new Vector2(0.9f,0.5f);
 			
 			Damage = 1;
+			Radius = 1f;
 		}
 		
 		public override void Update (float time)

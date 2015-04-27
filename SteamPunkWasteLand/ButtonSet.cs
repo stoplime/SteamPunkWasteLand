@@ -54,6 +54,11 @@ namespace SteamPunkWasteLand
 			buttons.Add(new Button(texture,new Vector4(buttons.Count*size.X,0,(buttons.Count+1)*size.X,size.Y),initPos));
 		}
 		
+		public void AddCustomButton (Texture2D text, Vector4 coord, Vector3 pos)
+		{
+			buttons.Add(new Button(text,coord,pos));
+		}
+		
 		public void SelectPrevious ()
 		{
 			if (selecting > 0) {
@@ -70,6 +75,11 @@ namespace SteamPunkWasteLand
 			}else{
 				selecting = 0;
 			}
+		}
+		
+		public void UpdatePos (int index, Vector3 pos)
+		{
+			buttons[index].Pos = pos;
 		}
 		
 		public void Update ()

@@ -42,11 +42,14 @@ namespace SteamPunkWasteLand
 			}
 			
 			Sprite.Center = new Vector2(0.5f,0.5f);
-			FireSpd = 0.5f;
+			FireSpd = Game.Upgrades[1,2];
 		}
 		
 		public override Bullet Fire (Vector3 vel)
 		{
+			if (Game.Upgrades[1,2] - FireSpd < 0) {
+				FireSpd += Game.Upgrades[1,2] - FireSpd;
+			}
 			DeltaTime = 0;
 			Vector3 firePos = new Vector3(
 				ExtendArc(Pos.X,32f,Aim,0f,SpriteIndex,true),

@@ -17,5 +17,5 @@
 // top = top most posY
 // skip one line after this one, very important
 
-Wb,0,150,1;Ea,0,600,1;
-Wc,0,100,1;Ez,left,50,1;
+Wb,0,150,1;Wc,0,100,1;Eg,600,50,1;Eg,600,50,1;Eg,600,50,1;Eg,600,50,1;Eg,600,50,1;
+Wc,0,100,1;Ez,left,200,1;

@@ -97,6 +97,12 @@ namespace SteamPunkWasteLand
 			get{return knockback;}
 			set{knockback = value;}
 		}
+		private float radius;
+		public float Radius
+		{
+			get{return radius;}
+			set{radius = value;}
+		}
 		
 		public Bullet (float direction, float speed, Vector3 initPos)
 			:this(direction,speed,initPos,0)
@@ -156,7 +162,11 @@ namespace SteamPunkWasteLand
 			}else{
 				if(hitObj != null){
 					pos = hitDist+hitObj.Pos;
+					if (hitObj.MoneyLoot < 12) {
+						despawn = true;
+					}
 				}
+				
 				if(hitPly != null){
 					pos = hitDist+hitPly.WorldPos;
 				}

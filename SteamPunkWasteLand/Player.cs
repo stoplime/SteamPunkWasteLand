@@ -105,11 +105,11 @@ namespace SteamPunkWasteLand
 			sprite = new Sprite(Game.Graphics,Game.Textures[3],48,70);
 			worldPos = Vector3.Zero;
 			vel = Vector3.Zero;
-			maxHp = 100;
+			maxHp = Game.Upgrades[1,0];
 			hp = maxHp;
 			hitTime = HitDelay;
 			
-			damageMultiplier = 1000;
+			damageMultiplier = 1;
 			
 			spriteIndex = 0;
 			timer = 0;
@@ -164,6 +164,11 @@ namespace SteamPunkWasteLand
 		{
 			hitTime += time;
 			timer += time*FMath.Abs(vel.X)/3;
+			
+			if (Game.Upgrades[1,0] - maxHp > 0) {
+				hp += Game.Upgrades[1,0] - maxHp;
+				maxHp += Game.Upgrades[1,0] - maxHp;
+			}
 			
 			if (weapon == null && Game.ObtainedWeapons.Count > 0) {
 				weapon = Game.ObtainedWeapons[0];

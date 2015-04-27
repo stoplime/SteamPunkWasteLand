@@ -24,9 +24,9 @@ namespace SteamPunkWasteLand
 	public class B_Flame : Bullet
 	{
 		public B_Flame (float direction, float speed, Vector3 initPos, float deviation)
-			:this(direction,speed,initPos,0,deviation)
+			:this(direction,speed,initPos,0,deviation,false)
 		{}
-		public B_Flame (float direction, float speed, Vector3 initPos, int spriteIndex, float deviation)
+		public B_Flame (float direction, float speed, Vector3 initPos, int spriteIndex, float deviation, bool isEnemy)
 			:base(direction,speed,initPos,spriteIndex)
 		{
 			Sprite = new Sprite(Game.Graphics,Game.Textures[12],16,16);
@@ -38,7 +38,12 @@ namespace SteamPunkWasteLand
 			Sprite.Rotation = Dir;
 			Sprite.Center = new Vector2(0.5f,0.5f);
 			
-			Damage = 0.2f;
+			if (!isEnemy) {
+				Damage = Game.Upgrades[1,3];
+			}else{
+				Damage = 0.2f;
+			}
+			Radius = Sprite.Width/2f;
 		}
 		
 		public override void Update (float time)

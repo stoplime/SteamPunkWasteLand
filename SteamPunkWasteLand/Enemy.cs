@@ -62,6 +62,12 @@ namespace SteamPunkWasteLand
 			get{return score;}
 			set{score = value;}
 		}
+		private int moneyLoot;
+		public int MoneyLoot
+		{
+			get{return moneyLoot;}
+			set{moneyLoot = value;}
+		}
 		
 		//protected
 		private float maxHp;
@@ -117,12 +123,6 @@ namespace SteamPunkWasteLand
 		{
 			get{return aim;}
 			set{aim = value;}
-		}
-		private int moneyLoot;
-		protected int MoneyLoot
-		{
-			get{return moneyLoot;}
-			set{moneyLoot = value;}
 		}
 		private bool hpOffset;
 		protected bool HpOffset
@@ -198,7 +198,7 @@ namespace SteamPunkWasteLand
 		
 		public virtual void CollideWithB (Bullet b)
 		{
-			hp -= b.Damage * Game.Player1.DamgeMultiplier;
+			hp -= b.Damage * Game.Upgrades[1,1];
 			hitTime = 0;
 			if (pos.Y < 1f) {
 				vel.Y = 4f;
@@ -274,9 +274,6 @@ namespace SteamPunkWasteLand
 			lootPos = pos;
 			aim = FMath.Atan2(target.Y-pos.Y,target.X-pos.X);
 			
-			
-			//aim += deviation*FMath.Sin(FMath.PI*2*(float)Game.Rand.NextDouble());
-			
 			if(firing){
 				FireMethod();
 			}
@@ -285,7 +282,7 @@ namespace SteamPunkWasteLand
 			
 			sprite.Position = worldToSprite();
 			
-			HpDisp(maxHp,hp,new Vector3(sprite.Position.X-sprite.Width/2,sprite.Position.Y,0),sprite.Width,0.05f*sprite.Height,(int)(sprite.Height*(HpOffset?-1:1)/2));
+			HpDisp(maxHp,hp,new Vector3(sprite.Position.X-sprite.Width/2,sprite.Position.Y,0),sprite.Width,0.05f*sprite.Height,(int)(sprite.Height*(HpOffset?-0.5f:1)/2));
 		}
 		
 		public virtual void Render()

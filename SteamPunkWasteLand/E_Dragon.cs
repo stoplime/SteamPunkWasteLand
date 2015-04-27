@@ -27,7 +27,7 @@ namespace SteamPunkWasteLand
 		public E_Dragon (Vector3 initPos)
 			:base(initPos)
 		{
-			MaxHp = 500;
+			MaxHp = 300+20*Game.Level;
 			Hp = MaxHp;
 			Weapon = new W_Flamethrower(true);
 			

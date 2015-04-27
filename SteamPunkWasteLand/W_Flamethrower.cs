@@ -68,7 +68,7 @@ namespace SteamPunkWasteLand
 			}
 			float unSteady = -Aim+deviation*(Game.Rand.Next(2)==0?1:-1)*(float)Game.Rand.NextDouble();
 			float relativeVel = 200f+vel.Length()*50f*FMath.Cos(FMath.Atan2(-vel.Y,vel.X)-((SpriteIndex==0)?unSteady:unSteady-FMath.PI));
-			B_Flame b = new B_Flame(unSteady, relativeVel, firePos, SpriteIndex, 0.3f);
+			B_Flame b = new B_Flame(unSteady, relativeVel, firePos, SpriteIndex, 0.3f, isEnemy);
 			return b;
 		}
 	}

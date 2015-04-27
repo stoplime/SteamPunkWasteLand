@@ -24,11 +24,12 @@ namespace SteamPunkWasteLand
 	public class E_Guard : Enemy
 	{
 		private const float SPEED = 30f;
+		private Sprite armSprite;
 		
 		public E_Guard (Vector3 initPos)
 			:base(initPos)
 		{
-			MaxHp = 20;
+			MaxHp = 10+2*Game.Level;
 			Hp = MaxHp;
 			Weapon = new W_CrossBow();
 			
@@ -37,9 +38,13 @@ namespace SteamPunkWasteLand
 			Sprite.Position = worldToSprite();
 			HitRadius = (Sprite.Width+Sprite.Height)/4f;
 			
+			armSprite = new Sprite(Game.Graphics,Game.Textures[29],48,70);
+			armSprite.Center = Sprite.Center;
+			armSprite.Position = new Vector3(Sprite.Position.X-10,Sprite.Position.Y,0);
+			
 			FireSpeed = 1f;
 			
-			MoneyLoot = Game.Rand.Next(20,41);
+			MoneyLoot = Game.Rand.Next(40,101);
 			Score = MoneyLoot;
 		}
 		
@@ -88,13 +93,18 @@ namespace SteamPunkWasteLand
 			Vel = new Vector3(Vx,Vel.Y-9.8f*time,0);
 			Physics(time,9.8f,false);
 			
+			armSprite.Position = Sprite.Position;
+			armSprite.Position.X+=(SpriteIndex == 1)? 10:-10;
+			armSprite.Rotation = -Aim+(SpriteIndex == 1? FMath.PI: 0);
+			
 			base.Update (time);
 		}
 		
 		public override void Render ()
 		{
-			
+			armSprite.SetTextureCoord(armSprite.Width*SpriteIndex,0,(SpriteIndex+1)*armSprite.Width,armSprite.Height);
 			base.Render ();
+			armSprite.Render();
 			if(Hp > 0){
 				Weapon.Render();
 			}

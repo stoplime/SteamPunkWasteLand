@@ -181,7 +181,7 @@ namespace SteamPunkWasteLand
 				}else if (enemyProbability < 90.91) {
 					enemy = "Ez";
 					posX = (Game.Rand.Next(2)==0? left: right);
-					posY = Game.Rand.Next(250,(int)(Game.Graphics.Screen.Height*7f/8f));
+					posY = Game.Rand.Next(250,(int)(Game.Graphics.Screen.Height*3f/4f));
 				}else if (enemyProbability < 98.18) {
 					enemy = "Ed";
 					posX = (Game.Rand.Next(2)==0? left: right);

@@ -28,12 +28,12 @@ namespace SteamPunkWasteLand
 		public E_Zeppelin (Vector3 initPos)
 			:base(initPos)
 		{
-			MaxHp = 200;
+			MaxHp = 100+8*Game.Level;
 			Hp = MaxHp;
-			Weapon = new W_Cannon();
+			Weapon = new W_Cannon(true);
 			//Its initial pos in the Y needs to be between 90% to 50% the height of screen
 			
-			Sprite = new Sprite(Game.Graphics,Game.Textures[6],344,174);
+			Sprite = new Sprite(Game.Graphics,Game.Textures[5],200,150);
 			Sprite.Center = new Vector2(0.5f,0.5f);
 			Sprite.Position = worldToSprite();
 			HitRadius = (Sprite.Width+Sprite.Height)/4f;
@@ -75,19 +75,24 @@ namespace SteamPunkWasteLand
 				Firing = false;
 			}
 			
-			Aim += 0.0005f*(Target.X-Pos.X);
+			Vector3 weaponPos = new Vector3(
+				ExtendArc(Pos.X,61.31f,-Sprite.Rotation,0.9126f,SpriteIndex,true),
+				ExtendArc(Pos.Y,61.31f,-Sprite.Rotation,0.9126f,SpriteIndex,false)+Sprite.Height/2,0);
 			
-			Weapon.Update(time,(SpriteIndex==0?Aim:Aim+FMath.PI),Pos,SpriteIndex);
+			Aim = FMath.Atan2(Target.Y-weaponPos.Y,Target.X-weaponPos.X);
+			Aim += 0.0005f*(Target.X-weaponPos.X);
+			
+			Weapon.Update(time,(SpriteIndex==0?Aim:Aim+FMath.PI),weaponPos,SpriteIndex,true);
 			
 			base.Update (time);
 		}
 		
 		public override void Render ()
 		{
+			base.Render ();
 			if (Hp > 0) {
 				Weapon.Render();
 			}
-			base.Render ();
 		}
 	}
 }
