@@ -216,9 +216,9 @@ namespace SteamPunkWasteLand
 							string item = spwn [0];
 							int posX, posY;
 							if (spwn [1].Contains ("left")) {
-								posX = -Game.Graphics.Screen.Width * 2;
+								posX = (int)(-Game.Graphics.Screen.Width * 1.5f);
 							} else if (spwn [1].Contains ("right")) {
-								posX = Game.Graphics.Screen.Width * 2;
+								posX = (int)(Game.Graphics.Screen.Width * 1.5f);
 							} else {
 								posX = Int32.Parse (spwn [1]);
 							}
