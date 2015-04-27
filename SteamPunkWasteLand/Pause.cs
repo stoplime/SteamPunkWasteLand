@@ -40,6 +40,8 @@ namespace SteamPunkWasteLand
 		private Text shopBuyText;
 		private Sprite selectedIcon;
 		
+		private float buttonPressTime;
+		
 		private bool isPause;
 		public bool IsPause
 		{
@@ -50,6 +52,7 @@ namespace SteamPunkWasteLand
 		public Pause ()
 		{
 			isPause = false;
+			buttonPressTime = 0;
 			outFocus = new Sprite(Game.Graphics,Game.Textures[16],Game.Graphics.Screen.Width,Game.Graphics.Screen.Height);
 			outFocus.SetColor(1,1,1,0.3f);
 			
@@ -69,11 +72,7 @@ namespace SteamPunkWasteLand
 			tabs.AddButton(new Vector3(150,30,0)+backSettings.Position);
 			
 			upgradedValue = new float[5];
-			upgradedValue[0] = Game.Upgrades[1,0]+5;
-			upgradedValue[1] = Game.Upgrades[1,1]+FMath.Pow(2,Game.Upgrades[0,1]-2);
-			upgradedValue[2] = Game.Upgrades[1,2]*FMath.Pow(2,-Game.Upgrades[0,2]-1);
-			upgradedValue[3] = Game.Upgrades[1,3]*FMath.Pow(Game.Upgrades[0,3]+2,2);
-			upgradedValue[4] = Game.Upgrades[1,4]+10;
+			UpdateUpgradedValues();
 			
 			//Settings
 			settingsValues = new Text[3];
@@ -112,11 +111,11 @@ namespace SteamPunkWasteLand
 			
 			shopDescription = new Text[5,5];//[Text type, select number]
 			//level display
-			shopDescription[0,0] = new Text(-240+X,330+Y,54f,26f,0,-1,"Lvl: "+Game.Upgrades[0,0]);
-			shopDescription[0,1] = new Text(-240+X,330+Y,54f,26f,0,-1,"Lvl: "+Game.Upgrades[0,1]);
-			shopDescription[0,2] = new Text(-240+X,330+Y,54f,26f,0,-1,"Lvl: "+Game.Upgrades[0,2]);
-			shopDescription[0,3] = new Text(-240+X,330+Y,54f,26f,0,-1,"Lvl: "+Game.Upgrades[0,3]);
-			shopDescription[0,4] = new Text(-240+X,330+Y,54f,26f,0,-1,"Lvl: "+Game.Upgrades[0,4]);
+			shopDescription[0,0] = new Text(-240+X,330+Y,70f,26f,0,-1,"Lvl:"+Game.Upgrades[0,0]);
+			shopDescription[0,1] = new Text(-240+X,330+Y,70f,26f,0,-1,"Lvl:"+Game.Upgrades[0,1]);
+			shopDescription[0,2] = new Text(-240+X,330+Y,70f,26f,0,-1,"Lvl:"+Game.Upgrades[0,2]);
+			shopDescription[0,3] = new Text(-240+X,330+Y,70f,26f,0,-1,"Lvl:"+Game.Upgrades[0,3]);
+			shopDescription[0,4] = new Text(-240+X,330+Y,70f,26f,0,-1,"Lvl:"+Game.Upgrades[0,4]);
 			//Upgrade Title
 			shopDescription[1,0] = new Text(-200+X,273+Y,250f,26f,-1,-1,"Better Protection!");
 			shopDescription[1,1] = new Text(-200+X,273+Y,250f,26f,-1,-1,"More Damage!");
@@ -151,6 +150,15 @@ namespace SteamPunkWasteLand
 			selectedIcon.Center = new Vector2(0.5f,0.5f);
 			selectedIcon.Position = new Vector3(-240,300,0)+backShop.Position;
 			shopBuyText = new Text(70+X,370+Y,190,30,-1,1,"Press 'W' to Buy");
+		}
+		
+		public void UpdateUpgradedValues ()
+		{
+			upgradedValue[0] = Game.Upgrades[1,0]+5;
+			upgradedValue[1] = Game.Upgrades[1,1]+FMath.Pow(2,Game.Upgrades[0,1]-2);
+			upgradedValue[2] = Game.Upgrades[1,2]*0.8f;
+			upgradedValue[3] = Game.Upgrades[1,3]*2f;
+			upgradedValue[4] = Game.Upgrades[1,4]+10;
 		}
 		
 		public void SettingsArrowUpdate (bool left, bool right, bool up, bool down)
@@ -229,10 +237,10 @@ namespace SteamPunkWasteLand
 		
 		public void Update (GamePadData gpd)
 		{
-			bool up = false;
-			bool down = false;
-			bool left = false;
-			bool right = false;
+			bool up = (gpd.Buttons & GamePadButtons.Up) != 0;
+			bool down = (gpd.Buttons & GamePadButtons.Down) != 0;
+			bool left = (gpd.Buttons & GamePadButtons.Left) != 0;
+			bool right = (gpd.Buttons & GamePadButtons.Right) != 0;
 			
 			timeSpeedDerived = FMath.Sqrt((Game.TimeSpeed-0.5f)/2f);
 			
@@ -249,17 +257,38 @@ namespace SteamPunkWasteLand
 				isSettings = false;
 			}
 			// arrow keys
-			if ((gpd.Buttons & GamePadButtons.Left) != 0 && (gpd.ButtonsPrev & GamePadButtons.Left) == 0) {
-				left = true;
+			if (left || right || up || down) {
+				buttonPressTime++;
+			}else{
+				buttonPressTime = 0;
 			}
-			if ((gpd.Buttons & GamePadButtons.Right) != 0 && (gpd.ButtonsPrev & GamePadButtons.Right) == 0) {
-				right = true;
+			
+			if (left && (gpd.ButtonsPrev & GamePadButtons.Left) != 0) {
+				left = false;
 			}
-			if ((gpd.Buttons & GamePadButtons.Up) != 0 && (gpd.ButtonsPrev & GamePadButtons.Up) == 0) {
-				up = true;
+			if (right && (gpd.ButtonsPrev & GamePadButtons.Right) != 0) {
+				right = false;
 			}
-			if ((gpd.Buttons & GamePadButtons.Down) != 0 && (gpd.ButtonsPrev & GamePadButtons.Down) == 0) {
-				down = true;
+			if (up && (gpd.ButtonsPrev & GamePadButtons.Up) != 0) {
+				up = false;
+			}
+			if (down && (gpd.ButtonsPrev & GamePadButtons.Down) != 0) {
+				down = false;
+			}
+			
+			if(buttonPressTime > 20){
+				if ((gpd.Buttons & GamePadButtons.Left) != 0) {
+					left = true;
+				}
+				if ((gpd.Buttons & GamePadButtons.Right) != 0) {
+					right = true;
+				}
+				if ((gpd.Buttons & GamePadButtons.Up) != 0) {
+					up = true;
+				}
+				if ((gpd.Buttons & GamePadButtons.Down) != 0) {
+					down = true;
+				}
 			}
 			
 			//tabs
@@ -306,7 +335,7 @@ namespace SteamPunkWasteLand
 				Game.TimeSpeed = (timeSpeedDerived*timeSpeedDerived*2f)+0.5f;
 			}else{
 				//Shop
-				shopDescription[0,shopIcons.Select].Update("Lvl: "+Game.Upgrades[0,shopIcons.Select]);
+				shopDescription[0,shopIcons.Select].Update("Lvl:"+Game.Upgrades[0,shopIcons.Select]);
 				shopDescription[4,shopIcons.Select].Update("Cost: $"+Game.Upgrades[2,shopIcons.Select]);
 				
 				shopDescription[3,0].Update("HP: "+Game.Upgrades[1,0]+" → "+upgradedValue[0]);
@@ -343,17 +372,13 @@ namespace SteamPunkWasteLand
 						case 2:
 						case 3:
 						case 4:
-							Game.Upgrades[2,2] += 500f;
+							Game.Upgrades[2,shopIcons.Select] += 500f*Game.Upgrades[0,shopIcons.Select];
 							break;
 						default:
 							break;
 						}
 						
-						upgradedValue[0] = Game.Upgrades[1,0]+5;
-						upgradedValue[1] = Game.Upgrades[1,1]+FMath.Pow(2,Game.Upgrades[0,1]-2);
-						upgradedValue[2] = Game.Upgrades[1,2]*FMath.Pow(2,-Game.Upgrades[0,2]);
-						upgradedValue[3] = Game.Upgrades[1,3]*FMath.Pow(Game.Upgrades[0,3]+1,2);
-						upgradedValue[4] = Game.Upgrades[1,4]+10;
+						UpdateUpgradedValues();
 					}
 				}
 			}

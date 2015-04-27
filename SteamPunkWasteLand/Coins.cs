@@ -41,7 +41,7 @@ namespace SteamPunkWasteLand
 			despawn = false;
 			
 			float scale = Game.Graphics.Screen.Height/800f;
-			delay = 1.5f;
+			delay = 1f;
 			
 			sprite = new Sprite(Game.Graphics,Game.Textures[19]);
 			sprite.Center = new Vector2(0.5f,0.5f);

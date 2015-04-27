@@ -73,6 +73,7 @@
     <Compile Include="HighScore.cs" />
     <Compile Include="SpawnObject.cs" />
     <Compile Include="Pause.cs" />
+    <Compile Include="MusicBox.cs" />
   </ItemGroup>
   <ItemGroup>
     <ShaderProgram Include="shaders\Simple.fcg" />
@@ -92,6 +93,7 @@
     <Folder Include="assets\Other\" />
     <Folder Include="assets\Menu\" />
     <Folder Include="assets\PauseMenu\" />
+    <Folder Include="assets\Music\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\Backgrounds\Cloud1.png" />
@@ -130,5 +132,7 @@
     <Content Include="assets\PauseMenu\ShopBackground.png" />
     <Content Include="assets\PauseMenu\SettingsButtons.png" />
     <Content Include="assets\PauseMenu\Slider.png" />
+    <Content Include="assets\Music\MainMenuMusic.mp3" />
+    <Content Include="assets\Music\InGameMusic.mp3" />
   </ItemGroup>
 </Project>

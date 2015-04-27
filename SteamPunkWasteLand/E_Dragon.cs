@@ -36,8 +36,6 @@ namespace SteamPunkWasteLand
 			Sprite.Position = worldToSprite();
 			HitRadius = (Sprite.Width+Sprite.Height)/4f;
 			
-			
-			
 			deltaTime = 0;
 			FireSpeed = 0.01f;
 			SpriteIndex = 1;

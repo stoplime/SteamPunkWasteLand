@@ -42,7 +42,7 @@ namespace SteamPunkWasteLand
 				s.Start ();
 				Update (time * Game.TimeSpeed);
 				Render ();
-				//Console.WriteLine("FPS: "+(int)(1/time));
+				Console.WriteLine("FPS: "+(int)(1/time));
 			}
 		}
 		
@@ -56,6 +56,7 @@ namespace SteamPunkWasteLand
 			Game.GameState = States.MainMenu;
 			Game.Music = 1f;
 			Game.Sound = 1f;
+			Game.MusicBox = new MusicBox();
 			Game.Textures = new List<Texture2D> ();
 			Game.HighScores = new List<HighScore> ();
 			InitTextures ();
@@ -68,6 +69,7 @@ namespace SteamPunkWasteLand
 		{
 			var gamePadData = GamePad.GetData (0);
 			
+			Game.MusicBox.Update();
 			switch (Game.GameState) {
 			case States.MainMenu:
 				MenuUpdate (gamePadData);
@@ -122,7 +124,7 @@ namespace SteamPunkWasteLand
 			float Y = Game.Graphics.Screen.Height / 2f;
 			
 			Game.MenuButtons = new ButtonSet (Game.Textures [22], new Vector2 (200, 75));
-			Game.MenuButtons.AddButton (new Vector3 (X, Y, 0));			//play
+			Game.MenuButtons.AddButton (new Vector3 (X, Y, 0));				//play
 			Game.MenuButtons.AddButton (new Vector3 (X, Y + 100, 0));		//high score
 			Game.MenuButtons.AddButton (new Vector3 (X, Y + 200, 0));		//quit
 		}
@@ -132,7 +134,7 @@ namespace SteamPunkWasteLand
 			Game.TimeSpeed = 1f;
 			Game.Level = 0;
 			Game.Score = 0;
-			Game.Money = 0;
+			Game.Money = 100000;//TODO: fix this
 			
 			Game.BgSky = new Background (Game.Textures [0]);
 			Game.BgGround = new BackgroundGround (Game.Textures [1]);
@@ -182,51 +184,51 @@ namespace SteamPunkWasteLand
 		#region Other Methods
 		public static void InitTextures ()
 		{
-			Game.Textures.Add (new Texture2D ("/Application/assets/Backgrounds/Sky1.png", false));		//0		Sky
-			Game.Textures.Add (new Texture2D ("/Application/assets/Backgrounds/Ground1.png", false));	//1		Ground
-			Game.Textures.Add (new Texture2D ("/Application/assets/Backgrounds/Cloud1.png", false));	//2		Clouds
+			Game.Textures.Add (new Texture2D ("/Application/assets/Backgrounds/Sky1.png", false));				//0		Sky
+			Game.Textures.Add (new Texture2D ("/Application/assets/Backgrounds/Ground1.png", false));			//1		Ground
+			Game.Textures.Add (new Texture2D ("/Application/assets/Backgrounds/Cloud1.png", false));			//2		Clouds
 			
-			Game.Textures.Add (new Texture2D ("/Application/assets/Player/Tophat_Sheet.png", false));	//3		Player
-			Game.Textures.Add (new Texture2D ("/Application/assets/Player/arm.png", false));			//4		Player arm
+			Game.Textures.Add (new Texture2D ("/Application/assets/Player/Tophat_Sheet.png", false));			//3		Player
+			Game.Textures.Add (new Texture2D ("/Application/assets/Player/arm.png", false));					//4		Player arm
 			
-			Game.Textures.Add (new Texture2D ("/Application/assets/Enemies/Zeppelin.png", false));		//5		Zeppelin
-			Game.Textures.Add (new Texture2D ("/Application/assets/Enemies/Dragon.png", false));		//6		Dragon
-			Game.Textures.Add (new Texture2D ("/Application/assets/Enemies/Guard.png", false));		//7		Imperial Guards
+			Game.Textures.Add (new Texture2D ("/Application/assets/Enemies/Zeppelin.png", false));				//5		Zeppelin
+			Game.Textures.Add (new Texture2D ("/Application/assets/Enemies/Dragon.png", false));				//6		Dragon
+			Game.Textures.Add (new Texture2D ("/Application/assets/Enemies/Guard.png", false));					//7		Imperial Guards
 			
-			Game.Textures.Add (new Texture2D ("/Application/assets/Weapons/Cannon.png", false));		//8		Cannon
-			Game.Textures.Add (new Texture2D ("/Application/assets/Weapons/Flamethrower.png", false));	//9		Flamethrower
-			Game.Textures.Add (new Texture2D ("/Application/assets/Weapons/Crossbow.png", false));		//10	Crossbow
+			Game.Textures.Add (new Texture2D ("/Application/assets/Weapons/Cannon.png", false));				//8		Cannon
+			Game.Textures.Add (new Texture2D ("/Application/assets/Weapons/Flamethrower.png", false));			//9		Flamethrower
+			Game.Textures.Add (new Texture2D ("/Application/assets/Weapons/Crossbow.png", false));				//10	Crossbow
 			
-			Game.Textures.Add (new Texture2D ("/Application/assets/Weapons/CannonBall.png", false));	//11	Cannon Ball
-			Game.Textures.Add (new Texture2D ("/Application/assets/Weapons/Flame.png", false));		//12	Flame Particle
-			Game.Textures.Add (new Texture2D ("/Application/assets/Weapons/Arrow.png", false));		//13	Arrows
+			Game.Textures.Add (new Texture2D ("/Application/assets/Weapons/CannonBall.png", false));			//11	Cannon Ball
+			Game.Textures.Add (new Texture2D ("/Application/assets/Weapons/Flame.png", false));					//12	Flame Particle
+			Game.Textures.Add (new Texture2D ("/Application/assets/Weapons/Arrow.png", false));					//13	Arrows
 			
-			Game.Textures.Add (new Texture2D ("/Application/assets/Weapons/explosion.png", false));	//14	Explosions
-			Game.Textures.Add (new Texture2D ("/Application/assets/Enemies/DragonHead.png", false));	//15	DragonHead
-			Game.Textures.Add (new Texture2D ("/Application/assets/Other/White.png", false));			//16	white pixel
+			Game.Textures.Add (new Texture2D ("/Application/assets/Weapons/explosion.png", false));				//14	Explosions
+			Game.Textures.Add (new Texture2D ("/Application/assets/Enemies/DragonHead.png", false));			//15	DragonHead
+			Game.Textures.Add (new Texture2D ("/Application/assets/Other/White.png", false));					//16	white pixel
 			
-			Game.Textures.Add (new Texture2D ("/Application/assets/Other/BetterGear.png", false));		//17	HUD gear
-			Game.Textures.Add (new Texture2D ("/Application/assets/Other/hpTube.png", false));			//18	HP Tube
-			Game.Textures.Add (new Texture2D ("/Application/assets/Other/Coin.png", false));			//19	Coin
+			Game.Textures.Add (new Texture2D ("/Application/assets/Other/BetterGear.png", false));				//17	HUD gear
+			Game.Textures.Add (new Texture2D ("/Application/assets/Other/hpTube.png", false));					//18	HP Tube
+			Game.Textures.Add (new Texture2D ("/Application/assets/Other/Coin.png", false));					//19	Coin
 			
-			Game.Textures.Add (new Texture2D ("/Application/assets/Backgrounds/Sky2.png", false));		//20	Sky2
-			Game.Textures.Add (new Texture2D ("/Application/assets/Backgrounds/Cloud2.png", false));	//21	Cloud2
+			Game.Textures.Add (new Texture2D ("/Application/assets/Backgrounds/Sky2.png", false));				//20	Sky2
+			Game.Textures.Add (new Texture2D ("/Application/assets/Backgrounds/Cloud2.png", false));			//21	Cloud2
 			
-			Game.Textures.Add (new Texture2D ("/Application/assets/Menu/MenuButtonsSheet.png", false));//22	Menu Buttons
-			Game.Textures.Add (new Texture2D ("/Application/assets/Menu/ABC1.png", false));			//23	ABC Buttons 1
-			Game.Textures.Add (new Texture2D ("/Application/assets/Menu/ABC2.png", false));			//24	ABC Buttons 2
-			Game.Textures.Add (new Texture2D ("/Application/assets/Menu/EnterKeys.png", false));		//25	Extra Keys
+			Game.Textures.Add (new Texture2D ("/Application/assets/Menu/MenuButtonsSheet.png", false));			//22	Menu Buttons
+			Game.Textures.Add (new Texture2D ("/Application/assets/Menu/ABC1.png", false));						//23	ABC Buttons 1
+			Game.Textures.Add (new Texture2D ("/Application/assets/Menu/ABC2.png", false));						//24	ABC Buttons 2
+			Game.Textures.Add (new Texture2D ("/Application/assets/Menu/EnterKeys.png", false));				//25	Extra Keys
 			
-			Game.Textures.Add (new Texture2D ("/Application/assets/Enemies/AirShip.png", false));		//26	AirShip
-			Game.Textures.Add (new Texture2D ("/Application/assets/Enemies/E_CrossBow.png", false));	//27	E_CrossBow
-			Game.Textures.Add (new Texture2D ("/Application/assets/Enemies/E_Cannon.png", false));		//28	E_cannon
-			Game.Textures.Add (new Texture2D ("/Application/assets/Enemies/GuardArms.png", false));	//29	Guard Arms
+			Game.Textures.Add (new Texture2D ("/Application/assets/Enemies/AirShip.png", false));				//26	AirShip
+			Game.Textures.Add (new Texture2D ("/Application/assets/Enemies/E_CrossBow.png", false));			//27	E_CrossBow
+			Game.Textures.Add (new Texture2D ("/Application/assets/Enemies/E_Cannon.png", false));				//28	E_cannon
+			Game.Textures.Add (new Texture2D ("/Application/assets/Enemies/GuardArms.png", false));				//29	Guard Arms
 			
 			Game.Textures.Add (new Texture2D ("/Application/assets/PauseMenu/SettingsBackground.png", false));	//30	Pause settings backgound
 			Game.Textures.Add (new Texture2D ("/Application/assets/PauseMenu/ShopBackground.png", false));		//31	Pause shop backgound
 			Game.Textures.Add (new Texture2D ("/Application/assets/PauseMenu/PauseTab.png", false));			//32	Pause settings and shop tabs
 			
-			Game.Textures.Add (new Texture2D ("/Application/assets/PauseMenu/SettingsButtons.png", false));	//33	Resume / Exit
+			Game.Textures.Add (new Texture2D ("/Application/assets/PauseMenu/SettingsButtons.png", false));		//33	Resume / Exit
 			Game.Textures.Add (new Texture2D ("/Application/assets/PauseMenu/Slider.png", false));				//34	slider
 			Game.Textures.Add (new Texture2D ("/Application/assets/PauseMenu/Icons.png", false));				//35	Upgrade Icons
 		}
@@ -526,11 +528,10 @@ namespace SteamPunkWasteLand
 				MenuDispose ();
 				NewGame ();
 				break;
-			case 1://high score// ************************************* FOr Testing
-				//TODO: change this back to highscores
-				Game.GameState = States.Name;
+			case 1://high score
+				Game.GameState = States.HighScore;
 				MenuDispose ();
-				NewName ();
+				NewHighScore ();
 				break;
 			case 2://quit
 				Game.Running = false;

@@ -148,6 +148,7 @@ namespace SteamPunkWasteLand
 			hpBoxSprite = new Sprite(Game.Graphics,Game.Textures[16]);
 			hpBoxSprite.SetColor(0,0,0,0.5f);
 			hpOffset = false;
+			SpriteIndex = Game.Rand.Next(2);
 		}
 		#endregion
 		
@@ -249,7 +250,7 @@ namespace SteamPunkWasteLand
 				if (moneyLoot <= 0) {
 					return true;
 				}else{
-					for (int i = 0; i < 10; i++) {
+					for (int i = 0; i < 5; i++) {
 						if (moneyLoot > 0) {
 							moneyLoot--;
 							Coins c = new Coins(lootPos);

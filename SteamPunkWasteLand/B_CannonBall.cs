@@ -109,12 +109,6 @@ namespace SteamPunkWasteLand
 							}
 						}
 					}
-				} else {
-					float distP = Game.Player1.HitRadius + explodeRadius;
-					float distSqP = distP * distP;
-					if (Game.Player1.WorldPos.DistanceSquared (Pos) < distSqP) {
-						Game.Player1.CollideWithB (this);
-					}
 				}
 			}
 		}

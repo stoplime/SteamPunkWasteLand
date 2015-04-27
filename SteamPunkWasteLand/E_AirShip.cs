@@ -69,7 +69,6 @@ namespace SteamPunkWasteLand
 			
 			FireSpeed = 2f;
 			speed = 50f;
-			SpriteIndex = 0;
 		}
 		
 		public override void animateDeath (float time)

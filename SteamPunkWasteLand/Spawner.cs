@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public 
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -38,42 +37,42 @@ namespace SteamPunkWasteLand
 			deltaTime = 0;
 			endGame = false;
 			wait = 0.5f;
-			line = new List<string>(); // 10 levels
-			queue = new Queue<string>();
-			randomLevel = new Queue<SpawnObject>();
+			line = new List<string> (); // 10 levels
+			queue = new Queue<string> ();
+			randomLevel = new Queue<SpawnObject> ();
 			
 			StreamReader sr = null;
-			try{
-				sr = new StreamReader("Documents/levels.txt");
+			try {
+				sr = new StreamReader ("Documents/levels.txt");
 				for (int i = 0; i < Game.Level; i++) {
 					if (!sr.EndOfStream) {
-						string s = sr.ReadLine();
+						string s = sr.ReadLine ();
 						if (s.Length > 0) {
-							while(s.Contains("//")){
-								s = sr.ReadLine();
+							while (s.Contains("//")) {
+								s = sr.ReadLine ();
 							}
 						}
 					}
 				}
 				if (!sr.EndOfStream) {
-					string[] oneLine = sr.ReadLine().Split(';');
+					string[] oneLine = sr.ReadLine ().Split (';');
 					for (int i = 0; i < oneLine.Length; i++) {
-						line.Add(oneLine[i]);
+						line.Add (oneLine [i]);
 					}
-				}else{
+				} else {
 					endless = true;
 				}
-			}catch(FileNotFoundException){
-				File.CreateText("Documents/levels.txt");
-				StreamWriter sw = new StreamWriter("Documents/levels.txt");
-				CreateLevelsTextFile(sw);
-				sw.Close();
-				Console.WriteLine("Please build levels first before running the game.");
-			}catch(Exception e){
-				Console.WriteLine(e);
-			}finally{
+			} catch (FileNotFoundException) {
+				File.CreateText ("Documents/levels.txt");
+				StreamWriter sw = new StreamWriter ("Documents/levels.txt");
+				CreateLevelsTextFile (sw);
+				sw.Close ();
+				Console.WriteLine ("Please build levels first before running the game.");
+			} catch (Exception e) {
+				Console.WriteLine (e);
+			} finally {
 				if (sr != null) {
-					sr.Close();
+					sr.Close ();
 				}
 			}
 			
@@ -83,38 +82,38 @@ namespace SteamPunkWasteLand
 //				}
 //			}
 			
-			if(!endless){
+			if (!endless) {
 				for (int i = 0; i < line.Count-1; i++) {
-					queue.Enqueue(line[i]);
-					Console.WriteLine(line[i]);
+					queue.Enqueue (line [i]);
+					Console.WriteLine (line [i]);
 				}
-			}else{
-				CreateNewLevels();
+			} else {
+				CreateNewLevels ();
 			}
 		}
 		
 		private void CreateLevelsTextFile (StreamWriter sw)
 		{
-			sw.WriteLine("// insert levels here");
-			sw.WriteLine("// Format: type, posX, posY, sleep;");
-			sw.WriteLine("// One level per line");
-			sw.WriteLine("// ");
-			sw.WriteLine("// Type:");
-			sw.WriteLine("// Wb = spawn cross bow");
-			sw.WriteLine("// Wf = spawn flame thrower");
-			sw.WriteLine("// Wc = spawn cannon");
-			sw.WriteLine("// Eg = spawn imperial guard");
-			sw.WriteLine("// Ed = spawn dragon");
-			sw.WriteLine("// Ez = spawn zeppelin");
-			sw.WriteLine("// Ea = spawn air ship");
-			sw.WriteLine("// ");
-			sw.WriteLine("// Pos Key words:");
-			sw.WriteLine("// left = left most posX");
-			sw.WriteLine("// right = right most posX");
-			sw.WriteLine("// top = top most posY");
-			sw.WriteLine("// ");
+			sw.WriteLine ("// insert levels here");
+			sw.WriteLine ("// Format: type, posX, posY, sleep;");
+			sw.WriteLine ("// One level per line");
+			sw.WriteLine ("// ");
+			sw.WriteLine ("// Type:");
+			sw.WriteLine ("// Wb = spawn cross bow");
+			sw.WriteLine ("// Wf = spawn flame thrower");
+			sw.WriteLine ("// Wc = spawn cannon");
+			sw.WriteLine ("// Eg = spawn imperial guard");
+			sw.WriteLine ("// Ed = spawn dragon");
+			sw.WriteLine ("// Ez = spawn zeppelin");
+			sw.WriteLine ("// Ea = spawn air ship");
+			sw.WriteLine ("// ");
+			sw.WriteLine ("// Pos Key words:");
+			sw.WriteLine ("// left = left most posX");
+			sw.WriteLine ("// right = right most posX");
+			sw.WriteLine ("// top = top most posY");
+			sw.WriteLine ("// ");
 			
-			sw.WriteLine("// skip one line after this one, very important");
+			sw.WriteLine ("// skip one line after this one, very important");
 		}
 		
 		public void AddObjects (string item, int posX, int posY)
@@ -129,32 +128,32 @@ namespace SteamPunkWasteLand
 			*/
 			switch (item) {
 			case "Wb":
-				L_CrossBow Wb = new L_CrossBow(new Vector3(posX,posY,0));
-				Game.Loots.Add(Wb);
+				L_CrossBow Wb = new L_CrossBow (new Vector3 (posX, posY, 0));
+				Game.Loots.Add (Wb);
 				break;
 			case "Wf":
-				L_Flamethrower Wf = new L_Flamethrower(new Vector3(posX,posY,0));
-				Game.Loots.Add(Wf);
+				L_Flamethrower Wf = new L_Flamethrower (new Vector3 (posX, posY, 0));
+				Game.Loots.Add (Wf);
 				break;
 			case "Wc":
-				L_Cannon Wc = new L_Cannon(new Vector3(posX,posY,0));
-				Game.Loots.Add(Wc);
+				L_Cannon Wc = new L_Cannon (new Vector3 (posX, posY, 0));
+				Game.Loots.Add (Wc);
 				break;
 			case "Eg":
-				E_Guard Eg = new E_Guard(new Vector3(posX,posY,0));
-				Game.Enemies.Add(Eg);
+				E_Guard Eg = new E_Guard (new Vector3 (posX, posY, 0));
+				Game.Enemies.Add (Eg);
 				break;
 			case "Ed":
-				E_Dragon Ed = new E_Dragon(new Vector3(posX,posY,0));
-				Game.Enemies.Add(Ed);
+				E_Dragon Ed = new E_Dragon (new Vector3 (posX, posY, 0));
+				Game.Enemies.Add (Ed);
 				break;
 			case "Ez":
-				E_Zeppelin Ez = new E_Zeppelin(new Vector3(posX,posY,0));
-				Game.Enemies.Add(Ez);
+				E_Zeppelin Ez = new E_Zeppelin (new Vector3 (posX, posY, 0));
+				Game.Enemies.Add (Ez);
 				break;
 			case "Ea":
-				E_AirShip Ea = new E_AirShip(new Vector3(posX,posY,0));
-				Game.Enemies.Add(Ea);
+				E_AirShip Ea = new E_AirShip (new Vector3 (posX, posY, 0));
+				Game.Enemies.Add (Ea);
 				break;
 			}
 		}
@@ -168,80 +167,80 @@ namespace SteamPunkWasteLand
 			 */
 			for (int i = 0; i < Game.Level/5; i++) {
 				string enemy;
-				int posX,posY;
+				int posX, posY;
 				float delay;
-				int left = -Game.Graphics.Screen.Width*2;
-				int right = Game.Graphics.Screen.Width*2;
+				int left = -Game.Graphics.Screen.Width * 2;
+				int right = Game.Graphics.Screen.Width * 2;
 				
-				double enemyProbability = Game.Rand.NextDouble()*100;
+				double enemyProbability = Game.Rand.NextDouble () * 100;
 				if (enemyProbability < 72.73) {
 					enemy = "Eg";
-					posX = (Game.Rand.Next(2)==0? left: right);
+					posX = (Game.Rand.Next (2) == 0 ? left : right);
 					posY = 0;
-				}else if (enemyProbability < 90.91) {
+				} else if (enemyProbability < 90.91) {
 					enemy = "Ez";
-					posX = (Game.Rand.Next(2)==0? left: right);
-					posY = Game.Rand.Next(250,(int)(Game.Graphics.Screen.Height*3f/4f));
-				}else if (enemyProbability < 98.18) {
+					posX = (Game.Rand.Next (2) == 0 ? left : right);
+					posY = Game.Rand.Next (250, (int)(Game.Graphics.Screen.Height * 3f / 4f));
+				} else if (enemyProbability < 98.18) {
 					enemy = "Ed";
-					posX = (Game.Rand.Next(2)==0? left: right);
+					posX = (Game.Rand.Next (2) == 0 ? left : right);
 					posY = 50;
-				}else{
+				} else {
 					enemy = "Ea";
-					posX = Game.Rand.Next(-150,150);
+					posX = Game.Rand.Next (-150, 150);
 					posY = Game.Graphics.Screen.Height;
 				}
-				delay = (float)Game.Rand.NextDouble()*4+1;
+				delay = (float)Game.Rand.NextDouble () * 4 + 1;
 				
-				SpawnObject obj = new SpawnObject(enemy,posX,posY,delay);
-				randomLevel.Enqueue(obj);
+				SpawnObject obj = new SpawnObject (enemy, posX, posY, delay);
+				randomLevel.Enqueue (obj);
 			}
 		}
 		
-		public bool Update(float time)
+		public bool Update (float time)
 		{
 			deltaTime += time;
 			
 			
 			if (!endGame) {
-				if(deltaTime > wait){
+				if (deltaTime > wait) {
 					deltaTime = 0;
 					if (!endless) {
 						if (queue.Count > 0) {
-							string action = queue.Dequeue();
+							string action = queue.Dequeue ();
 							if (action == null) {
 								return false;
 							}
 							// action, posX, posY, delay;
-							string[] spwn = action.Split(',');
-							string item = spwn[0];
-							int posX,posY;
-							if (spwn[1].Contains("left")) {
-								posX = -Game.Graphics.Screen.Width*2;
-							}else if (spwn[1].Contains("right")) {
-								posX = Game.Graphics.Screen.Width*2;
-							}else{
-								posX = Int32.Parse(spwn[1]);
+							string[] spwn = action.Split (',');
+							string item = spwn [0];
+							int posX, posY;
+							if (spwn [1].Contains ("left")) {
+								posX = -Game.Graphics.Screen.Width * 2;
+							} else if (spwn [1].Contains ("right")) {
+								posX = Game.Graphics.Screen.Width * 2;
+							} else {
+								posX = Int32.Parse (spwn [1]);
 							}
-							if (spwn[2].Contains("top")) {
+							if (spwn [2].Contains ("top")) {
 								posY = Game.Graphics.Screen.Height;
-							}else{
-								posY = Int32.Parse(spwn[2]);
+							} else {
+								posY = Int32.Parse (spwn [2]);
 							}
 							
-							wait = float.Parse(spwn[3]);
+							wait = float.Parse (spwn [3]);
 							
-							AddObjects(item,posX,posY);
+							AddObjects (item, posX, posY);
 							
-						}else{
+						} else {
 							endGame = true;
 						}
-					}else{
+					} else {
 						if (randomLevel.Count > 0) {
-							SpawnObject obj = randomLevel.Dequeue();
+							SpawnObject obj = randomLevel.Dequeue ();
 							wait = obj.Delay;
-							AddObjects(obj.Type,obj.PosX,obj.PosY);
-						}else{
+							AddObjects (obj.Type, obj.PosX, obj.PosY);
+						} else {
 							endGame = true;
 						}
 					}

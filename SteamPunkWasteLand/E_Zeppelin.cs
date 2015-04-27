@@ -44,7 +44,6 @@ namespace SteamPunkWasteLand
 			MoneyLoot = Game.Rand.Next(200,401);
 			Score = MoneyLoot;
 			
-			SpriteIndex = 0;
 		}
 		
 		public override void Update (float time)

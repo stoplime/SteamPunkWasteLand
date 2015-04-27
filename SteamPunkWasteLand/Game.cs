@@ -14,17 +14,18 @@
  * You should have received a copy of the GNU General Public 
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 using System;
 using System.Collections.Generic;
 using Sce.PlayStation.Core;
 using Sce.PlayStation.Core.Environment;
 using Sce.PlayStation.Core.Graphics;
 using Sce.PlayStation.Core.Input;
+using Sce.PlayStation.Core.Audio;
 
 namespace SteamPunkWasteLand
 {
-	public enum States {
+	public enum States
+	{
 		MainMenu,
 		Play,
 		HighScore,
@@ -40,6 +41,7 @@ namespace SteamPunkWasteLand
 		public static States GameState;
 		public static int Score;
 		public static int Level;
+		public static MusicBox MusicBox;
 		public static float Music;
 		public static float Sound;
 		public static List<Texture2D> Textures;
@@ -49,13 +51,11 @@ namespace SteamPunkWasteLand
 		public static Pause Pause;
 		public static bool LevelFinished;
 		public static float TimeSpeed;
-		public static Background BgSky,BgGround,BgCloud;
+		public static Background BgSky, BgGround, BgCloud;
 		public static Player Player1;
 		public static Spawner Spawner;
 		public static int Money;
-		
 		public static float[,] Upgrades;
-		
 		public static List<Loot> Loots;
 		public static List<Enemy> Enemies;
 		public static List<Bullet> PBullets;
