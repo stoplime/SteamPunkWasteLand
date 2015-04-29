@@ -155,7 +155,7 @@ namespace SteamPunkWasteLand
 					TypedOnce ();
 					name += " ";
 				} else if (selection >= 41 && selection < 43) {
-					if (name.Length > 1) {
+					if (name.Length > 0) {
 						name = name.Substring (0, name.Length - 1);
 					}
 				} else if (selection >= 43) {

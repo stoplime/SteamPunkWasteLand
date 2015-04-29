@@ -96,6 +96,7 @@ namespace SteamPunkWasteLand
 			
 			if (Hit && !preHit) {
 				preHit = true;
+				Game.MusicBox.PlaySound(1);
 				if (!isEnemy) {
 					for (int i = 0; i < Game.Enemies.Count; i++) {
 						if(HitObj != null && HitObj != Game.Enemies[i]){

@@ -55,6 +55,7 @@ namespace SteamPunkWasteLand
 		
 		public override Bullet Fire (Vector3 vel)
 		{
+			//Game.MusicBox.PlaySound(4);
 			DeltaTime = 0;
 			Vector3 firePos;
 			if(isEnemy){

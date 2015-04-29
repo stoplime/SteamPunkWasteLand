@@ -47,6 +47,7 @@ namespace SteamPunkWasteLand
 		
 		public override Bullet Fire (Vector3 vel)
 		{
+			Game.MusicBox.PlaySound(0);
 			if (Game.Upgrades[1,2] - FireSpd < 0) {
 				FireSpd += Game.Upgrades[1,2] - FireSpd;
 			}

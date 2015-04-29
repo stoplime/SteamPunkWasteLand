@@ -26,26 +26,17 @@ namespace SteamPunkWasteLand
 		private States preState;
 		
 		private List<Bgm> musics;
-		private List<Sound> sounds;
+		private List<Sound> soundList;
 		
 		private BgmPlayer bgmp;
-		public BgmPlayer Bgmp
-		{
-			get{return bgmp;}
-			set{bgmp = value;}
-		}
-		private SoundPlayer sp;
-		public SoundPlayer Sp
-		{
-			get{return sp;}
-			set{sp = value;}
-		}
+		private List<SoundPlayer> sounds;
 		
 		public MusicBox ()
 		{
 			preState = Game.GameState;
 			musics = new List<Bgm>();
-			sounds = new List<Sound>();
+			soundList = new List<Sound>();
+			sounds = new List<SoundPlayer>();
 			
 			initMusic();
 			initSounds();
@@ -64,7 +55,26 @@ namespace SteamPunkWasteLand
 
 		public void initSounds ()
 		{
+			soundList.Add(new Sound("/Application/assets/Sound/Crossbow.wav"));			//0		Crossbow
+			soundList.Add(new Sound("/Application/assets/Sound/Explosion.wav"));		//1		Explode
 			
+			
+			//soundList.Add(new Sound("/Application/assets/Sound/Cannon.wav"));			//0		Cannon
+			//soundList.Add(new Sound("/Application/assets/Sound/DragonRoar.wav"));		//2		Dragon
+			//soundList.Add(new Sound("/Application/assets/Sound/Flamethrower.wav"));	//4		Flamethrower
+			//soundList.Add(new Sound("/Application/assets/Sound/DeathScream.wav");		//5		Scream
+		}
+		
+		public void PlaySound (int index)
+		{
+			try{
+				sounds.Add(soundList[index].CreatePlayer());
+				sounds[sounds.Count-1].Play();
+			}catch (ArgumentOutOfRangeException){
+				Console.WriteLine("PlaySound in MusicBox crashed.");
+			}catch (Exception){
+				Console.WriteLine("Too many sounds.");
+			}
 		}
 		
 		public void Update ()
@@ -87,6 +97,14 @@ namespace SteamPunkWasteLand
 					bgmp.Play();
 				}
 				preState = Game.GameState;
+			}
+			
+			for (int i = sounds.Count-1; i >= 0; i--) {
+				sounds[i].Volume = Game.Sound;
+				if(sounds[i].Status == SoundStatus.Stopped){
+					sounds[i].Dispose();
+					sounds.RemoveAt(i);
+				}
 			}
 		}
 	}
