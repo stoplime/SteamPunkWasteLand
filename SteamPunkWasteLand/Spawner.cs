@@ -165,12 +165,12 @@ namespace SteamPunkWasteLand
 			 * 	Ez = spawn zeppelin
 			 * 	Ea = spawn air ship   
 			 */
-			for (int i = 0; i < Game.Level/5; i++) {
+			for (int i = -3; i < Game.Level/5; i++) {
 				string enemy;
 				int posX, posY;
 				float delay;
-				int left = -Game.Graphics.Screen.Width * 2;
-				int right = Game.Graphics.Screen.Width * 2;
+				int left = (int)(-Game.Graphics.Screen.Width * 1.5f);
+				int right = (int)(Game.Graphics.Screen.Width * 1.5f);
 				
 				double enemyProbability = Game.Rand.NextDouble () * 100;
 				if (enemyProbability < 72.73) {
@@ -187,7 +187,7 @@ namespace SteamPunkWasteLand
 					posY = 50;
 				} else {
 					enemy = "Ea";
-					posX = Game.Rand.Next (-150, 150);
+					posX = Game.Rand.Next (-1500, 1500);
 					posY = Game.Graphics.Screen.Height;
 				}
 				delay = (float)Game.Rand.NextDouble () * 4 + 1;

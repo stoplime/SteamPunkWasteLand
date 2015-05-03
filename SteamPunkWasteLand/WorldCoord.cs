@@ -27,6 +27,7 @@ namespace SteamPunkWasteLand
 	{
 		private static Vector3 ViewZero = new Vector3(Game.Graphics.Screen.Width/2,Game.Graphics.Screen.Height*7/8f,0);
 		public static Vector3 WorldZero = ViewZero;//Center of view in Graphics coordinates
+		public static Vector3 ScreenZero = Vector3.Zero;//Center of screen in World Coordinates
 		public static Vector3 FocusObject;//Should be the player position in World Coordinates
 		public const float WIDTH_DEVIATION = 250f;//distance from center until camera starts focusing
 		//public const float HEIGHT_DEVIATION = 350f;
@@ -51,19 +52,21 @@ namespace SteamPunkWasteLand
 			
 			WorldZero -= Quake;
 			
-			float Hwidth = Game.Graphics.Screen.Width/2;
-			float Hheight = Game.Graphics.Screen.Height/2;
+//			float Hwidth = Game.Graphics.Screen.Width/2;
+//			float Hheight = Game.Graphics.Screen.Height/2;
 			
 			ViewSpd = FMath.Abs(FocusObject.X+WorldZero.X-Hwidth);
 			
 			if (FocusObject.X+WorldZero.X > Hwidth+WIDTH_DEVIATION){
 				if(WorldZero.X > -Hwidth+10){
 					WorldZero.X -= ViewSpd*time;//Game.TimeSpeed;
+					ScreenZero.X += ViewSpd*time;
 				}
 			}
 			else if (FocusObject.X+WorldZero.X < +Hwidth-WIDTH_DEVIATION){
 				if(WorldZero.X < Hwidth*3-10){
 					WorldZero.X += ViewSpd*time;//Game.TimeSpeed;
+					ScreenZero.X -= ViewSpd*time;
 				}
 			}
 			

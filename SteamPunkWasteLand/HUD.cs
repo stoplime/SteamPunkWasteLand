@@ -42,6 +42,7 @@ namespace SteamPunkWasteLand
 		private Text pressZ;
 		private Sprite indicatorLeft;
 		private Sprite indicatorRight;
+		private bool[] indicator;//(onScreen,left,right)
 		
 		public HUD ()
 		{
@@ -63,12 +64,17 @@ namespace SteamPunkWasteLand
 			deathMessage.Position = new Vector3 (Game.Graphics.Screen.Width / 2f, Game.Graphics.Screen.Height / 2f, 0);
 			pressZ = new Text (deathMessage.Position.X, deathMessage.Position.Y + 20, 100, 30, 0, -1, "Press 'Z'");
 			
-			indicatorLeft = new Sprite (Game.Graphics, Game.Textures [41]);
-			indicatorRight = new Sprite (Game.Graphics, Game.Textures [42]);
-			indicatorLeft.Center = new Vector2 (1, 0.5f);
-			indicatorRight.Center = new Vector2 (0, 0.5f);
-			indicatorLeft.Position = new Vector3 (Game.Graphics.Screen.Width, height / 2f, 0);
-			indicatorRight.Position = new Vector3 (0, height / 2f, 0);
+			indicatorLeft = new Sprite (Game.Graphics, Game.Textures [42]);
+			indicatorRight = new Sprite (Game.Graphics, Game.Textures [41]);
+			indicatorLeft.Center = new Vector2 (0, 0.5f);
+			indicatorRight.Center = new Vector2 (1, 0.5f);
+			indicatorLeft.Position = new Vector3 (0, height / 2f, 0);
+			indicatorRight.Position = new Vector3 (Game.Graphics.Screen.Width, height / 2f, 0);
+			
+			indicator = new bool[3];
+			indicator[0] = false;
+			indicator[1] = false;
+			indicator[2] = false;
 			
 			initGear ();
 			
@@ -146,7 +152,35 @@ namespace SteamPunkWasteLand
 			
 			hpUpdate ();
 			
+			indicator[0] = false;
+			indicator[1] = false;
+			indicator[2] = false;
+			if (Game.Enemies.Count > 0) {
+				float VX = (WorldCoord.ScreenZero).X;
+				float hWidth = Game.Graphics.Screen.Width/2f;
+				
+				for (int i = 0; i < Game.Enemies.Count; i++) {
+					float X = Game.Enemies[i].Pos.X;
+					if (X < VX) {
+						//from left
+						indicator[1] = true;
+						if (X > VX-hWidth) {
+							// onscreen from the left
+							indicator[0] = true;
+						}
+					}
+					if (X > VX) {
+						//from right
+						indicator[2] = true;
+						if (X < VX+hWidth) {
+							// onscreen from the right
+							indicator[0] = true;
+						}
+					}
+				}
+			}
 			
+//			indicatorLeft.Position = WorldCoord.WorldToView(WorldCoord.ScreenZero);
 			
 			score.Update ("Score: " + Game.Score.ToString ());
 			money.Update (Game.Money.ToString ());
@@ -164,12 +198,15 @@ namespace SteamPunkWasteLand
 			
 			introOutro ();
 			
-//			bool onScreen = (Game.Enemies.Count!=0)?false:true;
-//			for (int i = 0; i < Game.Enemies.Count; i++) {
-//				if (Game.Enemies[i].Pos.X >) {
-//					
-//				}
-//			}
+			if (!indicator[0]) {
+				if (indicator[1]) {
+					indicatorLeft.Render();
+				}
+				if (indicator[2]) {
+					indicatorRight.Render();
+				}
+			}
+//			indicatorLeft.Render();
 			
 			if (Game.Player1.Hp <= 0) {
 				deathMessage.Render ();
