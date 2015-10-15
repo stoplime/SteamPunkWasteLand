@@ -1,16 +1,18 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="SteamPunkWasteLand\AppMain.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="SteamPunkWasteLand\E_AirShip.cs">
     <Files>
       <File FileName="SteamPunkWasteLand\AppMain.cs" Line="41" Column="16" />
-      <File FileName="SteamPunkWasteLand\Game.cs" Line="72" Column="37" />
+      <File FileName="SteamPunkWasteLand\Game.cs" Line="41" Column="23" />
       <File FileName="SteamPunkWasteLand\EnterNameDisplay.cs" Line="158" Column="25" />
       <File FileName="SteamPunkWasteLand\HighScore.cs" Line="34" Column="24" />
       <File FileName="SteamPunkWasteLand\HighScoresDisplay.cs" Line="37" Column="4" />
-      <File FileName="SteamPunkWasteLand\Spawner.cs" Line="173" Column="23" />
+      <File FileName="SteamPunkWasteLand\Spawner.cs" Line="175" Column="35" />
       <File FileName="SteamPunkWasteLand\bin\Debug\SteamPunkWasteLand-unsigned\Documents\levels.txt" Line="20" Column="25" />
       <File FileName="SteamPunkWasteLand\HUD.cs" Line="159" Column="38" />
       <File FileName="SteamPunkWasteLand\WorldCoord.cs" Line="69" Column="20" />
+      <File FileName="SteamPunkWasteLand\Player.cs" Line="26" Column="20" />
+      <File FileName="SteamPunkWasteLand\E_AirShip.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
